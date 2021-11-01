@@ -23,8 +23,8 @@ class AuctionService {
         try {
             const { lotId, initPrice, maxPrice, minStep, maxTime, minExtensionTime } = auctionData;
 
-            const maxTimeNum = maxTime * 24 * 60 * 60;
-            const minExtensionTimeNum = minExtensionTime * 24 * 60 * 60;
+            const maxTimeNum = maxTime * 24 * 60 * 60 * 1000;
+            const minExtensionTimeNum = minExtensionTime * 24 * 60 * 60 * 1000;
             const lotType = (role === ADMIN) ? CARD : USER_CARD;
 
             let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, minStep, maxTimeNum, minExtensionTimeNum);
