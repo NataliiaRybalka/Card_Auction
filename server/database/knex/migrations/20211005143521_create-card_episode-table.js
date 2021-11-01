@@ -1,4 +1,4 @@
-import {CARD, CARD_EPISODE, EPISODE} from '#constants/database.enum';
+import {CARD, CARD_EPISODE, EPISODE} from '../../../constants/database.enum';
 
 exports.up = function(knex) {
     return knex.schema.createTable(CARD_EPISODE, table => {

@@ -1,4 +1,4 @@
-import {ROLE} from '#constants/database.enum';
+import {ROLE} from '../../../constants/database.enum';
 
 exports.up = function(knex) {
     return knex.schema.createTable(ROLE, (table) => {

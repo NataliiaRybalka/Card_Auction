@@ -3,8 +3,8 @@ export const development = {
   connection: {
     host : 'localhost',
     port : 3306,
-    user:     'root',
-    password: 'uVzbdChA7epXwHxK',
+    user:     'user',
+    password: '123',
     database: 'card-project'
   },
   migrations: {

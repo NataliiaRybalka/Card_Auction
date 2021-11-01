@@ -1,4 +1,4 @@
-import {CRON_TASK, USER} from '#constants/database.enum';
+import {CRON_TASK, USER} from '../../../constants/database.enum';
 
 exports.up = function(knex) {
   return knex.schema.createTable(CRON_TASK, table => {

@@ -1,4 +1,4 @@
-import {CHAT, USER} from '#constants/database.enum';
+import {CHAT, USER} from '../../../constants/database.enum';
 
 exports.up = function(knex) {
     return knex.schema.createTable(CHAT, table => {
