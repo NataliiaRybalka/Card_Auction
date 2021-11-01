@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon --es-module-specifier-resolution=node app.js 3005",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bookshelf": "^1.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.21",
+    "mysql": "^2.18.1",
+    "node-cron": "^3.0.0",
+    "socket.io": "^4.2.0",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.9"
+  },
+  "imports": {
+    "#constants/*": "./constants/*",
+    "#models/*": "./database/models/*",
+    "#services/*": "./services/*",
+    "#repositories/*": "./repositories/*",
+    "#helpers/*": "./helpers/*",
+    "#validators/*": "./validators/*",
+    "#middlewars/*": "./middlewars/*",
+    "#controllers/*": "./controllers/*"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
