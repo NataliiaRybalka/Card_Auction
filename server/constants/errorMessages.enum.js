@@ -1,4 +1,5 @@
 export const BadRequestMes = 'Bad Request';
+export const ForbiddenMes = 'Forbidden';
 export const NotCreated = 'Not Created';
 export const NotFoundMes = 'Not Found';
 export const NotUpdated = 'Not Updated';

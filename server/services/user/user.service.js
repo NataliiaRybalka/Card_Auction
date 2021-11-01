@@ -1,5 +1,5 @@
 import logger from '#config/logger.config';
-import { ThisUserIsNotRegistered, YouAreNotAdmin } from '#constants/errorMessages.enum';
+import { ForbiddenMes, ThisUserIsNotRegistered, YouAreNotAdmin } from '#constants/errorMessages.enum';
 import { Forbidden, NotFound } from '#constants/responseCodes.enum';
 import { ADMIN, USER } from "#constants/project.constants";
 import { ErrorHandler } from '#helpers/error.handler';
@@ -57,7 +57,7 @@ class UserService {
             const { login, email, password } = userData;
 
             if (id  != idFromTokens) {
-                throw new ErrorHandler(Forbidden, YouAreNotAdmin);
+                throw new ErrorHandler(Forbidden, ForbiddenMes);
             }
             await userRepository.updateUserData(id, login, email, password);
             return await userRepository.getUserById(id);
@@ -79,7 +79,7 @@ class UserService {
     async deleteUser(id, idFromTokens) {
         try {
             if (Number(id) !== idFromTokens) {
-                throw new ErrorHandler(Forbidden, YouAreNotAdmin);
+                throw new ErrorHandler(Forbidden, ForbiddenMes);
             }
 
             await tokenRepository.deleteTokens(id);

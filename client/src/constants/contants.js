@@ -1,4 +1,4 @@
-const LOCALHOST = 'http://localhost:5000/';
+const LOCALHOST = 'http://localhost:8080/';
 
 export {
     LOCALHOST

@@ -4,10 +4,10 @@ import setService from "#services/card/set.service";
 class SetController {
     async createSet(req, res, next) {
         try {
-        const { title, bonus } = req.body;
-        res.status(Created).json(await setService.createSet(title, bonus));
+            const { title, bonus } = req.body;
+            res.status(Created).json(await setService.createSet(title, bonus));
         } catch (e) {
-        next(e);
+            next(e);
         }
     };
 }

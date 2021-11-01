@@ -22,6 +22,14 @@ class EpisodeRepository {
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
+
+    async checkIsEpisodePresent(title) {
+        try {
+            return await Episode.where({ title }).fetch();
+        }  catch (e) {
+            logger.error(e);
+        }
+    };
 }
 
 export default new EpisodeRepository();

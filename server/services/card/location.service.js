@@ -5,7 +5,7 @@ import locationRepository from '#repositories/card/location.repository';
 class LocationService {
     async createLocation(locationTitle, locationType) {
         try {
-            let location = await locationRepository.getOneLocationByTitle(locationTitle);
+            let location = await locationRepository.checkIsLocationPresent(locationTitle);
             if (!location) {
                 location = await locationRepository.createLocation(locationTitle, locationType);
                 location = await locationRepository.getOneLocationByTitle(locationTitle);

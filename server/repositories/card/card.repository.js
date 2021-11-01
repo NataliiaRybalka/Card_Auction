@@ -51,7 +51,8 @@ class CardRepository {
                 type,
                 gender,
                 location_id,
-                image
+                image,
+                created_at: new Date()
             }).save();
         }  catch (e) {
             logger.error(e);
