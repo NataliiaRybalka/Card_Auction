@@ -1,11 +1,12 @@
 import logger from '#config/logger.config';
 import { ErrorHandler } from '#helpers/error.handler';
 import cardRepository from '#repositories/card/card.repository';
+import userCardRepository from '#repositories/user/userCard.repository';
 
 class HistoryService {
   async getHistory(userId) {
     try {
-      let userCards = await cardRepository.getAllSoldUserCards(userId);
+      let userCards = await userCardRepository.getAllSoldUserCards(userId);
       userCards = userCards.toJSON();
 
       const cards = [];

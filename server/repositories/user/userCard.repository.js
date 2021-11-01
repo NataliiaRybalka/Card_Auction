@@ -49,6 +49,15 @@ class UserCardRepository {
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
+
+    async getAllSoldUserCards(user_id) {
+        try {
+            return await UserCard.where({ user_id }).query((qb) => qb.whereNotNull('sold_at')).fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
 }
 
 export default new UserCardRepository();
