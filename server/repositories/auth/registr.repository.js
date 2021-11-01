@@ -1,12 +1,17 @@
+import logger from '#config/logger.config';
+import { NotCreated, NotFoundMes } from '#constants/errorMessages.enum';
+import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { Role } from '#models/Role';
 import { User } from '#models/User';
+import { ErrorHandler } from '#helpers/error.handler';
 
 class RegistrRepository {
     async getRoles() {
         try {
             return await Role.fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -14,7 +19,8 @@ class RegistrRepository {
         try {
             return await Role.where({ id }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -22,7 +28,8 @@ class RegistrRepository {
         try {
             return await User.forge({ login, email, password, role_id }).save();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     }
 }

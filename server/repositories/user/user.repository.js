@@ -1,3 +1,7 @@
+import logger from '#config/logger.config';
+import { BadRequestMes, NotFoundMes, NotUpdated} from '#constants/errorMessages.enum';
+import { BadRequest, InternalServerError, NotFound } from '#constants/responseCodes.enum';
+import { ErrorHandler } from '#helpers/error.handler';
 import { User } from '#models/User';
 
 class UserRepository {
@@ -5,7 +9,8 @@ class UserRepository {
         try {
             return await User.fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -13,7 +18,8 @@ class UserRepository {
         try {
             return await User.where({ email }).fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -21,7 +27,16 @@ class UserRepository {
         try {
             return await User.where({ email }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async checkIsUserPresent(email) {
+        try {
+            return await User.where({ email }).fetch();
+        } catch (e) {
+            logger.error(e);
         }
     };
 
@@ -29,31 +44,35 @@ class UserRepository {
         try {
             return await User.where({ id }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
     async updateUserData(id, login, email, password, role) {
-      try {
-          return await User.forge({ id }).save({ login, email, password, role });
-      } catch (e) {
-          console.log(e);
-      }
+        try {
+            return await User.forge({ id }).save({ login, email, password, role });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
+        }
     };
 
     async updateUserRating(id, rating) {
         try {
             return await User.forge({ id }).save({ rating });
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
         }
     };
 
     async deleteUser(id) {
         try {
-           return await User.where({ id }).destroy();
+            return await User.where({ id }).destroy();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(BadRequest, BadRequestMes);
         }
     }
 }

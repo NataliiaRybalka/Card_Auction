@@ -6,6 +6,7 @@ import { PORT } from './constants/env.constants';
 import cronRun from './helpers/cron.helper';
 import auctionRouter from './routes/auction.router';
 import authRouter from './routes/auth.router';
+import balanceRouter from './routes/balance.router';
 import cardRouter from './routes/card.router';
 import cardSetRouter from './routes/cardSet.router';
 import historyRouter from './routes/history.router';
@@ -20,11 +21,16 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auctions', auctionRouter);
 app.use('/auth', authRouter);
+app.use('/balance', balanceRouter);
 app.use('/cards', cardRouter);
 app.use('/card-sets', cardSetRouter);
 app.use('/history', historyRouter);
 app.use('/sets', setRouter);
 app.use('/users', userRouter);
+
+app.use((err, req, res, next) => {
+    res.status(err.status).json(err.message);
+});
 
 const connection = app.listen(PORT, () => {
     console.log(`App listen ${ PORT }`);

@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.21",
+    "log4js": "^6.3.0",
     "mysql": "^2.18.1",
     "node-cron": "^3.0.0",
     "socket.io": "^4.2.0",
@@ -29,7 +30,8 @@
     "#helpers/*": "./helpers/*",
     "#validators/*": "./validators/*",
     "#middlewars/*": "./middlewars/*",
-    "#controllers/*": "./controllers/*"
+    "#controllers/*": "./controllers/*",
+    "#config/*": "./config/*"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"

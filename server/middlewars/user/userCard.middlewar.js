@@ -1,5 +1,9 @@
-import { USER } from "#constants/database.enum";
+import logger from '#config/logger.config';
+import { USER, USER_CARD } from "#constants/database.enum";
+import { ACTIVE } from "#constants/project.constants";
 import { Forbidden } from '#constants/responseCodes.enum';
+import { ErrorHandler } from "#helpers/error.handler";
+import auctionRepository from '#repositories/auction/auction.repository';
 import userCardRepository from '#repositories/user/userCard.repository';
 
 class UserCardMiddlewar {
@@ -8,21 +12,23 @@ class UserCardMiddlewar {
             const {
                 body: { lotId },
                 role
-            }= req;
+            } = req;
 
             if (role === USER) {
                 let userCard = await userCardRepository.getOneUserCardById(lotId);
                 userCard = userCard.toJSON();
 
-                if (userCard.sold_at) {
-                    throw new Error('You can not sell this card');
+                let auction = await auctionRepository.getOneAuctionByLotId(lotId, USER_CARD);
+
+                if (userCard.sold_at || (auction && auction.status === ACTIVE)) {
+                    throw new ErrorHandler(Forbidden, 'Card has been already sold');
                 }
             }
 
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(Forbidden));
+            logger.error(e);
+            res.status(e.status).json(e.message);
         }
     };
 }

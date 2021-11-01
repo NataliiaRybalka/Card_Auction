@@ -1,8 +1,10 @@
+import logger from '#config/logger.config';
 import { ADMIN, USER } from '#constants/project.constants';
+import { ErrorHandler } from '#helpers/error.handler';
 import { hashPassword } from '#helpers/passwordHasher';
-import tokenService from './tokens.service';
 import registrRepository from '#repositories/auth/registr.repository';
 import userRepository from '#repositories/user/user.repository';
+import tokenService from './tokens.service';
 
 class RegistrService {
     async createUser(userData) {
@@ -31,7 +33,8 @@ class RegistrService {
                 userTokens
             };
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     }
 }

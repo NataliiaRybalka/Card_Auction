@@ -7,31 +7,31 @@ import userController from '#controllers/user/user.controller';
 
 const router = Router();
 
+router.use(
+    tokenMiddlewar.checkAccessToken
+);
+
 router.get(
     '/',
-    tokenMiddlewar.checkAccessToken,
     userMiddlewar.checkRole,
     userController.getAllUsers
 );
 
 router.get(
-    '/:user_id',
-    tokenMiddlewar.checkAccessToken,
+    '/:userId',
     userMiddlewar.checkRole,
     userController.getOneUser
 );
 
 router.put(
-    '/:user_id',
-    tokenMiddlewar.checkAccessToken,
+    '/:userId',
     userMiddlewar.checkUpdatedUserData,
     registrMiddlewar.checkIsEmailBusy,
     userController.updateUserData
 );
 
 router.delete(
-    '/:user_id',
-    tokenMiddlewar.checkAccessToken,
+    '/:userId',
     userController.deleteUser
 );
 

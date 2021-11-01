@@ -1,3 +1,7 @@
+import logger from '#config/logger.config';
+import { NotFoundMes, NotCreated } from '#constants/errorMessages.enum';
+import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
+import { ErrorHandler } from '#helpers/error.handler';
 import { CardSet } from "#models/CardSet";
 
 class CardSetRepository {
@@ -5,7 +9,8 @@ class CardSetRepository {
         try {
             return await CardSet.fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -13,7 +18,8 @@ class CardSetRepository {
         try {
             return await CardSet.forge({ card_id, set_id }).save();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 
@@ -21,7 +27,8 @@ class CardSetRepository {
         try {
             return await CardSet.where({ card_id }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 }

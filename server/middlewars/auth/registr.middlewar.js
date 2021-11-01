@@ -1,4 +1,6 @@
+import logger from '#config/logger.config';
 import { BadRequest, Unauthorized } from '#constants/responseCodes.enum';
+import { ErrorHandler } from "#helpers/error.handler";
 import userRepository from '#repositories/user/user.repository';
 import userValidator from '#validators/userData.validator';
 
@@ -8,13 +10,13 @@ class RegistrMiddlewar {
             const { error } = await userValidator.createUserData.validate(req.body);
 
             if (error) {
-                throw new Error(error);
+                throw new ErrorHandler(BadRequest, error);
             }
 
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(BadRequest));
+            logger.error(e.errors);
+            res.status(BadRequest).json(e.errors);
         }
     };
 
@@ -22,16 +24,16 @@ class RegistrMiddlewar {
         try {
             const { email } = req.body;
 
-            const user = await userRepository.getUsersByEmail(email);
+            let user = await userRepository.checkIsUserPresent(email);
 
             if (user) {
-                throw new Error('This email has already registered');
+                throw new ErrorHandler(Unauthorized, 'This email has already registered');
             }
 
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(Unauthorized));
+            logger.error(e);
+            res.status(e.status).json(e.message);
         }
     };
 }

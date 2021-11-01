@@ -4,9 +4,9 @@ import registrService from '#services/auth/registr.service';
 class RegistrContoller {
     async createUser(req, res, next) {
         try {
-            res.status(Created).json(await registrService.createUser(req.body));
+        res.status(Created).json(await registrService.createUser(req.body));
         } catch (e) {
-            next(e);
+        next(e);
         }
     };
 }

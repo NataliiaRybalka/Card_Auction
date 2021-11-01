@@ -1,11 +1,16 @@
+import logger from '#config/logger.config';
+import {  NotFoundMes, NotCreated, NotUpdated } from '#constants/errorMessages.enum';
+import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
+import { ErrorHandler } from '#helpers/error.handler';
 import { UserCard } from '#models/UserCard';
 
 class UserCardRepository {
     async soldUserCard(id, price_sold) {
         try {
-            return await UserCard.forge({ id }).save({ price_sold, sold_at: Date.now() });
+            return await UserCard.forge({ id }).save({ price_sold, sold_at: new Date() });
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
         }
     };
 
@@ -13,7 +18,8 @@ class UserCardRepository {
         try {
             return await UserCard.forge({ user_id, card_id, price_bought, bought_at: new Date() }).save();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 
@@ -21,7 +27,8 @@ class UserCardRepository {
         try {
             return await UserCard.where({ id }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -29,7 +36,8 @@ class UserCardRepository {
         try {
             return await UserCard.where({ user_id, sold_at: null }).fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -37,7 +45,8 @@ class UserCardRepository {
         try {
             return await UserCard.where({ sold_at: null }).fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 }

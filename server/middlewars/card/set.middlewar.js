@@ -1,4 +1,6 @@
+import logger from '#config/logger.config';
 import { BadRequest } from '#constants/responseCodes.enum';
+import { ErrorHandler } from "#helpers/error.handler";
 import setVlidator from '#validators/setData.validator';
 
 class SetMiddlewar {
@@ -7,13 +9,13 @@ class SetMiddlewar {
             const { error } = await setVlidator.createSetData.validate(req.body);
 
             if (error) {
-                throw new Error(error);
+                throw new ErrorHandler(BadRequest, error);
             }
 
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(BadRequest));
+            logger.error(e.errors);
+            res.status(e.status).json(e.message);
         }
     };
 }
