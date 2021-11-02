@@ -4,7 +4,7 @@ exports.up = function(knex) {
   return knex.schema.createTable(EPISODE, table => {
       table.increments('id').primary();
       table.string('title');
-      table.string('air-date');
+      table.string('air_date');
       table.string('series');
   })
 };

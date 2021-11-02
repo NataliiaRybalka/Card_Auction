@@ -1,5 +1,7 @@
+import logger from '#config/logger.config';
 import { ADMIN } from "#constants/project.constants";
 import { BadRequest, Forbidden } from '#constants/responseCodes.enum';
+import { ErrorHandler } from "#helpers/error.handler";
 import registrRepository from '#repositories/auth/registr.repository';
 import userRepository from '#repositories/user/user.repository';
 import userValidator from '#validators/userData.validator';
@@ -17,7 +19,8 @@ class UserMiddlewar {
             req.role = role.title;
             next();
         } catch (e) {
-            next(e);
+            logger.error(e);
+            res.status(e.status).json(e.message);
         }
     };
 
@@ -26,13 +29,13 @@ class UserMiddlewar {
             const { error } = await userValidator.updateUserData.validate(req.body);
 
             if (error) {
-                throw new Error(error);
+                throw new ErrorHandler(BadRequest, error);
             }
 
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(BadRequest));
+            logger.error(e.errors);
+            res.status(BadRequest).json(e.errors);
         }
     };
 
@@ -47,13 +50,13 @@ class UserMiddlewar {
             role = role.toJSON();
 
             if (role.title !== ADMIN) {
-                throw new Error('You can not create anything');
+                throw new ErrorHandler(Forbidden, 'You can not create anything');
             }
 
             next();
         }  catch (e) {
-            console.log(e);
-            next(res.sendStatus(Forbidden));
+            logger.error(e);
+            res.status(e.status).json(e.message);
         }
     };
 }

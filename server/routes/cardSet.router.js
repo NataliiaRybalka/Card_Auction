@@ -6,15 +6,17 @@ import cardSetController from "#controllers/card/cardSetController";
 
 const router = Router();
 
+router.use(
+    tokenMiddlewar.checkAccessToken
+);
+
 router.get(
     '/',
-    tokenMiddlewar.checkAccessToken,
     cardSetController.getAllCardSets
 );
 
 router.post(
     '/',
-    tokenMiddlewar.checkAccessToken,
     userMiddlewar.checkIsAdmin,
     cardSetController.createCardSet
 );

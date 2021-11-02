@@ -1,12 +1,16 @@
+import logger from '#config/logger.config';
+import { NotFoundMes, NotCreated, NotUpdated } from '#constants/errorMessages.enum';
+import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
+import { ErrorHandler } from '#helpers/error.handler';
 import { Card } from '#models/Card';
-import { UserCard } from '#models/UserCard';
 
 class CardRepository {
     async getAllCards() {
         try {
             return await Card.fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -14,7 +18,8 @@ class CardRepository {
         try {
             return await UserCard.where({ user_id }).fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -22,7 +27,8 @@ class CardRepository {
         try {
             return await Card.where({ id }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -35,10 +41,12 @@ class CardRepository {
                 type,
                 gender,
                 location_id,
-                image
+                image,
+                created_at: new Date()
             }).save();
         }  catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 
@@ -46,16 +54,26 @@ class CardRepository {
         try {
             return await Card.where({ name }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async checkIsCardCreatedAlready(name) {
+        try {
+            return await Card.where({ name }).fetch();
+        } catch (e) {
+            logger.error(e);
         }
     };
 
     async updateTimesSold(id, times_sold) {
-      try {
-          return await Card.forge({ id }).save({ times_sold });
-      }  catch (e) {
-          console.log(e);
-      }
+        try {
+            return await Card.forge({ id }).save({ times_sold });
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
+        }
     };
 }
 

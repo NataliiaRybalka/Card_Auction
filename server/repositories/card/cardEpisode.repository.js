@@ -1,3 +1,7 @@
+import logger from '#config/logger.config';
+import { NotCreated } from '#constants/errorMessages.enum';
+import { InternalServerError } from '#constants/responseCodes.enum';
+import { ErrorHandler } from '#helpers/error.handler';
 import { CardEpisode } from "#models/CardEpisode";
 
 class CardEpisodeRepository {
@@ -5,7 +9,8 @@ class CardEpisodeRepository {
         try {
             return await CardEpisode.forge({ card_id, episode_id }).save();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 }

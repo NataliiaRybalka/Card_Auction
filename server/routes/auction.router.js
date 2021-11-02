@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import auctionMiddlewar from '#middlewars/auction/auction.middlewar';
+import balanceMiddlewar from '../middlewars/balance/balance.middlewar';
 import tokenMiddlewar from '#middlewars/user/token.middlewar';
 import userMiddlewar from '#middlewars/user/user.middlewar';
 import userCardMiddlewar from '#middlewars/user/userCard.middlewar';
@@ -8,15 +9,17 @@ import auctionController from '#controllers/auction/auction.controller';
 
 const router = Router();
 
+router.use(
+    tokenMiddlewar.checkAccessToken
+);
+
 router.get(
     '/',
-    tokenMiddlewar.checkAccessToken,
     auctionController.getAllAuctions
 );
 
 router.post(
     '/',
-    tokenMiddlewar.checkAccessToken,
     userMiddlewar.checkRole,
     userCardMiddlewar.checkIsUserCardNotSold,
     auctionMiddlewar.checkAuctionDataValidity,
@@ -25,15 +28,14 @@ router.post(
 
 router.put(
     '/:auctionId',
-    tokenMiddlewar.checkAccessToken,
     auctionMiddlewar.checkIsCorrectRate,
+    balanceMiddlewar.checkBalans,
     auctionMiddlewar.checkIsAuctionActive,
     auctionController.updateRateAuction
 );
 
 router.put(
     '/:auctionId/cancel',
-    tokenMiddlewar.checkAccessToken,
     auctionMiddlewar.checkIsAuctionActive,
     auctionController.cancelAuction
 );

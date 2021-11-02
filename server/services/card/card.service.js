@@ -1,4 +1,6 @@
+import logger from '#config/logger.config';
 import { USER } from '#constants/project.constants';
+import { ErrorHandler } from '#helpers/error.handler';
 import cardRepository from '#repositories/card/card.repository';
 import cardEpisodeRepository from '#repositories/card/cardEpisode.repository';
 import episodeService from "./episode.service";
@@ -9,7 +11,8 @@ class CardService {
         try {
             return await cardRepository.getAllCards();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -29,7 +32,8 @@ class CardService {
                 return cards;
             }
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -51,25 +55,28 @@ class CardService {
                 episode
             };
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
     async getOneCardById(id) {
-      try {
-          const card = await cardRepository.getOneCardById(id);
-          return card.toJSON();
-      }  catch (e) {
-          console.log(e);
-      }
+        try {
+            const card = await cardRepository.getOneCardById(id);
+            return card.toJSON();
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
     };
 
     async updateTimesSold(id, times_sold) {
-      try {
-          return await cardRepository.updateTimesSold(id, times_sold)
-      }  catch (e) {
-          console.log(e);
-      }
+        try {
+            return await cardRepository.updateTimesSold(id, times_sold)
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
     };
 }
 

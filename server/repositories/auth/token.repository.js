@@ -1,4 +1,8 @@
+import logger from '#config/logger.config';
+import { BadRequestMes, NotFoundMes, NotCreated } from '#constants/errorMessages.enum';
+import { BadRequest, InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { UserToken } from '#models/UserToken';
+import { ErrorHandler } from '#helpers/error.handler';
 
 class TokenRepository {
     async createTokens(user_id, access_token, refresh_token) {
@@ -11,7 +15,8 @@ class TokenRepository {
                 created_at: new Date()
             }).save();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 
@@ -19,7 +24,8 @@ class TokenRepository {
         try {
             return await UserToken.where({ user_id }).orderBy('user_id', 'DESC').fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -27,7 +33,8 @@ class TokenRepository {
         try {
             return await UserToken.where({ access_token }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -35,7 +42,8 @@ class TokenRepository {
         try {
             return await UserToken.where({ refresh_token }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -43,7 +51,8 @@ class TokenRepository {
         try {
             return await UserToken.where({ user_id }).destroy();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(BadRequest, BadRequestMes);
         }
     };
 }

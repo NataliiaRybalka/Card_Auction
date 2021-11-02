@@ -21,31 +21,31 @@ class CronService {
         }
         userCards = await userCards.toJSON();
 
-        let collectedSetCards = [];
-        for (let i = 0; i < sets.length; i++) {
-          for (let j = 0; j < sets[i].card_set.length; j++) {
-            for (let a = 0; a < userCards.length; a++) {
-              if (sets[i].card_set[j].card_id === userCards[a].card_id) {
-                collectedSetCards.push(sets[i].card_set[j]);
-              }
-            }
-          }
-        }
+        // let collectedSetCards = [];
+        // for (let i = 0; i < sets.length; i++) {
+        //   for (let j = 0; j < sets[i].card_set.length; j++) {
+        //     for (let a = 0; a < userCards.length; a++) {
+        //       if (sets[i].card_set[j].card_id === userCards[a].card_id) {
+        //         collectedSetCards.push(sets[i].card_set[j]);
+        //       }
+        //     }
+        //   }
+        // }
 
-        let collectedSets = [];
-        for (let i = 0; i < sets.length; i++) {
-          for (let j = 0; j < sets[i].card_set.length; j++) {
-            const length = collectedSetCards.filter(collectedSet => collectedSet.card_id === sets[i].card_set[j].card_id).length;
+        // let collectedSets = [];
+        // for (let i = 0; i < sets.length; i++) {
+        //   for (let j = 0; j < sets[i].card_set.length; j++) {
+        //     const length = collectedSetCards.filter(collectedSet => collectedSet.card_id === sets[i].card_set[j].card_id).length;
 
-            if (sets[i].card_set.length === length) {
-              collectedSets.push(sets[i]);
-            }
-          }
-        }
+        //     if (sets[i].card_set.length === length) {
+        //       collectedSets.push(sets[i]);
+        //     }
+        //   }
+        // }
 
-        let bonusForSet = collectedSets.reduce((bonusForSet, set) => set.bonus + bonusForSet, 0);
-
-        await userRepository.updateUserRating(cronTask.user_id, (userCards.length + bonusForSet));
+        // let bonusForSet = collectedSets.reduce((bonusForSet, set) => set.bonus + bonusForSet, 0);
+        // await userRepository.updateUserRating(cronTask.user_id, (userCards.length + bonusForSet));
+        await userRepository.updateUserRating(cronTask.user_id, userCards.length);
 
         await cronRepository.deleteTasks(cronTask.id);
       }

@@ -1,12 +1,17 @@
+import logger from '#config/logger.config';
+import { NotFoundMes, NotCreated, NotUpdated } from '#constants/errorMessages.enum';
 import { ACTIVE, INACTIVE } from "#constants/project.constants";
+import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { Auction } from '#models/Auction';
+import { ErrorHandler } from '#helpers/error.handler';
 
 class AuctionRepository {
     async getAllAuctions() {
         try {
             return await Auction.fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -24,7 +29,8 @@ class AuctionRepository {
                 status: ACTIVE
             }).save();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 
@@ -32,7 +38,16 @@ class AuctionRepository {
         try {
             return await Auction.where({ id }).fetch();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async getOneAuctionByLotId(lot_id, lot_type) {
+        try {
+            return await Auction.where({ lot_id, lot_type }).fetch();
+        } catch (e) {
+            logger.error(e);
         }
     };
 
@@ -40,7 +55,8 @@ class AuctionRepository {
         try {
             return await Auction.forge({ id }).save({ current_price, customer_id });
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 
@@ -48,7 +64,8 @@ class AuctionRepository {
         try {
             return await Auction.where({ status: ACTIVE }).fetchAll();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
@@ -56,7 +73,8 @@ class AuctionRepository {
         try {
             return await Auction.forge({ id }).save({ status: INACTIVE });
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
         }
     };
 }

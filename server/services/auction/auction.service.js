@@ -1,8 +1,12 @@
+import logger from '#config/logger.config';
 import { CARD, USER_CARD } from "#constants/database.enum";
 import { ADMIN } from "#constants/project.constants";
+import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
-import cronRepository from '#repositories/cron/cron.repository';
+import balanceService from '#services/balance/balance.service';
 import cardService from '#services/card/card.service';
+import cronRepository from '#repositories/cron/cron.repository';
+import userService from '#services/user/user.service';
 import userCardService from '#services/user/userCard.service';
 
 class AuctionService {
@@ -10,7 +14,8 @@ class AuctionService {
         try {
             return await auctionRepository.getAllAuctions();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -18,8 +23,8 @@ class AuctionService {
         try {
             const { lotId, initPrice, maxPrice, minStep, maxTime, minExtensionTime } = auctionData;
 
-            const maxTimeNum = maxTime * 24 * 60 * 60;
-            const minExtensionTimeNum = minExtensionTime * 24 * 60 * 60;
+            const maxTimeNum = maxTime * 24 * 60 * 60 * 1000;
+            const minExtensionTimeNum = minExtensionTime * 24 * 60 * 60 * 1000;
             const lotType = (role === ADMIN) ? CARD : USER_CARD;
 
             let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, minStep, maxTimeNum, minExtensionTimeNum);
@@ -27,7 +32,8 @@ class AuctionService {
 
             return await auctionRepository.getOneAuctionById(createdAuction.id);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -36,7 +42,8 @@ class AuctionService {
             await auctionRepository.updateRateAuction(auctionId, newPrice, userId);
             return await auctionRepository.getOneAuctionById(auctionId);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -44,7 +51,8 @@ class AuctionService {
         try {
             return await auctionRepository.updateStatusAuction(id);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -70,18 +78,21 @@ class AuctionService {
                             card = await cardService.getOneCardById(userCard.card_id);
 
                             await userCardService.soldUserCard(auction.lot_id, auction.current_price);
-
+                            await balanceService.createTransaction(userCard.user_id, auction.current_price);
                             await cronRepository.createTask(userCard.user_id);
                         }
-
                         await userCardService.createUserCard(auction.customer_id, card.id, auction.current_price);
+                        const user = await userService.getOneUser(auction.customer_id);
+                        await balanceService.createTransaction(user.id, -(auction.current_price));
+                        await userService.updateUserRating(auction.customer_id, user.rating = user.rating + 1);
 
                         await cronRepository.createTask(auction.customer_id);
                     }
                 }
             });
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 }

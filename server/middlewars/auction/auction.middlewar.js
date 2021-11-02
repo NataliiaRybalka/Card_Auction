@@ -1,64 +1,66 @@
+import logger from '#config/logger.config';
 import { INACTIVE } from "#constants/project.constants";
+import { ErrorHandler } from "#helpers/error.handler";
 import { BadRequest, Forbidden } from '#constants/responseCodes.enum';
-import auctionValidator from '#validators/auctionData.validator';
 import auctionRepository from '#repositories/auction/auction.repository';
+import auctionValidator from '#validators/auctionData.validator';
 
 class AuctionMiddlewar {
     async checkAuctionDataValidity(req, res, next) {
         try {
-            const { error } = await auctionValidator.createAuctionData.validate(req.body);
+        const { error } = await auctionValidator.createAuctionData.validate(req.body);
 
-            if (error) {
-                throw new Error(error);
-            }
+        if (error) {
+            throw new ErrorHandler(BadRequest, error);
+        }
 
-            next();
+        next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(BadRequest));
+        logger.error(e);
+        res.send(BadRequest, e.errors);
         }
     };
 
     async checkIsCorrectRate(req, res, next) {
         try {
-            const {
-                body: { newPrice },
-                params: { auctionId }
-            } = req;
+        const {
+            body: { newPrice },
+            params: { auctionId }
+        } = req;
 
-            let auction = await auctionRepository.getOneAuctionById(auctionId);
-            auction = auction.toJSON();
+        let auction = await auctionRepository.getOneAuctionById(auctionId);
+        auction = auction.toJSON();
 
-            const minStep = auction.current_price ? (auction.current_price + auction.min_step) : (auction.init_price + auction.min_step);
-            if (minStep > newPrice) {
-                throw new Error(`You can not suggest less, then ${minStep}`);
-            }
-            if (auction.max_price < newPrice) {
-                throw new Error(`You can not suggest more, then ${auction.max_price}`);
-            }
+        const minStep = auction.current_price ? (auction.current_price + auction.min_step) : (auction.init_price + auction.min_step);
+        if (minStep > newPrice) {
+            throw new ErrorHandler(Forbidden, `You can not suggest less, then ${minStep}`);
+        }
+        if (auction.max_price < newPrice) {
+            throw new ErrorHandler(Forbidden, `You can not suggest more, then ${auction.max_price}`);
+        }
 
-            next();
+        next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(Forbidden));
+        logger.error('New price is not validity', e);
+        res.status(Forbidden).json('You can not suggest this price');
         }
     };
 
     async checkIsAuctionActive(req, res, next) {
         try {
-            const { auctionId } = req.params;
+        const { auctionId } = req.params;
 
-            let auction = await auctionRepository.getOneAuctionById(auctionId);
-            auction = auction.toJSON();
+        let auction = await auctionRepository.getOneAuctionById(auctionId);
+        auction = auction.toJSON();
 
-            if(auction.status === INACTIVE) {
-                throw new Error('This auction has already completed');
-            }
+        if(auction.status === INACTIVE) {
+            throw new ErrorHandler(BadRequest, 'This auction has already completed');
+        }
 
-            next();
+        next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(BadRequest));
+        logger.error('This auction has already completed', e);
+        res.status(BadRequest).json('This auction has already completed');
         }
     };
 }

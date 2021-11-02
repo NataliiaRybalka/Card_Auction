@@ -1,0 +1,13 @@
+export const BadRequestMes = 'Bad Request';
+export const ForbiddenMes = 'Forbidden';
+export const NotCreated = 'Not Created';
+export const NotFoundMes = 'Not Found';
+export const NotUpdated = 'Not Updated';
+export const SomethingWentWrong = 'Something Went Wrong';
+export const ThisUserIsNotRegistered = 'This user is not registered';
+export const TransactionFailed = 'Transaction Failed';
+export const Unauthorized = 'Unauthorized';
+export const UserNotFound = 'User Not Found';
+export const WrongEmailOrPassword = 'Wrong email or password';
+export const WrongToken = 'Wrong Token';
+export const YouAreNotAdmin = 'You Are Not Admin';

@@ -2,11 +2,11 @@ import {CARD, CARD_SET, SET} from '../../../constants/database.enum';
 
 exports.up = function(knex) {
   return knex.schema.createTable(CARD_SET, table => {
+    table.increments('id').primary();
     table.integer('card_id').unsigned();
     table.foreign('card_id').references('id').inTable(CARD);
     table.integer('set_id').unsigned();
     table.foreign('set_id').references('id').inTable(SET);
-    table.integer('bonus');
   })
 };
 

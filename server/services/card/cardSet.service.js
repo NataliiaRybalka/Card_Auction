@@ -1,3 +1,5 @@
+import logger from '#config/logger.config';
+import { ErrorHandler } from '#helpers/error.handler';
 import cardRepository from "#repositories/card/card.repository";
 import cardSetRepository from "#repositories/card/cardSet.repository";
 import cronRepository from '#repositories/cron/cron.repository';
@@ -24,18 +26,20 @@ class CardSetService {
                 sets
             }
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
     async createCardSet(cardId, setId) {
-      try {
-          await cardSetRepository.createCardSet(cardId, setId);
-          await cronRepository.createTask();
-          return await cardSetRepository.getOneCardSetByCardId(cardId);
-      }  catch (e) {
-          console.log(e);
-      }
+        try {
+            await cardSetRepository.createCardSet(cardId, setId);
+            await cronRepository.createTask();
+            return await cardSetRepository.getOneCardSetByCardId(cardId);
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
     };
 }
 

@@ -1,6 +1,10 @@
+import logger from '#config/logger.config';
+import { WrongEmailOrPassword } from '#constants/errorMessages.enum';
+import { Unauthorized } from '#constants/responseCodes.enum';
+import { ErrorHandler } from '#helpers/error.handler';
 import { comparePassword } from '#helpers/passwordHasher';
-import tokenService from './tokens.service';
 import userRepository from '#repositories/user/user.repository';
+import tokenService from './tokens.service';
 
 class LoginService {
     async loginUser(userData) {
@@ -10,7 +14,7 @@ class LoginService {
 
             const isCompared = await comparePassword(password, user.attributes.password);
             if (!isCompared) {
-                throw  new Error('Wrong email or password');
+                throw  new ErrorHandler(Unauthorized, WrongEmailOrPassword);
             }
 
             await tokenService.createTokens(user.id);
@@ -22,7 +26,8 @@ class LoginService {
                 userTokens: userTokens[userTokens.length - 1]
             };
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -39,9 +44,10 @@ class LoginService {
                 userTokens: userTokens[userTokens.length - 1]
             }
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
-    }
+    };
 }
 
 export default new LoginService();

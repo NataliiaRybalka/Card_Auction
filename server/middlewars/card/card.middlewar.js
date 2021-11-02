@@ -1,6 +1,8 @@
+import logger from '#config/logger.config';
 import { BadRequest } from '#constants/responseCodes.enum';
-import cardValidator from '#validators/cardData.validator';
+import { ErrorHandler } from "#helpers/error.handler";
 import cardRepository from "#repositories/card/card.repository";
+import cardValidator from '#validators/cardData.validator';
 
 class CardMiddlewar {
     async checkCardDataValidity(req, res, next) {
@@ -8,13 +10,13 @@ class CardMiddlewar {
             const { error } = await cardValidator.createCardData.validate(req.body);
 
             if (error) {
-                throw new Error(error);
+                throw new ErrorHandler(BadRequest, error);
             }
 
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(BadRequest));
+            logger.error(e.errors);
+            res.status(BadRequest).json(e.errors);
         }
     };
 
@@ -22,16 +24,16 @@ class CardMiddlewar {
         try {
             const { name } = req.body;
 
-            const card = await cardRepository.getOneCardByName(name);
+            const card = await cardRepository.checkIsCardCreatedAlready(name);
 
             if (card) {
-                throw new Error('This card has already added');
+                throw new ErrorHandler(BadRequest, 'This card has already added');
             }
 
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(BadRequest));
+            logger.error(e);
+            res.status(e.status).json(e.message);
         }
     };
 }

@@ -1,22 +1,30 @@
+import logger from '#config/logger.config';
+import { ErrorHandler } from '#helpers/error.handler';
 import cardRepository from '#repositories/card/card.repository';
+import userCardRepository from '#repositories/user/userCard.repository';
 
 class HistoryService {
-  async getHistory(role, userId) {
+  async getHistory(userId) {
     try {
-      let userCards = await cardRepository.getAllUserCards(userId);
+      let userCards = await userCardRepository.getAllSoldUserCards(userId);
       userCards = userCards.toJSON();
-      userCards = userCards.filter(userCard => userCard.sold_at);
 
       const cards = [];
-
       for (const user of userCards) {
-        const card = await cardRepository.getOneCardById(user.card_id);
-        cards.push(card.toJSON());
+        let card = await cardRepository.getOneCardById(user.card_id);
+        card = card.toJSON();
+
+        user.bought_at = user.bought_at.toDateString();
+        user.sold_at = user.sold_at.toDateString();
+        card.info = user;
+
+        cards.push(card);
       }
 
       return cards;
     }  catch (e) {
-      console.log(e);
+      logger.error(e);
+      throw new ErrorHandler(e.status, e.message);
     }
   };
 }

@@ -16,7 +16,7 @@ class CardController {
 
     async createCard(req, res, next) {
         try {
-            const { cardData } = req.body;
+            const cardData = req.body;
             return res.status(Created).json(await cardService.createCard(cardData));
         } catch (e) {
             next(e);
@@ -24,12 +24,12 @@ class CardController {
     };
 
     async getUserCardsInStock(req, res, next) {
-      try {
-          const { role, userId } = req;
-          res.status(OK).json(await cardService.getAllUserCards(role, userId));
-      }  catch (e) {
-          next(e);
-      }
+        try {
+            const { role, userId } = req;
+            res.status(OK).json(await cardService.getAllUserCards(role, userId));
+        }  catch (e) {
+            next(e);
+        }
     };
 }
 

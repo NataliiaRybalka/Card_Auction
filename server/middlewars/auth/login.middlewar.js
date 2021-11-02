@@ -1,33 +1,37 @@
+import logger from '#config/logger.config';
 import { Unauthorized} from '#constants/responseCodes.enum';
-import userRepository from '#repositories/user/user.repository';
+import { ErrorHandler } from "#helpers/error.handler";
 import registrRepository from '#repositories/auth/registr.repository';
+import userRepository from '#repositories/user/user.repository';
 
 class LoginMiddlewar {
     async checkIsEmailCorrect(req, res, next) {
         try {
-            const { email } = req.body;
+        const { email } = req.body;
 
-            const user = await userRepository.getUserByEmail(email);
-            if (!user) {
-                throw new Error('Wrong email or password');
-            }
+        let user = await userRepository.getUserByEmail(email);
+        user = user.toJSON();
+        if (!user) {
+            throw new ErrorHandler(Unauthorized, 'Wrong email or password');
+        }
 
-            req.user = user;
+        req.user = user;
             next();
         } catch (e) {
-            console.log(e);
-            next(res.sendStatus(Unauthorized));
+            logger.error('Wrong email or password', e);
+            res.status(Unauthorized).json('Wrong email or password');
         }
     };
 
     async checkRole(req, res, next) {
         try {
-            const { roleId } = req.user;
-            req.role = await registrRepository.getRoleById(roleId);
+            const { role_id } = req.user;
+            req.role = await registrRepository.getRoleById(role_id);
 
             next();
         } catch (e) {
-            next(e);
+            logger.error(e);
+            res.status(e.status).json(e.message);
         }
     };
 }

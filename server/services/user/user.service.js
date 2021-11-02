@@ -1,7 +1,11 @@
+import logger from '#config/logger.config';
+import { ForbiddenMes, ThisUserIsNotRegistered, YouAreNotAdmin } from '#constants/errorMessages.enum';
+import { Forbidden, NotFound } from '#constants/responseCodes.enum';
 import { ADMIN, USER } from "#constants/project.constants";
+import { ErrorHandler } from '#helpers/error.handler';
 import registrRepository from "#repositories/auth/registr.repository";
-import userRepository from '#repositories/user/user.repository';
 import tokenRepository from "#repositories/auth/token.repository";
+import userRepository from '#repositories/user/user.repository';
 
 class UserService {
     async getAllUsers(id) {
@@ -21,7 +25,8 @@ class UserService {
 
             return users;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
@@ -29,7 +34,7 @@ class UserService {
         try {
             let user = await userRepository.getUserById(id);
             if (!user) {
-                throw new Error('This user is not registered');
+                throw new ErrorHandler(NotFound, ThisUserIsNotRegistered);
             }
             user = user.toJSON();
 
@@ -37,35 +42,51 @@ class UserService {
             let role = await registrRepository.getRoleById(roleId);
             role = role.toJSON();
             if (role.title === ADMIN) {
-                throw  new Error('Your are not admin');
+                throw  new ErrorHandler(Forbidden, YouAreNotAdmin);
             }
 
             return user;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 
     async updateUserData(id, userData, idFromTokens) {
-        const { login, email, password } = userData;
+        try {
+            const { login, email, password } = userData;
 
-        if (Number(id)  !== idFromTokens) {
-            throw new Error('You can not update this user');
+            if (id  != idFromTokens) {
+                throw new ErrorHandler(Forbidden, ForbiddenMes);
+            }
+            await userRepository.updateUserData(id, login, email, password);
+            return await userRepository.getUserById(id);
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
-        await userRepository.updateUserData(id, login, email, password);
-        return await userRepository.getUserById(id);
+            };
+
+    async updateUserRating(id, rating) {
+        try {
+            return await userRepository.updateUserRating(id, rating);
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
     };
 
     async deleteUser(id, idFromTokens) {
         try {
             if (Number(id) !== idFromTokens) {
-                throw new Error('You can not delete this user');
+                throw new ErrorHandler(Forbidden, ForbiddenMes);
             }
 
             await tokenRepository.deleteTokens(id);
             return await userRepository.deleteUser(id);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
         }
     };
 }
