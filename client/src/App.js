@@ -5,12 +5,14 @@ import UserPage from './components/account/UserPage';
 import Login from './components/auth/Login';
 import { Logout } from './components/auth/Logout';
 import Registration from './components/auth/Registration';
+import { Footer } from './components/pages/Footer';
+import { Header } from './components/pages/Header';
 
 function App() {
 
   return (
     <>
-      <header></header>
+      <Header />
 
       <main>
         <Router>
@@ -23,7 +25,7 @@ function App() {
         </Router>
       </main>
       
-      <footer></footer>
+      <Footer />
     </>
   );
 }
