@@ -1,7 +1,7 @@
-import {BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.css';
-import { Registration } from './components/auth/Registration';
+import Registration from './components/auth/Registration';
 
 function App() {
 
