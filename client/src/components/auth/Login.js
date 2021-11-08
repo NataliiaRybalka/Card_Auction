@@ -26,8 +26,6 @@ const Login = (props) => {
       email: '',
       password: ''
     });
-
-
   };
 
   return (
@@ -39,7 +37,7 @@ const Login = (props) => {
       <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       <br />
       <button onClick={onHandleLogin}>send</button>
-      
+
       {props.alert && <Alert msg={props.alert} />}
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
@@ -50,6 +48,7 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.authReducer.user,
+    userTokens: state.authReducer.userTokens,
     alert: state.alertReducer.alert
   }
 };
