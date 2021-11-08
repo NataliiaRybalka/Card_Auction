@@ -1,0 +1,19 @@
+.form {
+  margin: 0 auto;
+  border: 2px dashed #4dffff;
+  width: 500px;
+}
+
+label {
+  padding-right: 20px;
+}
+
+input {
+  width: 200px;
+  background-color: #d9d9d9;
+}
+
+.form > div {
+  margin: 20px 30%;
+}
+
