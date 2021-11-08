@@ -2,6 +2,8 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import { Redirect } from 'react-router-dom';
 
+import './Auth.css';
+
 import { registration } from '../../redux/actions/auth.actions';
 import UserPage from "../account/UserPage";
 import { Alert } from "../Alert";
@@ -31,17 +33,24 @@ const Registration = (props) => {
   };
 
   return (
-    <div>
-      <label>Login</label>
-      <input type={'text'} name={'login'} value={inputValues.login} onChange={onChangeInputHandler} />
-      <br />
-      <label>Email</label>
-      <input type={'email'} name={'email'} value={inputValues.email} onChange={onChangeInputHandler} />
-      <br />
-      <label>Password</label>
-      <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
-      <br />
+    <div className={'form'}>
+      <div>
+        <label>Login</label>
+        <input type={'text'} name={'login'} value={inputValues.login} onChange={onChangeInputHandler} />
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input type={'email'} name={'email'} value={inputValues.email} onChange={onChangeInputHandler} />
+      </div>
+
+      <div>
+        <label>Password</label>
+        <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
+      </div>
+
       <button onClick={onHandleRegistration}>send</button>
+      
       {props.alert && <Alert msg={props.alert} />}
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}

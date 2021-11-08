@@ -9,22 +9,22 @@ import Registration from './components/auth/Registration';
 function App() {
 
   return (
-    <Router>
-      <Switch>
-        <Route path='/registration'>
-          <Registration />
-        </Route>
-        <Route path='/login'>
-          <Login />
-        </Route>
-        <Route path='/logout'>
-          <Logout />
-        </Route>
-        <Route path='/account'>
-          <UserPage />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      <header></header>
+
+      <main>
+        <Router>
+          <Switch>
+            <Route path='/registration' component={Registration} />
+            <Route path='/login' component={Login} />
+            <Route path='/logout' component={Logout} />
+            <Route path='/account' component={UserPage} />
+          </Switch>
+        </Router>
+      </main>
+      
+      <footer></footer>
+    </>
   );
 }
 

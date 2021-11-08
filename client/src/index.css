@@ -1,7 +1,31 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 0 100px;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #00001a;
+  color: #e6e6ff;
 }
+
+main {
+  padding: 100px 0;
+}
+
+button {
+  margin: 20px 45%;
+  font-size: 20px;
+  width: 70px;
+  background-color: #00ff00;
+}
+
+/*
+  main-background-color: #00001a;
+  main-color: #e6e6ff;
+  tiffany: #4dffff;
+  purpl: #ff4dff;
+  red: #ff0000;
+  orange: #ff751a;
+  green: #00ff00;
+  blue: #0000ff;
+*/
