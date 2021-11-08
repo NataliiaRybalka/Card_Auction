@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom';
 
 import { registration } from '../../redux/actions/auth.actions';
+import UserPage from "../account/UserPage";
 
 const Registration = (props) => {
   const [inputValues, setInputValues] = useState({
@@ -39,6 +41,8 @@ const Registration = (props) => {
       <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       <br />
       <button onClick={onHandleRegistration}>send</button>
+
+      {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>
   );
 };
