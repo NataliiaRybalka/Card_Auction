@@ -1,10 +1,21 @@
+import {BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
 import './App.css';
+import { Registration } from './components/auth/Registration';
 
 function App() {
 
   return (
-    <div className="App">
-    </div>
+    <Router>
+      <Switch>
+        <Route path='/registration'>
+          <Registration />
+        </Route>
+        <Route path='/login'>
+          Login
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
