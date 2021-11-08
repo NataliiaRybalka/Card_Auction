@@ -1,0 +1,16 @@
+h1 {
+  text-align: center;
+  font-size: 45px;
+}
+
+.footerLink {
+  text-align: right;
+}
+
+.footerLink > span > a {
+  color: #ff4dff;
+}
+
+.footerLink > span > a::after {
+  color: #ff4dff;
+}
