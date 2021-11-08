@@ -1,25 +1,24 @@
 import { put, call } from "redux-saga/effects";
 
 import { LOCALHOST } from "../constants/contants";
-import { REGISTRATION, REGISTRATION_SUCCESS } from "../redux/types/auth.types";
+import { POST } from "../constants/httpMethods";
+import { LOGIN_SUCCESS, REGISTRATION_SUCCESS } from "../redux/types/auth.types";
+import { httpHelper } from "../helpers/http.helper";
 
-export function* authSagaWorker(data) {
-  const response = yield call(registration, data.payload);
-  yield put({ type: REGISTRATION_SUCCESS, response }); 
-}
-
+export function* registrationSagaWorker(data) {
+  const payload = yield call(registration, data.payload);
+  yield put({ type: REGISTRATION_SUCCESS, payload }); 
+};
 const registration = async (data) => {
-  const res = await fetch(`${LOCALHOST}auth/registration`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  });
-  return await res.json();
-}
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}auth/registration`, POST, data);
+};
+
+export function* loginSagaWorker(data) {
+  const payload = yield call(login, data.payload);
+  yield put({ type: LOGIN_SUCCESS, payload }); 
+};
+const login = async (data) => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}auth/login`, POST, data);
+};

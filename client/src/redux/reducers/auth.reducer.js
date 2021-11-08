@@ -1,4 +1,4 @@
-import { REGISTRATION_SUCCESS, LOGIN, LOGOUT } from "../types/auth.types";
+import { REGISTRATION_SUCCESS, LOGIN_SUCCESS, LOGOUT } from "../types/auth.types";
 
 const initialState = {
   isLogin: false,
@@ -11,7 +11,8 @@ export const authReducer = (state = initialState, action) => {
     case REGISTRATION_SUCCESS:
       return {...state, isLogin: true, user: action.payload.user, userTokens: action.payload.userTokens};
 
-    case LOGIN:
+    case LOGIN_SUCCESS:
+      console.log(action.payload);
       return {...state, isLogin: true, user: action.payload.user, userTokens: action.payload.userTokens};
 
     case LOGOUT:

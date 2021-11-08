@@ -1,23 +1,16 @@
-import { LOGIN, LOGOUT, REGISTRATION, REGISTRATION_SUCCESS } from "../types/auth.types";
+import { LOGIN, LOGOUT, REGISTRATION } from "../types/auth.types";
 
-export const registration = (user) => {
+export const registration = userData => {
   return {
     type: REGISTRATION,
-    payload: user
+    payload: userData
   }
 };
 
-export const registration_success = (user) => {
-  return {
-    type: REGISTRATION_SUCCESS,
-    payload: user
-  }
-};
-
-export const login = (user, userTokens) => {
+export const login = userData => {
   return {
     type: LOGIN,
-    payload: { user, userTokens }
+    payload: userData
   }
 };
 

@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 
-import { registration } from '../../redux/actions/auth.actions';
+import { login } from '../../redux/actions/auth.actions';
 
-const Registration = (props) => {
+const Login = (props) => {
   const [inputValues, setInputValues] = useState({
-    login: '',
     email: '',
     password: ''
   });
@@ -17,11 +16,10 @@ const Registration = (props) => {
     }));
   };
 
-  const onHandleRegistration = async () => {
-    props.dispatch(registration(inputValues));
+  const onHandleLogin = async () => {
+    props.dispatch(login(inputValues));
 
     setInputValues({
-      login: '',
       email: '',
       password: ''
     });
@@ -29,19 +27,16 @@ const Registration = (props) => {
 
   return (
     <div>
-      <label>Login</label>
-      <input type={'text'} name={'login'} value={inputValues.login} onChange={onChangeInputHandler} />
-      <br />
       <label>Email</label>
       <input type={'email'} name={'email'} value={inputValues.email} onChange={onChangeInputHandler} />
       <br />
       <label>Password</label>
       <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       <br />
-      <button onClick={onHandleRegistration}>send</button>
+      <button onClick={onHandleLogin}>send</button>
     </div>
   );
-};
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -49,4 +44,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(Registration);
+export default connect(mapStateToProps)(Login);
