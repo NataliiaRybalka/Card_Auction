@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import { registration } from '../../redux/actions/auth.actions';
 import UserPage from "../account/UserPage";
+import { Alert } from "../Alert";
 
 const Registration = (props) => {
   const [inputValues, setInputValues] = useState({
@@ -41,6 +42,7 @@ const Registration = (props) => {
       <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       <br />
       <button onClick={onHandleRegistration}>send</button>
+      {props.alert && <Alert msg={props.alert} />}
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>
@@ -49,7 +51,8 @@ const Registration = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.authReducer.user
+    user: state.authReducer.user,
+    alert: state.alertReducer.alert
   }
 };
 

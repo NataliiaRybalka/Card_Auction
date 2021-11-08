@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import { login } from '../../redux/actions/auth.actions';
 import UserPage from "../account/UserPage";
+import { Alert } from "../Alert";
 
 const Login = (props) => {
   const [inputValues, setInputValues] = useState({
@@ -20,7 +21,7 @@ const Login = (props) => {
 
   const onHandleLogin = async () => {
     props.dispatch(login(inputValues));
-    
+
     setInputValues({
       email: '',
       password: ''
@@ -38,6 +39,8 @@ const Login = (props) => {
       <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       <br />
       <button onClick={onHandleLogin}>send</button>
+      
+      {props.alert && <Alert msg={props.alert} />}
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>
@@ -46,7 +49,8 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.authReducer.user
+    user: state.authReducer.user,
+    alert: state.alertReducer.alert
   }
 };
 
