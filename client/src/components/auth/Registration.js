@@ -6,7 +6,7 @@ import './Auth.css';
 
 import { registration } from '../../redux/actions/auth.actions';
 import UserPage from "../account/UserPage";
-import { Alert } from "../Alert";
+import { Alert } from "../alert/Alert";
 
 const Registration = (props) => {
   const [inputValues, setInputValues] = useState({
@@ -49,9 +49,10 @@ const Registration = (props) => {
         <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       </div>
 
-      <button onClick={onHandleRegistration}>send</button>
-      
       {props.alert && <Alert msg={props.alert} />}
+      
+      <button onClick={onHandleRegistration}>send</button>
+
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>

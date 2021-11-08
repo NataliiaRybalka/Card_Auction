@@ -6,7 +6,7 @@ import './Auth.css';
 
 import { login } from '../../redux/actions/auth.actions';
 import UserPage from "../account/UserPage";
-import { Alert } from "../Alert";
+import { Alert } from "../alert/Alert";
 
 const Login = (props) => {
   const [inputValues, setInputValues] = useState({
@@ -42,9 +42,10 @@ const Login = (props) => {
         <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       </div>
 
+      {props.alert && <Alert msg={props.alert} />}
+      
       <button onClick={onHandleLogin}>send</button>
 
-      {props.alert && <Alert msg={props.alert} />}
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>
