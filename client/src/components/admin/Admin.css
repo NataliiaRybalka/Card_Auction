@@ -1,4 +1,29 @@
 .navLinks {
   color: #e6e6ff;
   text-decoration: none;
+  width: 100%;
+  font-size: 18px;
+}
+
+.navLinkDiv {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.navLinkDiv:hover {
+  background-color: #4dffff;
+}
+
+#adminMenu {
+  position: fixed;
+  width: 20%;
+  height: 100vh;
+  float: left;
+  border-right: 2px dashed  #4dffff;
+}
+
+.adminPage {
+  margin-left: 30%;
 }

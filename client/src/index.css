@@ -6,6 +6,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #00001a;
   color: #e6e6ff;
+  font-size: 20px;
+  line-height: 1.5em;
 }
 
 main {

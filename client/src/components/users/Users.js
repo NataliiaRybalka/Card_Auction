@@ -1,7 +1,7 @@
 export const Users = () => {
 
   return (
-    <div>
+    <div className={'adminPage'}>
       <h2>Users</h2>
     </div>
   );
