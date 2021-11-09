@@ -67,7 +67,7 @@ class UserRepository {
         }
     };
 
-    async updateUserToAdmin(id, role_id) {
+    async updateUserRole(id, role_id) {
         try {
             return await User.forge({ id }).save({ role_id });
         } catch (e) {

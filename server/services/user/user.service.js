@@ -27,10 +27,11 @@ class UserService {
             let roles = await registrRepository.getRoles();
             roles = roles.toJSON();
 
-            return {
-                users,
-                roles
-            };
+            users.map(user => {
+                user.role_id = roles.find(role => role.id === user.role_id);
+            });
+
+            return users;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
@@ -83,12 +84,12 @@ class UserService {
         }
     };
 
-    async updateUserToAdmin(userId, newUserRole) {
+    async updateUserRole(userId, newUserRole) {
         try {
             let role = await registrRepository.getRoleByTitle(newUserRole);
             role = role.toJSON();
 
-            return await userRepository.updateUserToAdmin(userId, role.id);
+            return await userRepository.updateUserRole(userId, role.id);
         }  catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

@@ -32,9 +32,9 @@ class UserController {
         }
     };
 
-    async updateUserToAdmin(req, res, next) {
+    async updateUserRole(req, res, next) {
         try {
-            res.status(Created).json(await userService.updateUserToAdmin(req.params.userId, req.body.role));
+            res.status(Created).json(await userService.updateUserRole(req.params.userId, req.body.newRole));
         } catch (e) {
             next(e);
         }

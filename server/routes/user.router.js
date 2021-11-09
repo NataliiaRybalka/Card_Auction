@@ -32,7 +32,7 @@ router.put(
 
 router.put(
     '/admin/:userId',
-    userController.updateUserToAdmin
+    userController.updateUserRole
 );
 
 router.delete(

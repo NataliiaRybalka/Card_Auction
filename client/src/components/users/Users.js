@@ -9,15 +9,15 @@ import { httpHelper } from "../../helpers/http.helper";
 export const Users = () => {
   const dispatch = useDispatch();
   const users = useSelector(state => state.usersReducer.users);
-  const roles = useSelector(state => state.usersReducer.roles);
 
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const makeAdminHandler = async (userId) => {
+  const makeAdminHandler = async (user) => {
     const { request } = httpHelper();
-    return await request(`${LOCALHOST}users/admin/${userId}`, localStorage.getItem('accessToken'), PUT, {role: ADMIN});
+    const newRole = user.role_id.title === ADMIN ? USER : ADMIN;
+    return await request(`${LOCALHOST}users/admin/${user.id}`, localStorage.getItem('accessToken'), PUT, { newRole });
   };
 
   return (
@@ -40,7 +40,7 @@ export const Users = () => {
             <td>{user.login}</td>
             <td>{user.email}</td>
             <td>{user.rating}</td>
-            <td> <button onClick={() => makeAdminHandler(user.id)}>change to {ADMIN}</button> </td>
+            <td> <button onClick={() => makeAdminHandler(user)}>change to {user.role_id.title === ADMIN ? USER : ADMIN}</button> </td>
           </tr>
         ))}
         </tbody>
