@@ -17,6 +17,15 @@ class EpisodeService {
             throw new ErrorHandler(e.status, e.message);
         }
     };
+
+    async getEpisodeById(id) {
+        try {
+            return await episodeRepository.getEpisodeById(id);
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
 }
 
 export default new EpisodeService();

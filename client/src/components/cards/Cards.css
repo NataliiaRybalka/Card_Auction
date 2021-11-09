@@ -1,9 +1,10 @@
 .cardsBlock {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: nowrap;
 }
 
 .card {
   border: 1px solid #4dffff;
+  width: 300px;
 }

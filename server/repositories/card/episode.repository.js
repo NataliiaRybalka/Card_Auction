@@ -22,6 +22,15 @@ class EpisodeRepository {
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
+    
+    async getEpisodeById(id) {
+        try {
+            return await Episode.where({ id }).fetch();
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
 
     async checkIsEpisodePresent(title) {
         try {

@@ -12,7 +12,7 @@ export const Cards = () => {
   useEffect(() => {
     dispatch(getCards());
   }, [dispatch]);
-console.log(cards);
+  
   return (
     <div className={'adminPage'}>
       <h2>Cards</h2>

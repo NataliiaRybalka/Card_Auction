@@ -25,7 +25,7 @@ class LocationService {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
         }
-    }
+    };
 }
 
 export default new LocationService();
