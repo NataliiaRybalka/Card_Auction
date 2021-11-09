@@ -22,7 +22,7 @@ export function* registrationSagaWorker(data) {
 };
 const registration = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}auth/registration`, POST, data);
+  return await request(`${LOCALHOST}auth/registration`, null, POST, data);
 };
 
 export function* loginSagaWorker(data) {
@@ -40,5 +40,5 @@ export function* loginSagaWorker(data) {
 };
 const login = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}auth/login`, POST, data);
+  return await request(`${LOCALHOST}auth/login`, null, POST, data);
 };

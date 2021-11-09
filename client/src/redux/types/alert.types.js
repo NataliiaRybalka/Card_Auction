@@ -1,1 +1,1 @@
-export const SHOW_ALERT= 'ERROR/SHOW_ALERT';
+export const SHOW_ALERT= 'ALERT/SHOW_ALERT';

@@ -27,3 +27,13 @@
 .adminPage {
   margin-left: 30%;
 }
+
+table {
+  border: 2px solid #ff4dff;
+  border-spacing: 0;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #ff4dff;
+  text-align: center;
+}
