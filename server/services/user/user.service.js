@@ -53,6 +53,8 @@ class UserService {
                 throw  new ErrorHandler(Forbidden, YouAreNotAdmin);
             }
 
+            user.role_id = role.title;
+
             return user;
         } catch (e) {
             logger.error(e);

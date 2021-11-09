@@ -23,10 +23,16 @@ class RegistrService {
                 await registrRepository.createUser(login, email, hashedPassword, roles.find(role => role.title === USER).id);
             }
 
-            const user = await userRepository.getUserByEmail(email);
+            let user = await userRepository.getUserByEmail(email);
+            user = user.toJSON();
 
             await tokenService.createTokens(user.id);
             const userTokens = await tokenService.getTokens(user.id);
+
+            let roleId = user.role_id;
+            let role = await registrRepository.getRoleById(roleId);
+            role = role.toJSON();
+            user.role_id = role.title;
 
             return {
                 user,

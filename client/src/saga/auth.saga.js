@@ -30,7 +30,7 @@ export function* loginSagaWorker(data) {
     const payload = yield call(login, data.payload);
     if (payload.status === 200) {
       yield put({ type: LOGIN_SUCCESS, payload: payload.data });
-      yield put(tokenService(payload.data.userTokens));
+      yield put(tokenService(payload.data.userTokens, payload.data.user.role_id));
     } else {
       throw payload
     }
