@@ -19,11 +19,18 @@ class UserService {
             });
             let role = await registrRepository.getRoleById(roleId);
             role = role.toJSON();
+
             if (role.title === USER) {
                 users = users.filter(user => user.role_id === role.id);
             }
 
-            return users;
+            let roles = await registrRepository.getRoles();
+            roles = roles.toJSON();
+
+            return {
+                users,
+                roles
+            };
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
@@ -75,6 +82,18 @@ class UserService {
             throw new ErrorHandler(e.status, e.message);
         }
     };
+
+    async updateUserToAdmin(userId, newUserRole) {
+        try {
+            let role = await registrRepository.getRoleByTitle(newUserRole);
+            role = role.toJSON();
+
+            return await userRepository.updateUserToAdmin(userId, role.id);
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    }
 
     async deleteUser(id, idFromTokens) {
         try {

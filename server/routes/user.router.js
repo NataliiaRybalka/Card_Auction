@@ -30,6 +30,11 @@ router.put(
     userController.updateUserData
 );
 
+router.put(
+    '/admin/:userId',
+    userController.updateUserToAdmin
+);
+
 router.delete(
     '/:userId',
     userController.deleteUser

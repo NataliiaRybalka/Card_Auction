@@ -32,6 +32,14 @@ class UserController {
         }
     };
 
+    async updateUserToAdmin(req, res, next) {
+        try {
+            res.status(Created).json(await userService.updateUserToAdmin(req.params.userId, req.body.role));
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async deleteUser(req, res, next) {
         try {
             const {

@@ -7,7 +7,7 @@ import { User } from '#models/User';
 class UserRepository {
     async getUsers() {
         try {
-            return await User.fetchAll();
+            return await User.query(qb => qb.orderBy('rating', 'DESC')).fetchAll();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
@@ -66,6 +66,15 @@ class UserRepository {
             throw new ErrorHandler(InternalServerError, NotUpdated);
         }
     };
+
+    async updateUserToAdmin(id, role_id) {
+        try {
+            return await User.forge({ id }).save({ role_id });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
+        }
+    }
 
     async deleteUser(id) {
         try {

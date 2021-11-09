@@ -24,6 +24,15 @@ class RegistrRepository {
         }
     };
 
+    async getRoleByTitle(title) {
+        try {
+            return await Role.where({ title }).fetch();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
     async createUser(login, email, password, role_id) {
         try {
             return await User.forge({ login, email, password, role_id }).save();
