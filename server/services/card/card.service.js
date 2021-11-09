@@ -9,7 +9,18 @@ import locationService from "./location.service";
 class CardService {
     async getAllCards() {
         try {
-            return await cardRepository.getAllCards();
+            let cards = await cardRepository.getAllCards();
+            cards = cards.toJSON();
+            
+            for (const card of cards) {
+                let location = await locationService.getLocationById(card.location_id);
+                location = location.toJSON();
+
+                card.location_title = location.title;
+                card.location_type = location.type;
+            }
+
+            return cards;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

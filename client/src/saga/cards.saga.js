@@ -1,21 +1,21 @@
 import { put, call } from "redux-saga/effects";
 
 import { LOCALHOST } from "../constants/contants";
-import { GET_USERS } from '../redux/types/users.types';
+import { GET_CARDS } from '../redux/types/cards.types';
 import { SHOW_ALERT } from "../redux/types/alert.types";
 import { httpHelper } from "../helpers/http.helper";
 
-export function* getUsersWorker() {
+export function* getCardsWorker() {
   try {
-    const payload = yield call(getUsers);
+    const payload = yield call(getCards);
     if (payload.status === 200) {
-      yield put({ type: GET_USERS, payload: payload.data });
+      yield put({ type: GET_CARDS, payload: payload.data.cards });
     }
   } catch (e) {
     yield put({ type: SHOW_ALERT, payload: e.data });
   }
 };
-const getUsers = async () => {
+const getCards = async () => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}users`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}cards`, localStorage.getItem('accessToken'));
 };

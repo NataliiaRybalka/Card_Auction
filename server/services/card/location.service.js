@@ -17,6 +17,15 @@ class LocationService {
             throw new ErrorHandler(e.status, e.message);
         }
     };
+
+    async getLocationById(id) {
+        try {
+            return await locationRepository.getLocationById(id);
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    }
 }
 
 export default new LocationService();

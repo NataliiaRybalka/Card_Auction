@@ -1,0 +1,9 @@
+.cardsBlock {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+}
+
+.card {
+  border: 1px solid #4dffff;
+}
