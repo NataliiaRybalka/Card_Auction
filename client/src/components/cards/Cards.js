@@ -8,15 +8,20 @@ import { Card } from "./Card";
 export const Cards = () => {
   const dispatch = useDispatch();
   const cards = useSelector(state => state.cardsReducer.cards);
-
+  
   useEffect(() => {
     dispatch(getCards());
   }, [dispatch]);
+
+  const createNewCardHandler = () => {};
   
   return (
     <div className={'adminPage'}>
-      <h2>Cards</h2>
-
+      <header id={'cardPageHeader'}>
+        <h2>Cards</h2>
+        <button id={'createCardBtn'} onClick={createNewCardHandler}>create new card</button>
+      </header>
+      
       <div className={'cardsBlock'}>
         {!!cards.length && cards[0].map(card => <Card card={card} key={card.id} />)}
       </div>

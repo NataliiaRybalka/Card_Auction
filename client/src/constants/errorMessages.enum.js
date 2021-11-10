@@ -9,5 +9,5 @@ export const TransactionFailed = 'Transaction Failed';
 export const Unauthorized = 'Unauthorized';
 export const UserNotFound = 'User Not Found';
 export const WrongEmailOrPassword = 'Wrong email or password';
-export const WrongToken = 'Wrong Token';
+export const WrongToken = 'Wrong token';
 export const YouAreNotAdmin = 'You Are Not Admin';

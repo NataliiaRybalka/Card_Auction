@@ -10,6 +10,7 @@ import { Dashboard } from './Dashboard';
 import { Users } from '../users/Users';
 import { Cards } from '../cards/Cards';
 import { Auctions } from '../auctions/Auctions';
+import NewCardForm from '../cards/NewCardForm';
 
 export const Menu = () => {
 
@@ -29,6 +30,7 @@ export const Menu = () => {
         <Switch>
           <Route path='/admin/users' component={Users} />
           <Route path='/admin/cards' component={Cards} />
+          <Route path='/admin/create-card' component={NewCardForm} />
           <Route path='/admin/auctions' component={Auctions} />
           <Route path='/admin' component={Dashboard} exact />
         </Switch>

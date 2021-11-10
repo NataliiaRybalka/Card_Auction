@@ -31,3 +31,14 @@
   font-size: 15px;
   line-height: 0;
 }
+
+#cardPageHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+#createCardBtn {
+  width: 200px;
+  height: 50px;
+  margin: 0;
+}
