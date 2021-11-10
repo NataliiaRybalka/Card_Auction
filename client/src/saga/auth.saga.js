@@ -14,7 +14,7 @@ export function* registrationSagaWorker(data) {
       yield put({ type: REGISTRATION_SUCCESS, payload }); 
       yield put(setTokenAndRoleService(payload.data.userTokens));
     } else {
-      throw payload
+      throw payload;
     }
   } catch (e) {
     yield put({ type: SHOW_ALERT, payload: e.data });
@@ -32,7 +32,7 @@ export function* loginSagaWorker(data) {
       yield put({ type: LOGIN_SUCCESS, payload: payload.data });
       yield put(setTokenAndRoleService(payload.data.userTokens, payload.data.user.role_id));
     } else {
-      throw payload
+      throw payload;
     }
   } catch (e) {
     yield put({ type: SHOW_ALERT, payload: e.data });

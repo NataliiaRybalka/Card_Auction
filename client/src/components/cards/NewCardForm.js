@@ -14,7 +14,7 @@ const NewCardForm = ({ isModalVisible, setIsModalVisible }) => {
     episodeTitle: '',
     episodeAirDate: '',
     series: '',
-    image: '',
+    image: ''
   });
 
   const onChangeInputHandler = e => {
@@ -26,7 +26,12 @@ const NewCardForm = ({ isModalVisible, setIsModalVisible }) => {
 
   const onHandleLogin = async () => {
     // props.dispatch(login(inputValues));
-console.log(inputValues);
+
+    const formData = new FormData();
+    formData.append(inputValues.image.name, inputValues.image);
+
+    Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
+
     setInputValues({
       name: '',
       isAlive: '',
@@ -39,6 +44,8 @@ console.log(inputValues);
       series: '',
       image: '',
     });
+
+    setIsModalVisible(false);
   };
 
   return (
@@ -96,10 +103,10 @@ console.log(inputValues);
             <input type={'text'} name={'series'} value={inputValues.series} onChange={onChangeInputHandler} />
           </div>
 
-          {/* <div>
+          <div>
             <label>Image</label>
-            <input type={'text'} name={'image'} value={inputValues.image} onChange={onChangeInputHandler} />
-          </div> */}
+            <input type={'file'} name={'image'} value={inputValues.image} onChange={onChangeInputHandler} />
+          </div>
 
           {/* {props.alert && <Alert msg={props.alert} />} */}
           
