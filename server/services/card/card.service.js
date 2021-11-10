@@ -78,12 +78,12 @@ class CardService {
 
     async createCard(cardData) {
         try {
-            const { name, isAlive, species, type, gender, locationTitle, locationType, episodeTitle, episodeAirDate, series, image } = cardData;
+            const { name, isAlive, species, gender, locationTitle, locationType, episodeTitle, episodeAirDate, series, image } = cardData;
 
             const location = await locationService.createLocation(locationTitle, locationType);
             const episode = await episodeService.createEpisode(episodeTitle, episodeAirDate, series);
 
-            let card = await cardRepository.createCard(name, isAlive, species, type, gender, location.id, image);
+            let card = await cardRepository.createCard(name, isAlive, species, gender, location.id, image);
             card = card.toJSON();
 
             await cardEpisodeRepository.createCardEpisode(card.id, episode.id);

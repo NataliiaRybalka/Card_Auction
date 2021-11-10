@@ -32,13 +32,12 @@ class CardRepository {
         }
     };
 
-    async createCard(name, is_alive, species, type, gender, location_id, image) {
+    async createCard(name, is_alive, species, gender, location_id, image) {
         try {
             return await Card.forge({
                 name,
                 is_alive,
                 species,
-                type,
                 gender,
                 location_id,
                 image,

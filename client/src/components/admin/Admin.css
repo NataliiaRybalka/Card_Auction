@@ -40,5 +40,10 @@ td, th {
 }
 td > button {
   margin: 0;
-  width: 200px;
+  font-size: 15px;
+  width: 150px;
+}
+
+th {
+  color: #ff751a;
 }

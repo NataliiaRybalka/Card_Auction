@@ -1,10 +1,33 @@
 .cardsBlock {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .card {
-  border: 1px solid #4dffff;
-  width: 300px;
+  border: 1px solid #ff4dff;
+  width: 45%;
+  margin-top: 50px;
+  padding: 20px 0;
+  display: flex;
+}
+
+.cardImgBlock {
+  width: 40%;
+}
+
+.cardInfoBlock {
+  font-size: 17px;
+  line-height: 1em;
+}
+
+.cardTitle {
+  color: #ff751a;
+  line-height: 0;
+}
+
+.cardInfoBlock > h4 {
+  color: #808080;
+  font-size: 15px;
+  line-height: 0;
 }

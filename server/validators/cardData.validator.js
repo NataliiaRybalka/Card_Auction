@@ -5,7 +5,6 @@ class CardDataValidator {
         name: yup.string().required(),
         isAlive: yup.boolean().required(),
         species: yup.string().required(),
-        type: yup.string().required(),
         gender: yup.string().required(),
         locationTitle: yup.string().required(),
         locationType: yup.string().required(),
