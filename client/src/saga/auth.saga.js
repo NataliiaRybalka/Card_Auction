@@ -5,14 +5,14 @@ import { POST } from "../constants/httpMethods";
 import { LOGIN_SUCCESS, REGISTRATION_SUCCESS } from "../redux/types/auth.types";
 import { httpHelper } from "../helpers/http.helper";
 import { SHOW_ALERT } from "../redux/types/alert.types";
-import { tokenService } from "../services/token.service";
+import { setTokenAndRoleService } from "../services/token.service";
 
 export function* registrationSagaWorker(data) {
   try {
     const payload = yield call(registration, data.payload);
     if (payload.status === 200) {
       yield put({ type: REGISTRATION_SUCCESS, payload }); 
-      yield put(tokenService(payload.data.userTokens));
+      yield put(setTokenAndRoleService(payload.data.userTokens));
     } else {
       throw payload
     }
@@ -30,7 +30,7 @@ export function* loginSagaWorker(data) {
     const payload = yield call(login, data.payload);
     if (payload.status === 200) {
       yield put({ type: LOGIN_SUCCESS, payload: payload.data });
-      yield put(tokenService(payload.data.userTokens, payload.data.user.role_id));
+      yield put(setTokenAndRoleService(payload.data.userTokens, payload.data.user.role_id));
     } else {
       throw payload
     }

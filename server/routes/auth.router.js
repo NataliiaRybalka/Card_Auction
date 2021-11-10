@@ -3,7 +3,6 @@ import { Router } from 'express';
 import loginMiddlewar from '#middlewars/auth/login.middlewar';
 import registrMiddlewar from '#middlewars/auth/registr.middlewar';
 import tokenMiddlewar from '#middlewars/user/token.middlewar';
-import userMiddlewar from '#middlewars/user/user.middlewar';
 import loginController from '#controllers/auth/login.controller';
 import registrContoller from '#controllers/auth/registr.contoller';
 
@@ -26,7 +25,6 @@ router.post(
 router.post(
     '/create-tokens',
     tokenMiddlewar.checkRefreshToken,
-    userMiddlewar.checkRole,
     loginController.createNewTokenPair
 );
 
