@@ -15,7 +15,7 @@ const NewCardForm = (props) => {
     episodeTitle: '',
     episodeAirDate: '',
     series: '',
-    // image: ''
+    image: ''
   });
 
   const onChangeInputHandler = e => {
@@ -40,11 +40,11 @@ const NewCardForm = (props) => {
   };
 
   const onHandleCreateCard = async () => {
-    // const formData = new FormData();
-    // formData.append(inputValues.image.name, inputValues.image);
-    // Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
-    // props.dispatch(createCard(formData));
-    props.dispatch(createCard(inputValues));
+    const formData = new FormData();
+    formData.append('image', inputValues.image);
+    Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
+    props.dispatch(createCard(formData));
+    // props.dispatch(createCard(inputValues));
 
     setInputValues({
       name: '',
@@ -56,7 +56,7 @@ const NewCardForm = (props) => {
       episodeTitle: '',
       episodeAirDate: '',
       series: '',
-      // image: '',
+      image: '',
     });
 
     props.setIsModalVisible(false);
@@ -117,10 +117,10 @@ const NewCardForm = (props) => {
             <input type={'text'} name={'series'} value={inputValues.series} onChange={onChangeInputHandler} />
           </div>
 
-          {/* <div>
+          <div>
             <label>Image</label>
             <input type={'file'} name={'image'} value={inputValues.image} onChange={onChangeInputHandler} />
-          </div> */}
+          </div>
 
           {/* {props.alert && <Alert msg={props.alert} />} */}
           

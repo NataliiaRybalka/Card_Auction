@@ -41,12 +41,12 @@ export function* createCardWorker(data) {
   }
 };
 const createCard = async (data) => {
-  // return await axios.post(`${LOCALHOST}cards`, data, {
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data',
-  //     'Authorization': localStorage.getItem('accessToken')
-  //   }
-  // });
-  const { request } = httpHelper();
-  return await request(`${LOCALHOST}cards`, localStorage.getItem('accessToken'), 'POST', data);
+  return await axios.post(`${LOCALHOST}cards`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data; boundary=something',
+      'Authorization': localStorage.getItem('accessToken')
+    }
+  });
+  // const { request } = httpHelper();
+  // return await request(`${LOCALHOST}cards`, localStorage.getItem('accessToken'), 'POST', data);
 };

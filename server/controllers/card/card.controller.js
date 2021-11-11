@@ -16,7 +16,7 @@ class CardController {
 
     async createCard(req, res, next) {
         try {
-            return res.status(Created).json(await cardService.createCard(req.body));
+            return res.status(Created).json(await cardService.createCard(req.body, req.photo));
         } catch (e) {
             next(e);
         }

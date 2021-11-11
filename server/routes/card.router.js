@@ -20,6 +20,7 @@ router.post(
     '/',
     userMiddlewar.checkIsAdmin,
     cardMiddlewar.checkCardDataValidity,
+    cardMiddlewar.checkCardImageValidity,
     cardMiddlewar.checkIsCardBeenAdd,
     cardController.createCard
 );

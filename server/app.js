@@ -1,6 +1,8 @@
 import cors from 'cors';
 import express from 'express';
+import fileupload from 'express-fileupload';
 import { Server } from 'socket.io';
+import path from 'path';
 
 import { PORT } from './constants/env.constants';
 import cronRun from './helpers/cron.helper';
@@ -18,6 +20,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(process.cwd(), 'static')));
+
+app.use(fileupload({}));
 
 app.use('/auctions', auctionRouter);
 app.use('/auth', authRouter);

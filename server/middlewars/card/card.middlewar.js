@@ -20,6 +20,37 @@ class CardMiddlewar {
         }
     };
 
+    async checkCardImageValidity(req, res, next) {
+        try {
+            if (req.files) {
+                const file = Object.values(req.files);
+
+                const { size, mimetype } = file;
+                if (!IMAGE_MIMETYPES.includes(mimetype)) {
+                    throw new ErrorHandler(
+                        responseCodes.Unsupported_Media_Type,
+                        errorMessages.WRONG_MIMETYPE.message,
+                        errorMessages.WRONG_MIMETYPE.code
+                    )
+                }
+                if (size > IMAGE_MAX_SIZE) {
+                    throw new ErrorHandler(
+                        responseCodes.Unsupported_Media_Type,
+                        errorMessages.WRONG_FILE_SIZE.message,
+                        errorMessages.WRONG_FILE_SIZE.code
+                    )
+                }
+
+                req.photo = file;
+            }
+            
+            next();
+        } catch (e) {
+            logger.error(e.errors);
+            res.status(BadRequest).json(e.errors);
+        }
+    };
+
     async checkIsCardBeenAdd(req, res, next) {
         try {
             const { name } = req.body;

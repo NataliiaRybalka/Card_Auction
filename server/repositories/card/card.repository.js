@@ -49,6 +49,15 @@ class CardRepository {
         }
     };
 
+    async addImageForCard(id, image) {
+        try {
+            return await Card.forge({ id }).save({ image });
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
+
     async getOneCardByName(name) {
         try {
             return await Card.where({ name }).fetch();
