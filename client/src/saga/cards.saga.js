@@ -47,6 +47,4 @@ const createCard = async (data) => {
       'Authorization': localStorage.getItem('accessToken')
     }
   });
-  // const { request } = httpHelper();
-  // return await request(`${LOCALHOST}cards`, localStorage.getItem('accessToken'), 'POST', data);
 };

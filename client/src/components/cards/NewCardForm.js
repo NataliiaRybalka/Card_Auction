@@ -20,17 +20,15 @@ const NewCardForm = (props) => {
 
   const onChangeInputHandler = e => {
     if (e.target.name === 'isAlive') {
-      if (e.target.value === 'alive') {
-        setInputValues(prev => ({
-          ...prev,
-          ...{isAlive: true}
-        }));
-      } else if (e.target.value === 'dead') {
-        setInputValues(prev => ({
-          ...prev,
-          ...{isAlive: false}
-        }));
-      }
+      setInputValues(prev => ({
+        ...prev,
+        ...{isAlive: e.target.value === 'alive' ? true : false}
+      }));
+    } else if (e.target.name === 'image') {
+      setInputValues(prev => ({
+        ...prev,
+        ...{image: e.target.files[0]}
+      }));
     } else {
       setInputValues(prev => ({
         ...prev,
@@ -44,7 +42,6 @@ const NewCardForm = (props) => {
     formData.append('image', inputValues.image);
     Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
     props.dispatch(createCard(formData));
-    // props.dispatch(createCard(inputValues));
 
     setInputValues({
       name: '',
@@ -56,7 +53,7 @@ const NewCardForm = (props) => {
       episodeTitle: '',
       episodeAirDate: '',
       series: '',
-      image: '',
+      image: ''
     });
 
     props.setIsModalVisible(false);
@@ -119,7 +116,7 @@ const NewCardForm = (props) => {
 
           <div>
             <label>Image</label>
-            <input type={'file'} name={'image'} value={inputValues.image} onChange={onChangeInputHandler} />
+            <input type={'file'} name={'image'} value={undefined} onChange={onChangeInputHandler} />
           </div>
 
           {/* {props.alert && <Alert msg={props.alert} />} */}
