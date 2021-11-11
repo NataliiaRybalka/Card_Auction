@@ -1,5 +1,5 @@
 import logger from '#config/logger.config';
-import { USER } from '#constants/project.constants';
+import { ALIVE, DEAD, USER } from '#constants/project.constants';
 import { ErrorHandler } from '#helpers/error.handler';
 import { createPhotoPath } from '#helpers/createPhotoPath';
 import cardRepository from '#repositories/card/card.repository';
@@ -79,12 +79,15 @@ class CardService {
 
     async createCard(cardData, photo) {
         try {
-            const { name, isAlive, species, gender, locationTitle, locationType, episodeTitle, episodeAirDate, series } = cardData;
+            let { name, isAlive, species, gender, locationTitle, locationType, episodeTitle, episodeAirDate, series } = cardData;
+            isAlive = isAlive === ALIVE ? true : false;
 
             const location = await locationService.createLocation(locationTitle, locationType);
             const episode = await episodeService.createEpisode(episodeTitle, episodeAirDate, series);
 
-            let card = await cardRepository.createCard(name, isAlive, species, gender, location.id);
+            const a = await cardRepository.createCard(name, isAlive, species, gender, location.id);
+            console.log(a);
+            let card = cardRepository.getOneCardByName(name);
             card = card.toJSON();
 
             await cardEpisodeRepository.createCardEpisode(card.id, episode.id);

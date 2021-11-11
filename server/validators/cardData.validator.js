@@ -3,7 +3,7 @@ import yup from 'yup';
 class CardDataValidator {
     createCardData = yup.object({
         name: yup.string().required(),
-        isAlive: yup.boolean().required(),
+        isAlive: yup.string().required(),
         species: yup.string().required(),
         gender: yup.string().required(),
         locationTitle: yup.string().required(),

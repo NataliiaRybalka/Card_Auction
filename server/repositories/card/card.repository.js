@@ -32,7 +32,7 @@ class CardRepository {
         }
     };
 
-    async createCard(name, is_alive, species, gender, location_id, image) {
+    async createCard(name, is_alive, species, gender, location_id) {
         try {
             return await Card.forge({
                 name,
@@ -40,7 +40,6 @@ class CardRepository {
                 species,
                 gender,
                 location_id,
-                image,
                 created_at: new Date()
             }).save();
         }  catch (e) {

@@ -19,7 +19,7 @@ router.get(
 router.post(
     '/',
     userMiddlewar.checkIsAdmin,
-    // cardMiddlewar.checkCardDataValidity,
+    cardMiddlewar.checkCardDataValidity,
     cardMiddlewar.checkCardImageValidity,
     cardMiddlewar.checkIsCardBeenAdd,
     cardController.createCard

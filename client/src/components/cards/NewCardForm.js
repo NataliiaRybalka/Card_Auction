@@ -19,12 +19,7 @@ const NewCardForm = (props) => {
   });
 
   const onChangeInputHandler = e => {
-    if (e.target.name === 'isAlive') {
-      setInputValues(prev => ({
-        ...prev,
-        ...{isAlive: e.target.value === 'alive' ? true : false}
-      }));
-    } else if (e.target.name === 'image') {
+    if (e.target.name === 'image') {
       setInputValues(prev => ({
         ...prev,
         ...{image: e.target.files[0]}
