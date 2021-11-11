@@ -10,8 +10,7 @@ class CardDataValidator {
         locationType: yup.string().required(),
         episodeTitle: yup.string().required(),
         episodeAirDate: yup.string().required(),
-        series: yup.string().required(),
-        image: yup.string().required()
+        series: yup.string().required()
     });
 }
 

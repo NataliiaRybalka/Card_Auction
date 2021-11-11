@@ -2,8 +2,9 @@ import { useState } from "react";
 import { connect } from "react-redux";
 
 import { Alert } from "../alert/Alert";
+import { createCard } from "../../redux/actions/cards.actions";
 
-const NewCardForm = ({ isModalVisible, setIsModalVisible }) => {
+const NewCardForm = (props) => {
   const [inputValues, setInputValues] = useState({
     name: '',
     isAlive: '',
@@ -14,23 +15,36 @@ const NewCardForm = ({ isModalVisible, setIsModalVisible }) => {
     episodeTitle: '',
     episodeAirDate: '',
     series: '',
-    image: ''
+    // image: ''
   });
 
   const onChangeInputHandler = e => {
-    setInputValues(prev => ({
+    if (e.target.name === 'isAlive') {
+      if (e.target.value === 'alive') {
+        setInputValues(prev => ({
+          ...prev,
+          ...{isAlive: true}
+        }));
+      } else if (e.target.value === 'dead') {
+        setInputValues(prev => ({
+          ...prev,
+          ...{isAlive: false}
+        }));
+      }
+    } else {
+      setInputValues(prev => ({
         ...prev,
         ...{[e.target.name]: e.target.value}
-    }));
+      }));
+    }
   };
 
-  const onHandleLogin = async () => {
-    // props.dispatch(login(inputValues));
-
-    const formData = new FormData();
-    formData.append(inputValues.image.name, inputValues.image);
-
-    Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
+  const onHandleCreateCard = async () => {
+    // const formData = new FormData();
+    // formData.append(inputValues.image.name, inputValues.image);
+    // Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
+    // props.dispatch(createCard(formData));
+    props.dispatch(createCard(inputValues));
 
     setInputValues({
       name: '',
@@ -42,14 +56,14 @@ const NewCardForm = ({ isModalVisible, setIsModalVisible }) => {
       episodeTitle: '',
       episodeAirDate: '',
       series: '',
-      image: '',
+      // image: '',
     });
 
-    setIsModalVisible(false);
+    props.setIsModalVisible(false);
   };
 
   return (
-    <div className={isModalVisible ? 'modal active' : 'modal'} onClick={() => setIsModalVisible(false)}>
+    <div className={props.isModalVisible ? 'modal active' : 'modal'} onClick={() => props.setIsModalVisible(false)}>
       <div className={'modalContent'} onClick={e => e.stopPropagation()}>
         <div className={'form'}>
           <div>
@@ -103,14 +117,14 @@ const NewCardForm = ({ isModalVisible, setIsModalVisible }) => {
             <input type={'text'} name={'series'} value={inputValues.series} onChange={onChangeInputHandler} />
           </div>
 
-          <div>
+          {/* <div>
             <label>Image</label>
             <input type={'file'} name={'image'} value={inputValues.image} onChange={onChangeInputHandler} />
-          </div>
+          </div> */}
 
           {/* {props.alert && <Alert msg={props.alert} />} */}
           
-          <button onClick={onHandleLogin}>send</button>
+          <button onClick={onHandleCreateCard}>send</button>
         </div>
       </div>
     </div>
@@ -119,9 +133,7 @@ const NewCardForm = ({ isModalVisible, setIsModalVisible }) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.authReducer.user,
-    userTokens: state.authReducer.userTokens,
-    alert: state.alertReducer.alert
+    card: state.cardsReducer.card
   }
 };
 
