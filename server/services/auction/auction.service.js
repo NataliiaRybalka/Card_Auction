@@ -5,6 +5,7 @@ import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
 import cardRepository from '#repositories/card/card.repository';
 import cronRepository from '#repositories/cron/cron.repository';
+import userRepository from '#repositories/user/user.repository';
 import balanceService from '#services/balance/balance.service';
 import cardService from '#services/card/card.service';
 import userService from '#services/user/user.service';
@@ -20,6 +21,12 @@ class AuctionService {
                 let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
                 card = card.toJSON();
                 auction.card = card;
+
+                if (auction.customer_id) {
+                    let user = await userRepository.getUserLoginById(auction.customer_id);
+                    user = user.toJSON();
+                    auction.customer_id = user;
+                }
 
                 const finalDateMS = Date.parse(auction.created_at) + auction.max_time;
                 const date = new Date(finalDateMS).toString();

@@ -49,6 +49,15 @@ class UserRepository {
         }
     };
 
+    async getUserLoginById(id) {
+        try {
+            return await User.where({ id }).fetch({ columns: ['id', 'login'] });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
     async updateUserData(id, login, email, password, role) {
         try {
             return await User.forge({ id }).save({ login, email, password, role });

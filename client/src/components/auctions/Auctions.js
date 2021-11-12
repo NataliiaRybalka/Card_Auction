@@ -25,6 +25,8 @@ export const Auctions = () => {
             <th>max price</th>
             <th>min step</th>
             <th>duration</th>
+            <th>currect price</th>
+            <th>current customer</th>
           </tr>
         </thead>
 
@@ -44,6 +46,8 @@ export const Auctions = () => {
                 {auction.finalDate} &emsp;
                 <span className={auction.status === 'active' ? 'auctionActiveCircle' : 'auctionInactiveCircle'}></span>
               </td>
+              <td>{auction.current_price}</td>
+              <td>{!!auction.customer_id && auction.customer_id.login}</td>
             </tr>
           ))}
         </tbody>
