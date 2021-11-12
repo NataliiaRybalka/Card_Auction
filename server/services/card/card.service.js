@@ -12,17 +12,17 @@ class CardService {
         try {
             let cards = await cardRepository.getAllCards();
             cards = cards.toJSON();
-            
+
             for (const card of cards) {
                 let location = await locationService.getLocationById(card.location_id);
                 location = location.toJSON();
 
                 card.location_title = location.title;
                 card.location_type = location.type;
-
+                
                 let cardEpisode = await cardEpisodeRepository.getCardEpisodeByCardId(card.id);
                 cardEpisode = cardEpisode.toJSON();
-
+                
                 let episode = await episodeService.getEpisodeById(cardEpisode.episode_id);
                 episode = episode.toJSON();
 
@@ -85,9 +85,7 @@ class CardService {
             const location = await locationService.createLocation(locationTitle, locationType);
             const episode = await episodeService.createEpisode(episodeTitle, episodeAirDate, series);
 
-            const a = await cardRepository.createCard(name, isAlive, species, gender, location.id);
-            console.log(a);
-            let card = cardRepository.getOneCardByName(name);
+            let card = await cardRepository.createCard(name, isAlive, species, gender, location.id);
             card = card.toJSON();
 
             await cardEpisodeRepository.createCardEpisode(card.id, episode.id);

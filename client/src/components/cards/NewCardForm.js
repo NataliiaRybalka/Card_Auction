@@ -9,7 +9,7 @@ const NewCardForm = (props) => {
     name: '',
     isAlive: '',
     species: '',
-    gender: '',
+    gender: 'male',
     locationTitle: '',
     locationType: '',
     episodeTitle: '',
