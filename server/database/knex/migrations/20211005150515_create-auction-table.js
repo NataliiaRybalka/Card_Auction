@@ -10,7 +10,6 @@ exports.up = function(knex) {
         table.integer('current_price');
         table.integer('min_step');
         table.integer('max_time');
-        table.integer('min_extension_time');
         table.dateTime('created_at');
         table.string('status');
         table.integer('customer_id').unsigned();

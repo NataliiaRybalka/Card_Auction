@@ -6,8 +6,7 @@ class AuctionDataValidator {
         initPrice: yup.number().required(),
         maxPrice: yup.number().required(),
         minStep: yup.number().required(),
-        maxTime: yup.number().required(),
-        minExtensionTime: yup.number().required()
+        maxTime: yup.number().required()
     });
 }
 

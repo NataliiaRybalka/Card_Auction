@@ -15,7 +15,7 @@ class AuctionRepository {
         }
     };
 
-    async createAuction(lot_id, lot_type, init_price, max_price, min_step, max_time, min_extension_time) {
+    async createAuction(lot_id, lot_type, init_price, max_price, min_step, max_time) {
         try {
             return await Auction.forge({
                 lot_id,
@@ -24,7 +24,6 @@ class AuctionRepository {
                 max_price,
                 min_step,
                 max_time,
-                min_extension_time,
                 created_at: new Date(),
                 status: ACTIVE
             }).save();

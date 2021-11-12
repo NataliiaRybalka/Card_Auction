@@ -21,13 +21,12 @@ class AuctionService {
 
     async createAuction(auctionData, role) {
         try {
-            const { lotId, initPrice, maxPrice, minStep, maxTime, minExtensionTime } = auctionData;
+            const { lotId, initPrice, maxPrice, minStep, maxTime } = auctionData;
 
             const maxTimeNum = maxTime * 24 * 60 * 60 * 1000;
-            const minExtensionTimeNum = minExtensionTime * 24 * 60 * 60 * 1000;
             const lotType = (role === ADMIN) ? CARD : USER_CARD;
 
-            let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, minStep, maxTimeNum, minExtensionTimeNum);
+            let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, minStep, maxTimeNum);
             createdAuction = createdAuction.toJSON();
 
             return await auctionRepository.getOneAuctionById(createdAuction.id);

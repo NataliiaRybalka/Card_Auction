@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 import { Alert } from "../alert/Alert";
 import { createAuction } from "../../redux/actions/auctions.actions";
@@ -8,14 +8,13 @@ import { createAuction } from "../../redux/actions/auctions.actions";
 const NewAuctionForm = (props) => {
   const [inputValues, setInputValues] = useState({
     lotId: props.card,
-    initPrice: 0,
-    maxPrice: 0,
-    minStep: 0,
-    maxTime: 0,
-    minExtensionTime: 0
+    initPrice: '',
+    maxPrice: '',
+    minStep: '',
+    maxTime: ''
   });
   const [msg, setMsg] = useState();
-  const history = useHistory();
+  const location = useHistory();
 
   const onChangeInputHandler = e => {
     setInputValues(prev => ({
@@ -35,15 +34,14 @@ const NewAuctionForm = (props) => {
     props.dispatch(createAuction(inputValues));
 
     setInputValues({
-      lotId: 0,
-      initPrice: 0,
-      maxPrice: 0,
-      minStep: 0,
-      maxTime: 0,
-      minExtensionTime: 0,
+      lotId: props.card,
+      initPrice: '',
+      maxPrice: '',
+      minStep: '',
+      maxTime: ''
     });
 
-    // history.go(0);
+    location.replace('/admin/auction');
   };
 
   return (
@@ -68,11 +66,6 @@ const NewAuctionForm = (props) => {
           <div>
             <label>Duration</label>
             <input type={'number'} name={'maxTime'} value={inputValues.maxTime} onChange={onChangeInputHandler} />
-          </div>
-
-          <div>
-            <label>Min Extension Time</label>
-            <input type={'number'} name={'minExtensionTime'} value={inputValues.minExtensionTime} onChange={onChangeInputHandler} />
           </div>
 
           {msg && <Alert msg={msg} />}

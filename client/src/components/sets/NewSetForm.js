@@ -10,7 +10,7 @@ import { getCards } from "../../redux/actions/cards.actions";
 const NewSetForm = (props) => {
   const [inputValues, setInputValues] = useState({
     title: '',
-    bonus: 0,
+    bonus: '',
     cards: [],
     cardName: ''
   });
@@ -61,7 +61,7 @@ const NewSetForm = (props) => {
 
     setInputValues({
       title: '',
-      bonus: 0,
+      bonus: '',
       cards: [],
       cardName: ''
     });

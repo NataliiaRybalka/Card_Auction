@@ -6,7 +6,7 @@ const initialState = {
 
 export const auctionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_AUCTION_SUCCESS: 
+    case CREATE_AUCTION_SUCCESS:
       return {...state, auction: action.payload};
 
     default: 

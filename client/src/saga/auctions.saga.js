@@ -6,7 +6,7 @@ import { WrongToken } from "../constants/errorMessages.enum";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
 import { POST } from "../constants/httpMethods";
-import { CREATE_AUCTION_SUCCESS } from "../types/auctions.types";
+import { CREATE_AUCTION_SUCCESS } from "../redux/types/auctions.types";
 
 export function* createAuctionWorker(data) {
   try {
@@ -22,7 +22,7 @@ export function* createAuctionWorker(data) {
     }
   }
 };
-const createAuction = (data) => {
+const createAuction = async (data) => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}auctions`, localStorage.getItem('accessToken'), POST, data);
 };
