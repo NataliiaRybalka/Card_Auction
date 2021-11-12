@@ -12,8 +12,7 @@ class CardSetController {
 
     async createCardSet(req, res, next) {
         try {
-            const { cardId, setId } = req.body;
-            res.status(Created).json(await cardSetService.createCardSet(cardId, setId));
+            res.status(Created).json(await cardSetService.createCardSet(req.body));
         } catch (e) {
             next(e);
         }

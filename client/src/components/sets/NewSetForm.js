@@ -1,29 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
+import './Sets.css';
 import { Alert } from "../alert/Alert";
 import { createSet } from "../../redux/actions/sets.actions";
+import { getCards } from "../../redux/actions/cards.actions";
 
 const NewSetForm = (props) => {
   const [inputValues, setInputValues] = useState({
-    name: ''
+    title: '',
+    bonus: 0,
+    cards: [],
+    cardName: ''
   });
   const [msg, setMsg] = useState();
+  const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
   const history = useHistory();
 
+  const dispatch = useDispatch();
+  const allCards = useSelector(state => state.cardsReducer.cards);
+  
+  useEffect(() => {
+    dispatch(getCards());
+  }, [dispatch]);
+
   const onChangeInputHandler = e => {
-    if (e.target.name === 'image') {
-      setInputValues(prev => ({
-        ...prev,
-        ...{image: e.target.files[0]}
-      }));
-    } else {
-      setInputValues(prev => ({
-        ...prev,
-        ...{[e.target.name]: e.target.value}
-      }));
-    }
+    setInputValues(prev => ({
+      ...prev,
+      ...{[e.target.name]: e.target.value}
+    }));
+  };
+
+  const onChangeFindInputHandler = e => {
+    setInputValues(prev => ({
+      ...prev,
+      ...{[e.target.name]: e.target.value}
+    }));
+
+    setArrayCardByLetters(allCards[0].filter(card => card.name.includes(e.target.value)));
+  };
+
+  const onSelectCardHandler = e => {
+    setInputValues(prev => ({
+      ...prev,
+      ...{cards: inputValues.cards.concat([e.target.textContent])}
+    }))
   };
 
   const onHandleCreateSet = async () => {
@@ -32,13 +55,18 @@ const NewSetForm = (props) => {
         setMsg(`All fields must be filled!`);
         return;
       }
-    }
+    };
 
+    delete inputValues['cardName']; 
     props.dispatch(createSet(inputValues));
 
     setInputValues({
-      name: ''
+      title: '',
+      bonus: 0,
+      cards: [],
+      cardName: ''
     });
+    setArrayCardByLetters([]);
 
     history.go(0);
   };
@@ -48,8 +76,21 @@ const NewSetForm = (props) => {
       <div className={'modalContent'} onClick={e => e.stopPropagation()}>
         <div className={'form'}>
           <div>
-            <label>Name</label>
-            <input type={'text'} name={'name'} value={inputValues.name} onChange={onChangeInputHandler} />
+            <label>Title</label>
+            <input type={'text'} name={'title'} value={inputValues.title} onChange={onChangeInputHandler} />
+          </div>
+
+          <div>
+            <label>Bonus</label>
+            <input type={'number'} name={'bonus'} value={inputValues.bonus} onChange={onChangeInputHandler} />
+          </div>
+
+          <div>
+            <label>Cards</label>
+            <p>{!!inputValues.cards.length && inputValues.cards.map(card => card + ', ')}</p>
+
+            <input type={'text'} name={'cardName'} value={inputValues.cardName} onChange={onChangeFindInputHandler} />
+            {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectCardHandler} >{card.name}</p>)}
           </div>
 
           {msg && <Alert msg={msg} />}

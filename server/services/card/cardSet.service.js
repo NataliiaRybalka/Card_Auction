@@ -4,6 +4,7 @@ import cardRepository from "#repositories/card/card.repository";
 import cardSetRepository from "#repositories/card/cardSet.repository";
 import cronRepository from '#repositories/cron/cron.repository';
 import setRepository from "#repositories/card/set.repository";
+import setService from './set.service';
 
 class CardSetService {
     async getAllCardSets() {
@@ -51,11 +52,23 @@ class CardSetService {
         }
     };
 
-    async createCardSet(cardId, setId) {
+    async createCardSet(setData) {
         try {
-            await cardSetRepository.createCardSet(cardId, setId);
+            const { title, bonus, cards } = setData;
+
+            let set = await setService.createSet(title, bonus);
+            set = set.toJSON();
+
+            for (const card of cards) {
+                let fullCard = await cardRepository.getOneCardByName(card);
+                fullCard = fullCard.toJSON();
+
+                await cardSetRepository.createCardSet(fullCard.id, set.id);
+            }
+
             await cronRepository.createTask();
-            return await cardSetRepository.getOneCardSetByCardId(cardId);
+
+            return  await cardSetRepository.getAllCardSetBySetId(set.id);
         }  catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
