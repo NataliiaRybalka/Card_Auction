@@ -13,14 +13,34 @@ export const Auctions = () => {
     dispatch(getAuctions());
   }, [dispatch]);
 
+  const [filter, setFilter] = useState({
+    active: '',
+    priceFrom: '',
+    priceTo: '',
+    sortPrice: 'DESC'
+  });
   const [isVisibleFilteringList, setIsVisibleFilteringList] = useState(false);
   const [isVisibleSortingList, setIsVisibleSortingList] = useState(false);
 
-  const onFilterSelectHandler = () => {
+  const onFilterHandler = () => {
     setIsVisibleFilteringList(!isVisibleFilteringList);
   };
-  const onSortingSelectHandler = () => {
+  const onSortingHandler = () => {
     setIsVisibleSortingList(!isVisibleSortingList);
+  };
+
+  const onChangePriceInput = e => {
+    setFilter(prev => ({
+      ...prev,
+      ...{[e.target.name]: e.target.value}
+    }))
+  };
+
+  const onSelectFilterHandler = e => {
+    setFilter(prev => ({
+      ...prev,
+      ...{[e.target.name]: e.target.value}
+    }))
   };
 
   return (
@@ -29,24 +49,36 @@ export const Auctions = () => {
 
       <div className={'auctionSelectBlock'}>
         <div className={'auctionFilteringBlock'}>
-          <span onClick={onFilterSelectHandler}>filtering</span>
+          <span onClick={onFilterHandler}>filtering</span>
 
           <nav className={isVisibleFilteringList ? 'auctionFiltering filterActive' : 'auctionFiltering'}>
-            <span id={'filterActive'}>
-              <label>active</label> <input type={'checkbox'} name={'active'} />
+            <span className={'filterCheckbox'}>
+              <label>active</label>
+              <input type={'checkbox'} name={'active'} value={'active'} onClick={onSelectFilterHandler} />
             </span>
+
             <span>name</span>
             <span>location</span>
-            <span>price</span>
+
+            <span id={'filterPrice'}>
+              <label>price</label>
+              <input type={'text'} name={'priceFrom'} value={filter.priceFrom} onChange={onChangePriceInput} onBlur={onSelectFilterHandler} placeholder={'from'} />
+              <input type={'text'} name={'priceTo'} value={filter.priceTo} onChange={onChangePriceInput} onBlur={onSelectFilterHandler} placeholder={'to'} />
+            </span>
           </nav>
         </div>
 
         <div className={'auctionSortingBlock'}>
-          <span onClick={onSortingSelectHandler}>sorting</span>
+          <span onClick={onSortingHandler}>sorting</span>
           
           <nav className={isVisibleSortingList ? 'auctionSorting filterActive' : 'auctionSorting'}>
-            <span>ascending</span>
-            <span>descending</span>
+            <span className={'filterCheckbox'}>
+              <label>ascending</label>
+              <input type={'radio'} name={'sortPrice'} value={'ASC'} onClick={onSelectFilterHandler} />
+              <br />
+              <label>descending</label>
+              <input type={'radio'} name={'sortPrice'} value={'DESC'} onClick={onSelectFilterHandler} />
+            </span>
           </nav>
         </div>
       </div>

@@ -40,10 +40,11 @@
   line-height: 15px;
 }
 
-#filterActive > label {
+.filterCheckbox > label {
   padding-right: 0;
 }
-#filterActive > input {
+
+.filterCheckbox > input{
   width: 20px;
 }
 
