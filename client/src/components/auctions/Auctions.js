@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import './Auctions.css';
@@ -13,9 +13,43 @@ export const Auctions = () => {
     dispatch(getAuctions());
   }, [dispatch]);
 
+  const [isVisibleFilteringList, setIsVisibleFilteringList] = useState(false);
+  const [isVisibleSortingList, setIsVisibleSortingList] = useState(false);
+
+  const onFilterSelectHandler = () => {
+    setIsVisibleFilteringList(!isVisibleFilteringList);
+  };
+  const onSortingSelectHandler = () => {
+    setIsVisibleSortingList(!isVisibleSortingList);
+  };
+
   return (
     <div className={'adminPage'}>
       <h2>Auctions</h2>
+
+      <div className={'auctionSelectBlock'}>
+        <div className={'auctionFilteringBlock'}>
+          <span onClick={onFilterSelectHandler}>filtering</span>
+
+          <nav className={isVisibleFilteringList ? 'auctionFiltering filterActive' : 'auctionFiltering'}>
+            <span id={'filterActive'}>
+              <label>active</label> <input type={'checkbox'} name={'active'} />
+            </span>
+            <span>name</span>
+            <span>location</span>
+            <span>price</span>
+          </nav>
+        </div>
+
+        <div className={'auctionSortingBlock'}>
+          <span onClick={onSortingSelectHandler}>sorting</span>
+          
+          <nav className={isVisibleSortingList ? 'auctionSorting filterActive' : 'auctionSorting'}>
+            <span>ascending</span>
+            <span>descending</span>
+          </nav>
+        </div>
+      </div>
 
       <table>
         <thead>

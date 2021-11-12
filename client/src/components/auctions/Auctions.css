@@ -17,3 +17,36 @@
   border-radius: 50%;
   display: inline-block;
 }
+
+.auctionSelectBlock {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
+}
+
+.auctionFilteringBlock > span, .auctionSortingBlock > span {
+  cursor: pointer;
+}
+
+.auctionFiltering, .auctionSorting {
+  display: none;
+}
+
+.filterActive {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  font-size: 15px;
+  line-height: 15px;
+}
+
+#filterActive > label {
+  padding-right: 0;
+}
+#filterActive > input {
+  width: 20px;
+}
+
+.auctionSortingBlock {
+  text-align: right;
+}
