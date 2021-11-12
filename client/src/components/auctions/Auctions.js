@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import './Auctions.css';
 import { LOCALHOST } from "../../constants/contants";
 import { getAuctions } from "../../redux/actions/auctions.actions";
 
@@ -39,7 +40,10 @@ export const Auctions = () => {
               <td>{auction.init_price}</td>
               <td>{auction.max_price}</td>
               <td>{auction.min_step}</td>
-              <td>{auction.finalDate}</td>
+              <td className={'auctionFinalDate'}>
+                {auction.finalDate} &emsp;
+                <span className={auction.status === 'active' ? 'auctionActiveCircle' : 'auctionInactiveCircle'}></span>
+              </td>
             </tr>
           ))}
         </tbody>

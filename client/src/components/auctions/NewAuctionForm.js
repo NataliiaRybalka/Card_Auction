@@ -41,7 +41,7 @@ const NewAuctionForm = (props) => {
       maxTime: ''
     });
 
-    location.replace('/admin/auction');
+    location.replace('/admin/auctions');
   };
 
   return (

@@ -1,0 +1,19 @@
+.auctionFinalDate {
+  font-size: 17px;
+}
+
+.auctionInactiveCircle {
+  height: 15px;
+  width: 15px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.auctionActiveCircle {
+  height: 15px;
+  width: 15px;
+  background-color: #00ff00;
+  border-radius: 50%;
+  display: inline-block;
+}
