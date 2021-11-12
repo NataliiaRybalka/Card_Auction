@@ -12,7 +12,6 @@ import balanceRouter from './routes/balance.router';
 import cardRouter from './routes/card.router';
 import cardSetRouter from './routes/cardSet.router';
 import historyRouter from './routes/history.router';
-import setRouter from './routes/set.router';
 import userRouter from './routes/user.router';
 
 const app = express();
@@ -30,7 +29,6 @@ app.use('/balance', balanceRouter);
 app.use('/cards', cardRouter);
 app.use('/card-sets', cardSetRouter);
 app.use('/history', historyRouter);
-app.use('/sets', setRouter);
 app.use('/users', userRouter);
 
 app.use((err, req, res, next) => {

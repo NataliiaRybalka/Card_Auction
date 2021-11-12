@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import './Sets.css';
 import { LOCALHOST } from "../../constants/contants";
 import { getSets } from "../../redux/actions/sets.actions";
 import NewSetForm from "./NewSetForm";
