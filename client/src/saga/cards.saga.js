@@ -2,7 +2,7 @@ import { put, call } from "redux-saga/effects";
 import axios from 'axios';
 
 import { LOCALHOST } from "../constants/contants";
-import { OK, Unauthorized,Created } from "../constants/responseCodes.enum";
+import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { GET_CARDS, CREATE_CARD_SUCCESS } from '../redux/types/cards.types';
 import { httpHelper } from "../helpers/http.helper";
