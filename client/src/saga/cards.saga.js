@@ -2,7 +2,7 @@ import { put, call } from "redux-saga/effects";
 import axios from 'axios';
 
 import { LOCALHOST } from "../constants/contants";
-import { OK, Unauthorized } from "../constants/responseCodes.enum";
+import { OK, Unauthorized,Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { GET_CARDS, CREATE_CARD_SUCCESS } from '../redux/types/cards.types';
 import { SHOW_ALERT } from "../redux/types/alert.types";
@@ -31,12 +31,13 @@ const getCards = async () => {
 export function* createCardWorker(data) {
   try {
     const payload = yield call(createCard, data.payload);
-    if (payload.status === 200) {
-      yield put({ type: CREATE_CARD_SUCCESS, payload });
+    if (payload.status === Created) {
+      yield put({ type: CREATE_CARD_SUCCESS, payload: payload.data });
     } else {
       throw payload;
     }
   } catch (e) {
+    console.log(e);
     yield put({ type: SHOW_ALERT, payload: e.data });
   }
 };

@@ -7,7 +7,7 @@ import { Card } from '#models/Card';
 class CardRepository {
     async getAllCards() {
         try {
-            return await Card.fetchAll();
+            return await Card.query(qb => qb.orderBy('created_at', 'DESC')).fetchAll();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

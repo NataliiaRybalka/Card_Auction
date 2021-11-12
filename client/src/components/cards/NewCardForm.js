@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { Alert } from "../alert/Alert";
 import { createCard } from "../../redux/actions/cards.actions";
@@ -17,6 +18,7 @@ const NewCardForm = (props) => {
     series: '',
     image: ''
   });
+  const history = useHistory();
 
   const onChangeInputHandler = e => {
     if (e.target.name === 'image') {
@@ -51,7 +53,7 @@ const NewCardForm = (props) => {
       image: ''
     });
 
-    props.setIsModalVisible(false);
+    history.go(0);
   };
 
   return (
@@ -114,7 +116,7 @@ const NewCardForm = (props) => {
             <input type={'file'} name={'image'} value={undefined} onChange={onChangeInputHandler} />
           </div>
 
-          {/* {props.alert && <Alert msg={props.alert} />} */}
+          {props.alert && <Alert msg={props.alert} />}
           
           <button onClick={onHandleCreateCard}>send</button>
         </div>
@@ -125,7 +127,8 @@ const NewCardForm = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    card: state.cardsReducer.card
+    card: state.cardsReducer.card,
+    alert: state.alertReducer.alert
   }
 };
 

@@ -1,12 +1,15 @@
 import './Cards.css';
+import { LOCALHOST } from "../../constants/contants";
 
 export const Card = ({ card }) => {
 
   return (
     <div className={'card'}>
-      <div className={'cardImgBlock'}>
-        <img src={''} alt={card.name} />
-      </div>
+      {!!card.image && (
+        <div className={'cardImgBlock'}>
+          <img src={`${LOCALHOST}/${card.image}`} alt={card.name} className={'cardImg'} />
+        </div>)
+      }
 
       <div className={'cardInfoBlock'}>
         <h3 className={'cardTitle'}>{card.name}</h3>

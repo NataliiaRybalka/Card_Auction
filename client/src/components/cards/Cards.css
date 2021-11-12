@@ -8,7 +8,6 @@
   border: 1px solid #ff4dff;
   width: 45%;
   margin-top: 50px;
-  padding: 20px 0;
   display: flex;
 }
 
@@ -16,9 +15,15 @@
   width: 40%;
 }
 
+.cardImg {
+  height: 100%;
+  width: 100%;
+}
+
 .cardInfoBlock {
   font-size: 17px;
   line-height: 1em;
+  padding-left: 20px;
 }
 
 .cardTitle {

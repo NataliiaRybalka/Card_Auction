@@ -8,7 +8,7 @@ import { ErrorHandler } from '#helpers/error.handler';
 class AuctionRepository {
     async getAllAuctions() {
         try {
-            return await Auction.fetchAll();
+            return await Auction.query(qb => qb.orderBy('created_at', 'DESC')).fetchAll();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
