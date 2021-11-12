@@ -5,7 +5,6 @@ import { LOCALHOST } from "../constants/contants";
 import { OK, Unauthorized,Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { GET_CARDS, CREATE_CARD_SUCCESS } from '../redux/types/cards.types';
-import { SHOW_ALERT } from "../redux/types/alert.types";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
 
@@ -37,8 +36,9 @@ export function* createCardWorker(data) {
       throw payload;
     }
   } catch (e) {
-    console.log(e);
-    yield put({ type: SHOW_ALERT, payload: e.data });
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
   }
 };
 const createCard = async (data) => {

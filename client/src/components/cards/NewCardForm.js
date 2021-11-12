@@ -18,6 +18,7 @@ const NewCardForm = (props) => {
     series: '',
     image: ''
   });
+  const [msg, setMsg] = useState();
   const history = useHistory();
 
   const onChangeInputHandler = e => {
@@ -35,6 +36,13 @@ const NewCardForm = (props) => {
   };
 
   const onHandleCreateCard = async () => {
+    for (const input in inputValues) {
+      if (inputValues[input] === '') {
+        setMsg(`All fields must be filled!`);
+        return;
+      }
+    }
+
     const formData = new FormData();
     formData.append('image', inputValues.image);
     Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
@@ -116,7 +124,7 @@ const NewCardForm = (props) => {
             <input type={'file'} name={'image'} value={undefined} onChange={onChangeInputHandler} />
           </div>
 
-          {props.alert && <Alert msg={props.alert} />}
+          {msg && <Alert msg={msg} />}
           
           <button onClick={onHandleCreateCard}>send</button>
         </div>
@@ -127,8 +135,7 @@ const NewCardForm = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    card: state.cardsReducer.card,
-    alert: state.alertReducer.alert
+    card: state.cardsReducer.card
   }
 };
 
