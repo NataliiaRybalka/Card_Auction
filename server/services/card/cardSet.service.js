@@ -32,7 +32,7 @@ class CardSetService {
             }
 
             for (let i = 0; i < newCardSets.length; i++) {
-                if (newCardSets[i].set.id === newCardSets[i + 1].set.id) {
+                if (i !== newCardSets.length - 1 && newCardSets[i].set.id === newCardSets[i + 1].set.id) {
                     newCardSets.splice((i + 1), 1);
                 }
             }

@@ -4,11 +4,13 @@ import { alertReducer } from "./alert.reducer";
 import { usersReducer } from "./users.reducer";
 import { cardsReducer } from "./cards.reducer";
 import { setsReducer } from "./sets.reducer";
+import { auctionReducer } from "./auctions.reducer";
 
 export const rootReducer = combineReducers({
   authReducer,
   alertReducer,
   usersReducer,
   cardsReducer,
-  setsReducer
+  setsReducer,
+  auctionReducer
 });

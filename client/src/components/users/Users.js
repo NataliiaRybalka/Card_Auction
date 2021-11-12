@@ -40,7 +40,7 @@ export const Users = () => {
             <td>{user.login}</td>
             <td>{user.email}</td>
             <td>{user.rating}</td>
-            <td> <button onClick={() => makeAdminHandler(user)}>change to {user.role_id.title === ADMIN ? USER : ADMIN}</button> </td>
+            <td> <button onClick={() => makeAdminHandler(user)}>change to {(!!user.role_id && user.role_id.title === ADMIN) ? USER : ADMIN}</button> </td>
           </tr>
         ))}
         </tbody>

@@ -36,6 +36,12 @@
   line-height: 0;
 }
 
+.startAuctionBtn {
+  margin: 20px 0;
+  font-size: 15px;
+  width: 150px;
+}
+
 #cardPageHeader {
   display: flex;
   justify-content: space-between;
