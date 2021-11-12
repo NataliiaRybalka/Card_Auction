@@ -3,16 +3,33 @@ import { CARD, USER_CARD } from "#constants/database.enum";
 import { ADMIN } from "#constants/project.constants";
 import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
+import cardRepository from '#repositories/card/card.repository';
+import cronRepository from '#repositories/cron/cron.repository';
 import balanceService from '#services/balance/balance.service';
 import cardService from '#services/card/card.service';
-import cronRepository from '#repositories/cron/cron.repository';
 import userService from '#services/user/user.service';
 import userCardService from '#services/user/userCard.service';
 
 class AuctionService {
     async getAllAuctions() {
         try {
-            return await auctionRepository.getAllAuctions();
+            let auctions = await auctionRepository.getAllAuctions();
+            auctions = auctions.toJSON();
+            
+            for (const auction of auctions) {
+                let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
+                card = card.toJSON();
+                auction.card = card;
+
+                const finalDateMS = Date.parse(auction.created_at) + auction.max_time;
+                const date = new Date(finalDateMS).toString();
+                const finalDate = date.split(' ');
+                finalDate.splice(5);
+                finalDate.splice(0, 1);
+                auction.finalDate = finalDate.join(' ');
+            }
+
+            return auctions;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

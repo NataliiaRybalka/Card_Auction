@@ -32,6 +32,15 @@ class CardRepository {
         }
     };
 
+    async getNameAndImageOneCardById(id) {
+        try {
+            return await Card.where({ id }).fetch({ columns: ['id', 'name', 'image'] });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
     async createCard(name, is_alive, species, gender, location_id) {
         try {
             return await Card.forge({

@@ -15,7 +15,7 @@ class CardSetService {
             let cards = [];
             let sets = [];
             for (const cardSet of cardSets) {
-                const card = await cardRepository.getOneCardById(cardSet.card_id);
+                const card = await cardRepository.getNameAndImageOneCardById(cardSet.card_id);
                 cards.push(card.toJSON());
 
                 const set = await setRepository.getOneSetById(cardSet.set_id);
