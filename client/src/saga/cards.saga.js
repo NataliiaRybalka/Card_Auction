@@ -37,8 +37,9 @@ export function* createCardWorker(data) {
       throw payload;
     }
   } catch (e) {
-    console.log(e);
-    yield put({ type: SHOW_ALERT, payload: e.data });
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
   }
 };
 const createCard = async (data) => {
