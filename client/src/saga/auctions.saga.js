@@ -45,3 +45,23 @@ const getAuctions = async () => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}auctions`, localStorage.getItem('accessToken'));
 };
+
+export function* getFilterAuctionsWorker(data) {
+  try {
+    const payload = yield call(getFilterAuctions(data.payload));
+    if (payload.status === OK) {
+      yield put({ type: GET_AUCTION, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const getFilterAuctions = async (data) => {
+  console.log(data);
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}auctions`, localStorage.getItem('accessToken'));
+};

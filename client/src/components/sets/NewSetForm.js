@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Alert } from "../alert/Alert";
 import { createSet } from "../../redux/actions/sets.actions";
@@ -19,7 +19,7 @@ const NewSetForm = (props) => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const allCards = useSelector(state => state.cardsReducer.cards);
+  const allCards = props.cards;
   
   useEffect(() => {
     dispatch(getCards());
@@ -57,7 +57,7 @@ const NewSetForm = (props) => {
     };
 
     delete inputValues['cardName']; 
-    props.dispatch(createSet(inputValues));
+    dispatch(createSet(inputValues));
 
     setInputValues({
       title: '',
@@ -89,7 +89,7 @@ const NewSetForm = (props) => {
             <p>{!!inputValues.cards.length && inputValues.cards.map(card => card + ', ')}</p>
 
             <input type={'text'} name={'cardName'} value={inputValues.cardName} onChange={onChangeFindInputHandler} />
-            {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectCardHandler} >{card.name}</p>)}
+            {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectCardHandler}>{card.name}</p>)}
           </div>
 
           {msg && <Alert msg={msg} />}
@@ -103,7 +103,8 @@ const NewSetForm = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    set: state.setsReducer.set
+    set: state.setsReducer.set,
+    cards: state.cardsReducer.cards
   }
 };
 

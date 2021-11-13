@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import './Auctions.css';
 import { LOCALHOST } from "../../constants/contants";
-import { getAuctions } from "../../redux/actions/auctions.actions";
+import { getAuctions, getFilterAuctions } from "../../redux/actions/auctions.actions";
 
 export const Auctions = () => {
   const dispatch = useDispatch();
   const auctions = useSelector(state => state.auctionReducer.auctions);
+  let auctionCards = [];
+  !!auctions.length && auctions[0].map(auction => auctionCards.push(auction.card));
+  auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
 
   useEffect(() => {
     dispatch(getAuctions());
@@ -17,48 +21,77 @@ export const Auctions = () => {
     active: '',
     priceFrom: '',
     priceTo: '',
-    sortPrice: 'DESC'
+    sortPrice: 'DESC',
+    card: '',
+    cardName: ''
   });
   const [isVisibleFilteringList, setIsVisibleFilteringList] = useState(false);
   const [isVisibleSortingList, setIsVisibleSortingList] = useState(false);
+  const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
+  const history = useHistory();
 
-  const onFilterHandler = () => {
-    setIsVisibleFilteringList(!isVisibleFilteringList);
-  };
-  const onSortingHandler = () => {
-    setIsVisibleSortingList(!isVisibleSortingList);
+  const onOpenHandler = e => {
+    if (e.target.textContent === 'filtering') {
+      setIsVisibleFilteringList(!isVisibleFilteringList);
+    } else if (e.target.textContent === 'sorting') {
+      setIsVisibleSortingList(!isVisibleSortingList);
+    }
   };
 
   const onChangePriceInput = e => {
     setFilter(prev => ({
       ...prev,
       ...{[e.target.name]: e.target.value}
-    }))
+    }));
+  };
+
+  const onChangeFindInputHandler = e => {
+    setFilter(prev => ({
+      ...prev,
+      ...{[e.target.name]: e.target.value}
+    }));
+
+    setArrayCardByLetters(auctionCards.filter(card => card.name.includes(e.target.value)));
   };
 
   const onSelectFilterHandler = e => {
     setFilter(prev => ({
       ...prev,
-      ...{[e.target.name]: e.target.value}
-    }))
+      ...{[e.target.name]: e.target.value},
+      ...{card: e.target.textContent}
+    }));
+
+    delete filter['cardName']; 
+
+    // send request
+    dispatch(getFilterAuctions(filter));
+
+    setFilter(prev => ({
+      ...prev,
+      ...{cardName: ''}
+    }));
+
+    // history.go(0);
   };
 
   return (
     <div className={'adminPage'}>
       <h2>Auctions</h2>
 
+      <div>
+        <input type={'text'} name={'cardName'} placeholder={'card name'} id={'cardNameInput'} value={filter.cardName} onChange={onChangeFindInputHandler} />
+        {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectFilterHandler} className={'arrayCardByLetters'} >{card.name}</p>)}
+      </div>
+
       <div className={'auctionSelectBlock'}>
         <div className={'auctionFilteringBlock'}>
-          <span onClick={onFilterHandler}>filtering</span>
+          <span onClick={onOpenHandler}>filtering</span>
 
           <nav className={isVisibleFilteringList ? 'auctionFiltering filterActive' : 'auctionFiltering'}>
             <span className={'filterCheckbox'}>
               <label>active</label>
               <input type={'checkbox'} name={'active'} value={'active'} onClick={onSelectFilterHandler} />
             </span>
-
-            <span>name</span>
-            <span>location</span>
 
             <span id={'filterPrice'}>
               <label>price</label>
@@ -69,7 +102,7 @@ export const Auctions = () => {
         </div>
 
         <div className={'auctionSortingBlock'}>
-          <span onClick={onSortingHandler}>sorting</span>
+          <span onClick={onOpenHandler}>sorting</span>
           
           <nav className={isVisibleSortingList ? 'auctionSorting filterActive' : 'auctionSorting'}>
             <span className={'filterCheckbox'}>
