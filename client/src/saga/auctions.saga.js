@@ -61,7 +61,13 @@ export function* getFilterAuctionsWorker(data) {
   }
 };
 const getFilterAuctions = async (data) => {
-  console.log(data);
+  let query = '?';
+  for (const filter in data) {
+    if (data[filter] !== '') {
+      query += `${filter}=${data[filter]}&`;
+    }
+  }
+
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}auctions`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}auctions${query}`, localStorage.getItem('accessToken'));
 };

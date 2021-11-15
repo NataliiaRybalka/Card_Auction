@@ -18,26 +18,20 @@
   display: inline-block;
 }
 
-.auctionSelectBlock {
+.auctionFilterBlock {
   display: flex;
   justify-content: space-between;
-  margin: 0 20px;
-}
-
-.auctionFilteringBlock > span, .auctionSortingBlock > span {
-  cursor: pointer;
-}
-
-.auctionFiltering, .auctionSorting {
-  display: none;
-}
-
-.filterActive {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+  margin: 20px;
   font-size: 15px;
   line-height: 15px;
+}
+
+.priceFilterInput {
+  width: 150px;
+}
+
+.filterCheckbox {
+  text-align: right;
 }
 
 .filterCheckbox > label {
@@ -61,4 +55,12 @@
 .arrayCardByLetters {
   margin-top: -20px;
   cursor: pointer;
+  font-size: 15px;
+}
+
+.filterOkBtn {
+  margin: 0;
+  font-size: 15px;
+  height: 30px;
+  width: 50px;
 }

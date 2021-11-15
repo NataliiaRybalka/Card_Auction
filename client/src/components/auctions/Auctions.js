@@ -18,52 +18,47 @@ export const Auctions = () => {
   }, [dispatch]);
 
   const [filter, setFilter] = useState({
-    active: '',
-    priceFrom: '',
-    priceTo: '',
+    priceMin: '',
+    priceMax: '',
     sortPrice: 'DESC',
     card: '',
     cardName: ''
   });
-  const [isVisibleFilteringList, setIsVisibleFilteringList] = useState(false);
-  const [isVisibleSortingList, setIsVisibleSortingList] = useState(false);
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
   const history = useHistory();
 
-  const onOpenHandler = e => {
-    if (e.target.textContent === 'filtering') {
-      setIsVisibleFilteringList(!isVisibleFilteringList);
-    } else if (e.target.textContent === 'sorting') {
-      setIsVisibleSortingList(!isVisibleSortingList);
-    }
-  };
-
-  const onChangePriceInput = e => {
-    setFilter(prev => ({
-      ...prev,
-      ...{[e.target.name]: e.target.value}
-    }));
-  };
-
-  const onChangeFindInputHandler = e => {
-    setFilter(prev => ({
-      ...prev,
-      ...{[e.target.name]: e.target.value}
-    }));
-
-    setArrayCardByLetters(auctionCards.filter(card => card.name.includes(e.target.value)));
-  };
-
-  const onSelectFilterHandler = e => {
+  const onChangeNameInputHandler = e => {
     setFilter(prev => ({
       ...prev,
       ...{[e.target.name]: e.target.value},
       ...{card: e.target.textContent}
     }));
 
-    delete filter['cardName']; 
+    if (e.target.name === 'cardName' && e.target.value !== '') {
+      setArrayCardByLetters(auctionCards.filter(card => card.name.includes(e.target.value)));
+    } else if (e.target.value !== '') {
+      setArrayCardByLetters([]);
+    }
+  };
 
-    // send request
+  const onSelectNameHandler = e => {
+    setFilter(prev => ({
+      ...prev,
+      ...{card: e.target.textContent}
+    }));
+
+    setArrayCardByLetters([]);
+  };
+
+  const onChangeInputHandler = e => {
+    setFilter(prev => ({
+      ...prev,
+      ...{[e.target.name]: e.target.value}
+    }));
+  };
+
+  const onSelectFilterHandler = () => {
+    delete filter['cardName']; 
     dispatch(getFilterAuctions(filter));
 
     setFilter(prev => ({
@@ -79,41 +74,27 @@ export const Auctions = () => {
       <h2>Auctions</h2>
 
       <div>
-        <input type={'text'} name={'cardName'} placeholder={'card name'} id={'cardNameInput'} value={filter.cardName} onChange={onChangeFindInputHandler} />
-        {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectFilterHandler} className={'arrayCardByLetters'} >{card.name}</p>)}
+        <input type={'text'} name={'cardName'} placeholder={'card name'} id={'cardNameInput'} value={filter.card ? filter.card : filter.cardName} onChange={onChangeNameInputHandler} />
+        {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectNameHandler} className={'arrayCardByLetters'} >{card.name}</p>)}
       </div>
 
-      <div className={'auctionSelectBlock'}>
-        <div className={'auctionFilteringBlock'}>
-          <span onClick={onOpenHandler}>filtering</span>
+      <div className={'auctionFilterBlock'}>
+        <span id={'filterPrice'}>
+          <label>price</label>
+          <input className={'priceFilterInput'} type={'text'} name={'priceMin'} value={filter.priceMin} onChange={onChangeInputHandler} placeholder={'min'} />
+          <span>&ndash;</span>
+          <input className={'priceFilterInput'} type={'text'} name={'priceMax'} value={filter.priceMax} onChange={onChangeInputHandler} placeholder={'max'} />
+        </span>
 
-          <nav className={isVisibleFilteringList ? 'auctionFiltering filterActive' : 'auctionFiltering'}>
-            <span className={'filterCheckbox'}>
-              <label>active</label>
-              <input type={'checkbox'} name={'active'} value={'active'} onClick={onSelectFilterHandler} />
-            </span>
+        <span className={'filterCheckbox'}>
+          <label>ascending</label>
+          <input type={'radio'} name={'sortPrice'} value={'ASC'} onChange={onChangeInputHandler} />
+          <br />
+          <label>descending</label>
+          <input type={'radio'} name={'sortPrice'} value={'DESC'} onChange={onChangeInputHandler} />
+        </span>
 
-            <span id={'filterPrice'}>
-              <label>price</label>
-              <input type={'text'} name={'priceFrom'} value={filter.priceFrom} onChange={onChangePriceInput} onBlur={onSelectFilterHandler} placeholder={'from'} />
-              <input type={'text'} name={'priceTo'} value={filter.priceTo} onChange={onChangePriceInput} onBlur={onSelectFilterHandler} placeholder={'to'} />
-            </span>
-          </nav>
-        </div>
-
-        <div className={'auctionSortingBlock'}>
-          <span onClick={onOpenHandler}>sorting</span>
-          
-          <nav className={isVisibleSortingList ? 'auctionSorting filterActive' : 'auctionSorting'}>
-            <span className={'filterCheckbox'}>
-              <label>ascending</label>
-              <input type={'radio'} name={'sortPrice'} value={'ASC'} onClick={onSelectFilterHandler} />
-              <br />
-              <label>descending</label>
-              <input type={'radio'} name={'sortPrice'} value={'DESC'} onClick={onSelectFilterHandler} />
-            </span>
-          </nav>
-        </div>
+        <button onClick={onSelectFilterHandler} className={'filterOkBtn'}>ok</button>
       </div>
 
       <table>
