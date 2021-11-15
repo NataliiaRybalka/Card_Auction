@@ -18,13 +18,20 @@ class AuctionRepository {
 
     async getAllAuctionsWithFilter(limit, offset, filter, sort) {
         try {
-            return await bookshelfConf.knex
+            const auctions = await bookshelfConf.knex
                 .select()
                 .where(bookshelfConf.knex.raw(filter))
                 .from('auction as a')
                 .limit(limit)
                 .offset(offset)
                 .orderBy('a.current_price', sort);
+
+            const totalItem = await Auction.count();
+            
+            return {
+                auctions,
+                totalItem
+            }
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

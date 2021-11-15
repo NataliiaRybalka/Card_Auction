@@ -41,7 +41,7 @@ class AuctionService {
 
     async getAllAuctions(params) {
         try {
-            const {
+            let {
                 limit,
                 offset,
                 lotId,
@@ -49,13 +49,15 @@ class AuctionService {
                 priceMax,
                 sortPrice
             } = params;
+            offset = (offset - 1) * limit;
 
             let auctions;
             let totalItem;
             if ( lotId || priceMin || priceMax || sortPrice) {
                 const { filter, sort } = this.createRawForGetFilteredAuctions({ lotId, priceMin, priceMax, sortPrice });
-                auctions = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
-                auctions = Object.values(JSON.parse(JSON.stringify(auctions)));
+                const res = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
+                auctions = Object.values(JSON.parse(JSON.stringify(res.auctions)));
+                totalItem = res.totalItem;
             } else {
                 const res = await auctionRepository.getAllAuctions(limit, offset);
                 auctions = res.toJSON();

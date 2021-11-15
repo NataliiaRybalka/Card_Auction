@@ -72,3 +72,13 @@
   font-size: 15px;
   height: 35px;
 }
+
+.pagePaginationBlock {
+  display: flex;
+  justify-content: center;
+}
+
+.pagePagination {
+  margin: 20px;
+  width: 50px;
+}

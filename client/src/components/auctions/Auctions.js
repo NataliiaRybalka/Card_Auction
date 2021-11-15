@@ -8,7 +8,7 @@ import { getAuctions } from "../../redux/actions/auctions.actions";
 export const Auctions = () => {
   const [filter, setFilter] = useState({
     limit: LIMIT,
-    offset: 0,
+    offset: 1,
     priceMin: '',
     priceMax: '',
     sortPrice: 'DESC',
@@ -18,10 +18,10 @@ export const Auctions = () => {
   });
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
   const dispatch = useDispatch();
-  const auctions = useSelector(state => state.auctionReducer.auctions.auctions);
-  const totalItem = useSelector(state => state.auctionReducer.auctions.totalItem);
+  const auctions = useSelector(state => state.auctionReducer.auctions);
+  const totalItem = useSelector(state => state.auctionReducer.totalItem);
   let auctionCards = [];
-  !!auctions && auctions.map(auction => auctionCards.push(auction.card));
+  !!auctions.length && auctions.map(auction => auctionCards.push(auction.card));
   auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
 
   useEffect(() => {
@@ -70,6 +70,18 @@ export const Auctions = () => {
     }));
   };
 
+  const pagesArray = [];
+  for (let i = 0; i < (totalItem / LIMIT); i++) {
+    pagesArray.push(i + 1);
+  }
+
+  const onSelectPageHandler = e => {
+    setFilter(prev => ({
+      ...prev,
+      ...{offset: +e.target.textContent}
+    }))
+  };
+
   return (
     <div className={'adminPage'}>
       <h2>Auctions</h2>
@@ -114,7 +126,7 @@ export const Auctions = () => {
         </thead>
 
         <tbody>
-          {!!auctions && auctions.map(auction => (
+          {!!auctions.length && auctions.map(auction => (
             <tr key={auction.id}>
               <td>
                 {!!auction.card.image 
@@ -135,6 +147,10 @@ export const Auctions = () => {
           ))}
         </tbody>
       </table>
+
+      <div className={'pagePaginationBlock'}>
+        {!!pagesArray.length && pagesArray.map(page => <button key={page} className={'pagePagination'} onClick={onSelectPageHandler}>{page}</button>)}
+      </div>
     </div>
   );
 };
