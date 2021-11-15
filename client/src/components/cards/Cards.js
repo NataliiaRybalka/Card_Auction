@@ -24,7 +24,7 @@ export const Cards = () => {
       </header>
       
       <div className={'cardsBlock'}>
-        {!!cards.length && cards[0].map(card => <Card card={card} key={card.id} />)}
+        {!!cards.length && cards.map(card => <Card card={card} key={card.id} />)}
       </div>
 
       <NewCardForm isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />

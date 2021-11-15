@@ -8,7 +8,7 @@ const initialState = {
 export const setsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SETS:
-      return {...state, sets: state.sets.concat([action.payload])};
+      return {...state, sets: action.payload};
     case CREATE_SET_SUCCESS:
       return {...state, set: action.payload};
   

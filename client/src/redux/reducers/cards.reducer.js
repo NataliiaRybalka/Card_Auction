@@ -8,7 +8,7 @@ const initialState = {
 export const cardsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CARDS:
-      return {...state, cards: state.cards.concat([action.payload])};
+      return {...state, cards: action.payload};
     case CREATE_CARD_SUCCESS:
       return {...state, card: action.payload};
   

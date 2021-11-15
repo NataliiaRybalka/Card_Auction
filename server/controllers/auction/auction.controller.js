@@ -6,7 +6,7 @@ import {io} from '../../app';
 class AuctionController {
     async getAllAuctions(req, res, next) {
         try {
-        res.status(OK).json(await auctionService.getAllAuctions());
+        res.status(OK).json(await auctionService.getAllAuctions(req.query));
         } catch (e) {
         next(e);
         }

@@ -31,7 +31,7 @@ class AuctionMiddlewar {
         let auction = await auctionRepository.getOneAuctionById(auctionId);
         auction = auction.toJSON();
 
-        const minStep = auction.current_price ? (auction.current_price + auction.min_step) : (auction.init_price + auction.min_step);
+        const minStep = auction.current_price + auction.min_step;
         if (minStep > newPrice) {
             throw new ErrorHandler(Forbidden, `You can not suggest less, then ${minStep}`);
         }

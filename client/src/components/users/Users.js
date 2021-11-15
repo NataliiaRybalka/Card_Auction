@@ -35,7 +35,7 @@ export const Users = () => {
         </thead>
 
         <tbody>
-        {!!users.length && users[0].map(user => (
+        {!!users.length && users.map(user => (
           <tr key={user.id}>
             <td>{user.login}</td>
             <td>{user.email}</td>

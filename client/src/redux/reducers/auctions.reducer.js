@@ -10,7 +10,7 @@ export const auctionReducer = (state = initialState, action) => {
     case CREATE_AUCTION_SUCCESS:
       return {...state, auction: action.payload};
     case GET_AUCTION:
-      return {...state, auctions: state.auctions.concat([action.payload])};
+      return {...state, auctions: action.payload};
 
     default: 
       return state;

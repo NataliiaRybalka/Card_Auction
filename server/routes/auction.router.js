@@ -29,7 +29,7 @@ router.post(
 router.put(
     '/:auctionId',
     auctionMiddlewar.checkIsCorrectRate,
-    balanceMiddlewar.checkBalans,
+    balanceMiddlewar.checkBalance,
     auctionMiddlewar.checkIsAuctionActive,
     auctionController.updateRateAuction
 );

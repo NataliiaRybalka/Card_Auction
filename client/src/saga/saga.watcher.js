@@ -20,6 +20,6 @@ export function* sagaWatcher() {
   yield takeEvery(REQUEST_SETS, getSetsWorker);
   yield takeEvery(CREATE_SET, createSetWorker);
   yield takeEvery(CREATE_AUCTION, createAuctionWorker);
-  yield takeEvery(REQUEST_AUCTION, getAuctionsWorker)
-  yield takeEvery(REQUEST_FILTER_AUCTION, getFilterAuctionsWorker)
+  yield takeEvery(REQUEST_AUCTION, getAuctionsWorker);
+  yield takeEvery(REQUEST_FILTER_AUCTION, getFilterAuctionsWorker);
 }

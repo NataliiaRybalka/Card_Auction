@@ -1,5 +1,6 @@
 import logger from '#config/logger.config';
 import { CARD, USER_CARD } from "#constants/database.enum";
+import { PRICE_MAX, PRICE_MIN, SORT_PRICE, FILTER_CARD } from '#constants/filters.enum';
 import { ADMIN } from "#constants/project.constants";
 import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
@@ -12,10 +13,41 @@ import userService from '#services/user/user.service';
 import userCardService from '#services/user/userCard.service';
 
 class AuctionService {
-    async getAllAuctions() {
+    createRawForGetFilteredAuctions(params) {
+        let filter = 'id > 0 ';
+        let sort = 'DESC';
+
+        for (const key in params) {
+            const val = params[key];
+
+            if (key === SORT_PRICE) {
+                sort = val;
+            } else if (key === FILTER_CARD) {
+                filter += `AND a.lot_id = ${val} `;
+            } else if (key === PRICE_MIN) {
+                filter += `AND a.current_price >= ${val} `;
+            } else if (key === PRICE_MAX) {
+                filter += `AND a.current_price <= ${val} `;
+            }
+        }
+
+        return {
+            filter,
+            sort
+        }
+    };
+
+    async getAllAuctions(params) {
         try {
-            let auctions = await auctionRepository.getAllAuctions();
-            auctions = auctions.toJSON();
+            let auctions;
+            if (Object.keys(params).length !== 0) {
+                const { filter, sort } = this.createRawForGetFilteredAuctions(params);
+                auctions = await auctionRepository.getAllAuctionsWithFilter(filter, sort);
+                auctions = Object.values(JSON.parse(JSON.stringify(auctions)));
+            } else {
+                auctions = await auctionRepository.getAllAuctions();
+                auctions = auctions.toJSON();
+            }
             
             for (const auction of auctions) {
                 let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
@@ -49,8 +81,9 @@ class AuctionService {
 
             const maxTimeNum = maxTime * 24 * 60 * 60 * 1000;
             const lotType = (role === ADMIN) ? CARD : USER_CARD;
+            const current_price = initPrice;
 
-            let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, minStep, maxTimeNum);
+            let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, current_price, minStep, maxTimeNum);
             createdAuction = createdAuction.toJSON();
 
             return await auctionRepository.getOneAuctionById(createdAuction.id);

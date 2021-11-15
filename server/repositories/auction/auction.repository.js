@@ -3,6 +3,7 @@ import { NotFoundMes, NotCreated, NotUpdated } from '#constants/errorMessages.en
 import { ACTIVE, INACTIVE } from "#constants/project.constants";
 import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { Auction } from '#models/Auction';
+import { bookshelfConf } from '#models/bookshelf';
 import { ErrorHandler } from '#helpers/error.handler';
 
 class AuctionRepository {
@@ -15,13 +16,27 @@ class AuctionRepository {
         }
     };
 
-    async createAuction(lot_id, lot_type, init_price, max_price, min_step, max_time) {
+    async getAllAuctionsWithFilter(filter, sort) {
+        try {
+            return await bookshelfConf.knex
+                .select()
+                .where(bookshelfConf.knex.raw(filter))
+                .from('auction as a')
+                .orderBy('a.current_price', sort);
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async createAuction(lot_id, lot_type, init_price, max_price, current_price, min_step, max_time) {
         try {
             return await Auction.forge({
                 lot_id,
                 lot_type,
                 init_price,
                 max_price,
+                current_price,
                 min_step,
                 max_time,
                 created_at: new Date(),

@@ -34,7 +34,7 @@ export const Sets = () => {
           </thead>
 
           <tbody>
-            {!!sets.length && sets[0].map(cardSet => (
+            {!!sets.length && sets.map(cardSet => (
               <tr key={cardSet.set.id}>
                 <td>{cardSet.set.title}</td>
                 <td>

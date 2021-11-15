@@ -10,7 +10,7 @@ export const Auctions = () => {
   const dispatch = useDispatch();
   const auctions = useSelector(state => state.auctionReducer.auctions);
   let auctionCards = [];
-  !!auctions.length && auctions[0].map(auction => auctionCards.push(auction.card));
+  !!auctions.length && auctions.map(auction => auctionCards.push(auction.card));
   auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
 
   useEffect(() => {
@@ -21,7 +21,8 @@ export const Auctions = () => {
     priceMin: '',
     priceMax: '',
     sortPrice: 'DESC',
-    card: '',
+    lotId: '',
+    lotName: '',
     cardName: ''
   });
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
@@ -44,7 +45,8 @@ export const Auctions = () => {
   const onSelectNameHandler = e => {
     setFilter(prev => ({
       ...prev,
-      ...{card: e.target.textContent}
+      ...{lotId: arrayCardByLetters.find(card => card.name === e.target.textContent).id},
+      ...{lotName: e.target.textContent},
     }));
 
     setArrayCardByLetters([]);
@@ -74,13 +76,13 @@ export const Auctions = () => {
       <h2>Auctions</h2>
 
       <div>
-        <input type={'text'} name={'cardName'} placeholder={'card name'} id={'cardNameInput'} value={filter.card ? filter.card : filter.cardName} onChange={onChangeNameInputHandler} />
+        <input type={'text'} name={'cardName'} placeholder={'card name'} id={'cardNameInput'} value={filter.lotName ? filter.lotName : filter.cardName} onChange={onChangeNameInputHandler} />
         {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectNameHandler} className={'arrayCardByLetters'} >{card.name}</p>)}
       </div>
 
       <div className={'auctionFilterBlock'}>
         <span id={'filterPrice'}>
-          <label>price</label>
+          <label>current price</label>
           <input className={'priceFilterInput'} type={'text'} name={'priceMin'} value={filter.priceMin} onChange={onChangeInputHandler} placeholder={'min'} />
           <span>&ndash;</span>
           <input className={'priceFilterInput'} type={'text'} name={'priceMax'} value={filter.priceMax} onChange={onChangeInputHandler} placeholder={'max'} />
@@ -111,7 +113,7 @@ export const Auctions = () => {
         </thead>
 
         <tbody>
-          {!!auctions.length && auctions[0].map(auction => (
+          {!!auctions.length && auctions.map(auction => (
             <tr key={auction.id}>
               <td>
                 {!!auction.card.image 

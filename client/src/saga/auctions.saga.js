@@ -48,7 +48,7 @@ const getAuctions = async () => {
 
 export function* getFilterAuctionsWorker(data) {
   try {
-    const payload = yield call(getFilterAuctions(data.payload));
+    const payload = yield call(getFilterAuctions, data.payload);
     if (payload.status === OK) {
       yield put({ type: GET_AUCTION, payload: payload.data });
     } else {
