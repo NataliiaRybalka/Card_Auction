@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 import './Auctions.css';
 import { LOCALHOST } from "../../constants/contants";
@@ -26,16 +25,15 @@ export const Auctions = () => {
     cardName: ''
   });
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
-  const history = useHistory();
 
   const onChangeNameInputHandler = e => {
     setFilter(prev => ({
       ...prev,
-      ...{[e.target.name]: e.target.value},
-      ...{card: e.target.textContent}
+      ...{cardName: e.target.value},
+      ...{lotName: e.target.textContent}
     }));
 
-    if (e.target.name === 'cardName' && e.target.value !== '') {
+    if (e.target.value !== '') {
       setArrayCardByLetters(auctionCards.filter(card => card.name.includes(e.target.value)));
     } else if (e.target.value !== '') {
       setArrayCardByLetters([]);
@@ -47,6 +45,7 @@ export const Auctions = () => {
       ...prev,
       ...{lotId: arrayCardByLetters.find(card => card.name === e.target.textContent).id},
       ...{lotName: e.target.textContent},
+      ...{cardName: e.target.textContent}
     }));
 
     setArrayCardByLetters([]);
@@ -67,17 +66,19 @@ export const Auctions = () => {
       ...prev,
       ...{cardName: ''}
     }));
-
-    // history.go(0);
   };
 
   return (
     <div className={'adminPage'}>
       <h2>Auctions</h2>
 
-      <div>
-        <input type={'text'} name={'cardName'} placeholder={'card name'} id={'cardNameInput'} value={filter.lotName ? filter.lotName : filter.cardName} onChange={onChangeNameInputHandler} />
-        {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectNameHandler} className={'arrayCardByLetters'} >{card.name}</p>)}
+      <div className={'nameAndBtnBlock'}>
+        <div>
+          <input type={'text'} name={'cardName'} placeholder={'card name'} id={'cardNameInput'} value={filter.lotName ? filter.lotName : filter.cardName} onChange={onChangeNameInputHandler} />
+          {!!arrayCardByLetters.length && arrayCardByLetters.map(card => <p key={card.id} onClick={onSelectNameHandler} className={'arrayCardByLetters'} >{card.name}</p>)}
+        </div>
+
+        <button onClick={onSelectFilterHandler} className={'filterOkBtn'}>find</button>
       </div>
 
       <div className={'auctionFilterBlock'}>
@@ -95,8 +96,6 @@ export const Auctions = () => {
           <label>descending</label>
           <input type={'radio'} name={'sortPrice'} value={'DESC'} onChange={onChangeInputHandler} />
         </span>
-
-        <button onClick={onSelectFilterHandler} className={'filterOkBtn'}>ok</button>
       </div>
 
       <table>
