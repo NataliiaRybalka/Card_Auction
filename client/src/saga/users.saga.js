@@ -1,15 +1,14 @@
 import { put, call } from "redux-saga/effects";
 
-import { LOCALHOST } from "../constants/contants";
 import { OK, Unauthorized } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { GET_USERS } from '../redux/types/users.types';
-import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
+import { getTable } from './saga.fuctions';
 
-export function* getUsersWorker() {
+export function* getUsersWorker(data) {
   try {
-    const payload = yield call(getUsers);
+    const payload = yield call(getTable, data.payload);
     if (payload.status === OK) {
       yield put({ type: GET_USERS, payload: payload.data });
     } else {
@@ -20,8 +19,4 @@ export function* getUsersWorker() {
       yield put(updateTokens());
     }
   }
-};
-export const getUsers = async () => {
-  const { request } = httpHelper();
-  return await request(`${LOCALHOST}users`, localStorage.getItem('accessToken'));
 };

@@ -8,30 +8,38 @@ import tokenRepository from "#repositories/auth/token.repository";
 import userRepository from '#repositories/user/user.repository';
 
 class UserService {
-    async getAllUsers(id) {
+    async getAllUsers(id, params) {
         try {
-            let users = await userRepository.getUsers();
-            users = users.toJSON();
+            let {
+                limit,
+                offset
+            } = params;
+            offset = (offset - 1) * limit;
 
-            let roleId;
-            users.find(user => {
-                if (user.id === id) roleId = user.role_id;
-            });
-            let role = await registrRepository.getRoleById(roleId);
-            role = role.toJSON();
-
-            if (role.title === USER) {
-                users = users.filter(user => user.role_id === role.id);
-            }
+            const res = await userRepository.getUsers(limit, offset);
+            const users = res.toJSON();
+            const totalItem = res.pagination.rowCount;
 
             let roles = await registrRepository.getRoles();
             roles = roles.toJSON();
 
+            const user = users.find(user => user.id === id);
+            if (user) {
+                let userRole = roles.find(role => user.role_id === role.id);
+
+                if (userRole.title === USER) {
+                    users = users.filter(user => user.role_id === userRole.id);
+                }
+            }
+            
             users.map(user => {
                 user.role_id = roles.find(role => role.id === user.role_id);
             });
 
-            return users;
+            return {
+                users,
+                totalItem
+            }
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

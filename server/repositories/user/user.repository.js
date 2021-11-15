@@ -5,9 +5,9 @@ import { ErrorHandler } from '#helpers/error.handler';
 import { User } from '#models/User';
 
 class UserRepository {
-    async getUsers() {
+    async getUsers(limit, offset) {
         try {
-            return await User.query(qb => qb.orderBy('rating', 'DESC')).fetchAll();
+            return await User.query(qb => qb.orderBy('rating', 'DESC')).fetchPage({ offset, limit });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

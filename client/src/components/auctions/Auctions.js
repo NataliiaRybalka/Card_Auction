@@ -3,10 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import './Auctions.css';
 import { LOCALHOST, LIMIT } from "../../constants/contants";
+import { AUCTIONS } from "../../constants/url.enum";
 import { getAuctions } from "../../redux/actions/auctions.actions";
+import { ButtonPagination } from "../pages/ButtonPagination";
+import { getCards } from "../../redux/actions/cards.actions";
 
 export const Auctions = () => {
   const [filter, setFilter] = useState({
+    url: AUCTIONS,
     limit: LIMIT,
     offset: 1,
     priceMin: '',
@@ -20,12 +24,14 @@ export const Auctions = () => {
   const dispatch = useDispatch();
   const auctions = useSelector(state => state.auctionReducer.auctions);
   const totalItem = useSelector(state => state.auctionReducer.totalItem);
+  const cards = useSelector(state => state.cardsReducer.cards);
   let auctionCards = [];
   !!auctions.length && auctions.map(auction => auctionCards.push(auction.card));
   auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
-
+console.log(cards);
   useEffect(() => {
     dispatch(getAuctions(filter));
+    dispatch(getCards());
   }, [dispatch, filter]);
 
   const onChangeNameInputHandler = e => {
@@ -68,18 +74,6 @@ export const Auctions = () => {
       ...prev,
       ...{cardName: ''}
     }));
-  };
-
-  const pagesArray = [];
-  for (let i = 0; i < (totalItem / LIMIT); i++) {
-    pagesArray.push(i + 1);
-  }
-
-  const onSelectPageHandler = e => {
-    setFilter(prev => ({
-      ...prev,
-      ...{offset: +e.target.textContent}
-    }))
   };
 
   return (
@@ -148,9 +142,7 @@ export const Auctions = () => {
         </tbody>
       </table>
 
-      <div className={'pagePaginationBlock'}>
-        {!!pagesArray.length && pagesArray.map(page => <button key={page} className={'pagePagination'} onClick={onSelectPageHandler}>{page}</button>)}
-      </div>
+      <ButtonPagination totalItem={totalItem} setFilter={setFilter} />
     </div>
   );
 };

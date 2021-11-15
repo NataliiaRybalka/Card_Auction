@@ -5,7 +5,7 @@ class UserController {
     async getAllUsers(req, res, next) {
         try {
             const { userId } = req;
-            res.status(OK).json(await userService.getAllUsers(userId));
+            res.status(OK).json(await userService.getAllUsers(userId, req.query));
         } catch (e) {
             next(e);
         }

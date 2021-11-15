@@ -22,7 +22,7 @@ class CardSetService {
                 sets.push(set.toJSON());
             }
 
-            const newCardSets = [];
+            let newCardSets = [];
             for (const cardSet of cardSets) {
                 const oneNewCardSet = {
                     cards: []
@@ -45,7 +45,7 @@ class CardSetService {
                 });
             }
 
-            return newCardSets;
+            return newCardSets
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

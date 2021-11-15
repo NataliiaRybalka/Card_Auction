@@ -7,6 +7,7 @@ import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
 import { POST } from "../constants/httpMethods";
 import { CREATE_AUCTION_SUCCESS, GET_AUCTION } from "../redux/types/auctions.types";
+import { getTable } from './saga.fuctions';
 
 export function* createAuctionWorker(data) {
   try {
@@ -29,7 +30,7 @@ const createAuction = async (data) => {
 
 export function* getAuctionsWorker(data) {
   try {
-    const payload = yield call(getAuctions, data.payload);
+    const payload = yield call(getTable, data.payload);
     if (payload.status === OK) {
       yield put({ type: GET_AUCTION, payload: payload.data });
     } else {
@@ -41,14 +42,4 @@ export function* getAuctionsWorker(data) {
     }
   }
 };
-const getAuctions = async (data) => {
-  let query = '?';
-  for (const filter in data) {
-    if (data[filter] !== '') {
-      query += `${filter}=${data[filter]}&`;
-    }
-  }
 
-  const { request } = httpHelper();
-  return await request(`${LOCALHOST}auctions${query}`, localStorage.getItem('accessToken'));
-};

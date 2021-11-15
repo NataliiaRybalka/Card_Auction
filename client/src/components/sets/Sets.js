@@ -11,7 +11,7 @@ export const Sets = () => {
 
   const dispatch = useDispatch();
   const sets = useSelector(state => state.setsReducer.sets);
-  
+
   useEffect(() => {
     dispatch(getSets());
   }, [dispatch]);
@@ -34,7 +34,7 @@ export const Sets = () => {
           </thead>
 
           <tbody>
-            {!!sets.length && sets.map(cardSet => (
+            {!!sets && sets.map(cardSet => (
               <tr key={cardSet.set.id}>
                 <td>{cardSet.set.title}</td>
                 <td>

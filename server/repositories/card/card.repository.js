@@ -5,9 +5,9 @@ import { ErrorHandler } from '#helpers/error.handler';
 import { Card } from '#models/Card';
 
 class CardRepository {
-    async getAllCards() {
+    async getAllCards(limit, offset) {
         try {
-            return await Card.query(qb => qb.orderBy('created_at', 'DESC')).fetchAll();
+            return await Card.query(qb => qb.orderBy('created_at', 'DESC')).fetchPage({ offset, limit });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

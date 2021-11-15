@@ -1,18 +1,26 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getUsers } from '../../redux/actions/users.actions';
-import { LOCALHOST, ADMIN, USER } from "../../constants/contants";
+import { LOCALHOST, ADMIN, USER, LIMIT } from "../../constants/contants";
+import { USERS } from "../../constants/url.enum";
 import { PUT } from "../../constants/httpMethods";
 import { httpHelper } from "../../helpers/http.helper";
+import { ButtonPagination } from "../pages/ButtonPagination";
 
 export const Users = () => {
+  const [filter, setFilter] = useState({
+    url: USERS,
+    limit: LIMIT,
+    offset: 1
+  });
   const dispatch = useDispatch();
   const users = useSelector(state => state.usersReducer.users);
+  const totalItem = useSelector(state => state.usersReducer.totalItem);
 
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    dispatch(getUsers(filter));
+  }, [dispatch, filter]);
 
   const makeAdminHandler = async (user) => {
     const { request } = httpHelper();
@@ -45,6 +53,8 @@ export const Users = () => {
         ))}
         </tbody>
       </table>
+
+      <ButtonPagination totalItem={totalItem} setFilter={setFilter} />
     </div>
   );
 };

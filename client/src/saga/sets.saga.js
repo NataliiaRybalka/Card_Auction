@@ -22,7 +22,7 @@ export function* getSetsWorker() {
     }
   }
 };
-const getSets = async () => {
+export const getSets = async () => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}card-sets`, localStorage.getItem('accessToken'));
 };

@@ -5,7 +5,7 @@ class CardController {
     async getAllCards(req, res, next) {
         try {
             const {role, userId} = req;
-            const cards = await cardService.getAllCards();
+            const cards = await cardService.getAllCards(req.query);
             let userCards = await cardService.getAllUserCards(role, userId);
 
             return res.status(OK).json({ cards, userCards });
