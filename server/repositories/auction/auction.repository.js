@@ -7,21 +7,23 @@ import { bookshelfConf } from '#models/bookshelf';
 import { ErrorHandler } from '#helpers/error.handler';
 
 class AuctionRepository {
-    async getAllAuctions() {
+    async getAllAuctions(limit, offset) {
         try {
-            return await Auction.query(qb => qb.orderBy('created_at', 'DESC')).fetchAll();
+            return await Auction.query(qb => qb.orderBy('created_at', 'DESC')).fetchPage({ offset, limit });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
-    async getAllAuctionsWithFilter(filter, sort) {
+    async getAllAuctionsWithFilter(limit, offset, filter, sort) {
         try {
             return await bookshelfConf.knex
                 .select()
                 .where(bookshelfConf.knex.raw(filter))
                 .from('auction as a')
+                .limit(limit)
+                .offset(offset)
                 .orderBy('a.current_price', sort);
         } catch (e) {
             logger.error(e);

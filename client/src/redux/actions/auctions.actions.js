@@ -1,4 +1,4 @@
-import { CREATE_AUCTION, REQUEST_AUCTION, REQUEST_FILTER_AUCTION } from "../types/auctions.types";
+import { CREATE_AUCTION, REQUEST_AUCTION } from "../types/auctions.types";
 
 export const createAuction = auctionData => {
   return {
@@ -7,15 +7,9 @@ export const createAuction = auctionData => {
   }
 };
 
-export const getAuctions = () => {
+export const getAuctions = filterData => {
   return {
-    type: REQUEST_AUCTION
-  }
-};
-
-export const getFilterAuctions = filterParams => {
-  return {
-    type: REQUEST_FILTER_AUCTION,
-    payload: filterParams
+    type: REQUEST_AUCTION,
+    payload: filterData
   }
 };

@@ -20,14 +20,16 @@ class AuctionService {
         for (const key in params) {
             const val = params[key];
 
-            if (key === SORT_PRICE) {
-                sort = val;
-            } else if (key === FILTER_CARD) {
-                filter += `AND a.lot_id = ${val} `;
-            } else if (key === PRICE_MIN) {
-                filter += `AND a.current_price >= ${val} `;
-            } else if (key === PRICE_MAX) {
-                filter += `AND a.current_price <= ${val} `;
+            if (val) {
+                if (key === SORT_PRICE) {
+                    sort = val;
+                } else if (key === FILTER_CARD) {
+                    filter += `AND a.lot_id = ${val} `;
+                } else if (key === PRICE_MIN) {
+                    filter += `AND a.current_price >= ${val} `;
+                } else if (key === PRICE_MAX) {
+                    filter += `AND a.current_price <= ${val} `;
+                }
             }
         }
 
@@ -39,14 +41,25 @@ class AuctionService {
 
     async getAllAuctions(params) {
         try {
+            const {
+                limit,
+                offset,
+                lotId,
+                priceMin,
+                priceMax,
+                sortPrice
+            } = params;
+
             let auctions;
-            if (Object.keys(params).length !== 0) {
-                const { filter, sort } = this.createRawForGetFilteredAuctions(params);
-                auctions = await auctionRepository.getAllAuctionsWithFilter(filter, sort);
+            let totalItem;
+            if ( lotId || priceMin || priceMax || sortPrice) {
+                const { filter, sort } = this.createRawForGetFilteredAuctions({ lotId, priceMin, priceMax, sortPrice });
+                auctions = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
                 auctions = Object.values(JSON.parse(JSON.stringify(auctions)));
             } else {
-                auctions = await auctionRepository.getAllAuctions();
-                auctions = auctions.toJSON();
+                const res = await auctionRepository.getAllAuctions(limit, offset);
+                auctions = res.toJSON();
+                totalItem = res.pagination.rowCount;
             }
             
             for (const auction of auctions) {
@@ -68,7 +81,10 @@ class AuctionService {
                 auction.finalDate = finalDate.join(' ');
             }
 
-            return auctions;
+            return {
+                auctions,
+                totalItem
+            };
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

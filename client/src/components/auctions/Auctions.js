@@ -2,21 +2,13 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import './Auctions.css';
-import { LOCALHOST } from "../../constants/contants";
-import { getAuctions, getFilterAuctions } from "../../redux/actions/auctions.actions";
+import { LOCALHOST, LIMIT } from "../../constants/contants";
+import { getAuctions } from "../../redux/actions/auctions.actions";
 
 export const Auctions = () => {
-  const dispatch = useDispatch();
-  const auctions = useSelector(state => state.auctionReducer.auctions);
-  let auctionCards = [];
-  !!auctions.length && auctions.map(auction => auctionCards.push(auction.card));
-  auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
-
-  useEffect(() => {
-    dispatch(getAuctions());
-  }, [dispatch]);
-
   const [filter, setFilter] = useState({
+    limit: LIMIT,
+    offset: 0,
     priceMin: '',
     priceMax: '',
     sortPrice: 'DESC',
@@ -25,6 +17,16 @@ export const Auctions = () => {
     cardName: ''
   });
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
+  const dispatch = useDispatch();
+  const auctions = useSelector(state => state.auctionReducer.auctions.auctions);
+  const totalItem = useSelector(state => state.auctionReducer.auctions.totalItem);
+  let auctionCards = [];
+  !!auctions && auctions.map(auction => auctionCards.push(auction.card));
+  auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
+
+  useEffect(() => {
+    dispatch(getAuctions(filter));
+  }, [dispatch, filter]);
 
   const onChangeNameInputHandler = e => {
     setFilter(prev => ({
@@ -60,7 +62,7 @@ export const Auctions = () => {
 
   const onSelectFilterHandler = () => {
     delete filter['cardName']; 
-    dispatch(getFilterAuctions(filter));
+    dispatch(getAuctions(filter));
 
     setFilter(prev => ({
       ...prev,
@@ -112,7 +114,7 @@ export const Auctions = () => {
         </thead>
 
         <tbody>
-          {!!auctions.length && auctions.map(auction => (
+          {!!auctions && auctions.map(auction => (
             <tr key={auction.id}>
               <td>
                 {!!auction.card.image 

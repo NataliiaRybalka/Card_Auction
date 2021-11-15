@@ -27,9 +27,9 @@ const createAuction = async (data) => {
   return await request(`${LOCALHOST}auctions`, localStorage.getItem('accessToken'), POST, data);
 };
 
-export function* getAuctionsWorker() {
+export function* getAuctionsWorker(data) {
   try {
-    const payload = yield call(getAuctions);
+    const payload = yield call(getAuctions, data.payload);
     if (payload.status === OK) {
       yield put({ type: GET_AUCTION, payload: payload.data });
     } else {
@@ -41,26 +41,7 @@ export function* getAuctionsWorker() {
     }
   }
 };
-const getAuctions = async () => {
-  const { request } = httpHelper();
-  return await request(`${LOCALHOST}auctions`, localStorage.getItem('accessToken'));
-};
-
-export function* getFilterAuctionsWorker(data) {
-  try {
-    const payload = yield call(getFilterAuctions, data.payload);
-    if (payload.status === OK) {
-      yield put({ type: GET_AUCTION, payload: payload.data });
-    } else {
-      throw payload;
-    }
-  } catch (e) {
-    if (e.status === Unauthorized && e.data === WrongToken) {
-      yield put(updateTokens());
-    }
-  }
-};
-const getFilterAuctions = async (data) => {
+const getAuctions = async (data) => {
   let query = '?';
   for (const filter in data) {
     if (data[filter] !== '') {
