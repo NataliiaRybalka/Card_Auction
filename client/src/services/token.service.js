@@ -14,6 +14,6 @@ export const updateTokens = async () => {
 
   localStorage.setItem('accessToken', res.data.userTokens.access_token);
   localStorage.setItem('refreshToken', res.data.userTokens.refresh_token);
-
+  window.location.reload(); 
   return res;
 };
