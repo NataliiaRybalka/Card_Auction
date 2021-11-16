@@ -51,19 +51,12 @@ class AuctionService {
             } = params;
             offset = (offset - 1) * limit;
 
-            let auctions;
-            let totalItem;
-            if ( lotId || priceMin || priceMax || sortPrice) {
-                const { filter, sort } = this.createRawForGetFilteredAuctions({ lotId, priceMin, priceMax, sortPrice });
-                const res = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
-                auctions = Object.values(JSON.parse(JSON.stringify(res.auctions)));
-                totalItem = res.totalItem;
-            } else {
-                const res = await auctionRepository.getAllAuctions(limit, offset);
-                auctions = res.toJSON();
-                totalItem = res.pagination.rowCount;
-            }
-            
+            const { filter, sort } = this.createRawForGetFilteredAuctions({ lotId, priceMin, priceMax, sortPrice });
+            const res = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
+            const auctions = Object.values(JSON.parse(JSON.stringify(res.auctions)));
+            const auctionsWithoutPagination = Object.values(JSON.parse(JSON.stringify(res.auctionsWithoutPagination)));
+            const totalItem = res.totalItem;
+
             for (const auction of auctions) {
                 let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
                 card = card.toJSON();
@@ -83,8 +76,15 @@ class AuctionService {
                 auction.finalDate = finalDate.join(' ');
             }
 
+            for (const auction of auctionsWithoutPagination) {
+                let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
+                card = card.toJSON();
+                auction.card = card;
+            }
+
             return {
                 auctions,
+                auctionsWithoutPagination,
                 totalItem
             };
         } catch (e) {

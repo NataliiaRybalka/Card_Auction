@@ -9,7 +9,13 @@ import { ErrorHandler } from '#helpers/error.handler';
 class AuctionRepository {
     async getAllAuctions(limit, offset) {
         try {
-            return await Auction.query(qb => qb.orderBy('created_at', 'DESC')).fetchPage({ offset, limit });
+            const auctions = await Auction.query(qb => qb.orderBy('created_at', 'DESC')).fetchPage({ offset, limit });
+            const auctionsWithoutPagination = await Auction.fetchAll();
+
+            return {
+                auctions,
+                auctionsWithoutPagination
+            }
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
@@ -26,10 +32,13 @@ class AuctionRepository {
                 .offset(offset)
                 .orderBy('a.current_price', sort);
 
+            const auctionsWithoutPagination = await Auction.fetchAll();
+
             const totalItem = await Auction.count();
             
             return {
                 auctions,
+                auctionsWithoutPagination,
                 totalItem
             }
         } catch (e) {

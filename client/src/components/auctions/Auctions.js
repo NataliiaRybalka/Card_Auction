@@ -6,7 +6,6 @@ import { LOCALHOST, LIMIT } from "../../constants/contants";
 import { AUCTIONS } from "../../constants/url.enum";
 import { getAuctions } from "../../redux/actions/auctions.actions";
 import { ButtonPagination } from "../pages/ButtonPagination";
-import { getCards } from "../../redux/actions/cards.actions";
 
 export const Auctions = () => {
   const [filter, setFilter] = useState({
@@ -23,15 +22,15 @@ export const Auctions = () => {
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
   const dispatch = useDispatch();
   const auctions = useSelector(state => state.auctionReducer.auctions);
+  const auctionsWithoutPagination = useSelector(state => state.auctionReducer.auctionsWithoutPagination);
   const totalItem = useSelector(state => state.auctionReducer.totalItem);
-  const cards = useSelector(state => state.cardsReducer.cards);
+  
   let auctionCards = [];
-  !!auctions.length && auctions.map(auction => auctionCards.push(auction.card));
+  !!auctionsWithoutPagination.length && auctionsWithoutPagination.map(auction => auctionCards.push(auction.card));
   auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
-console.log(cards);
+
   useEffect(() => {
     dispatch(getAuctions(filter));
-    dispatch(getCards());
   }, [dispatch, filter]);
 
   const onChangeNameInputHandler = e => {
