@@ -34,7 +34,10 @@ class AuctionRepository {
 
             const auctionsWithoutPagination = await Auction.fetchAll();
 
-            const totalItem = await Auction.count();
+            const totalItem = await bookshelfConf.knex
+                .count()
+                .where(bookshelfConf.knex.raw(filter))
+                .from('auction as a')
             
             return {
                 auctions,

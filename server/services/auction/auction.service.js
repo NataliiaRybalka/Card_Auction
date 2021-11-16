@@ -55,7 +55,7 @@ class AuctionService {
             const res = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
             const auctions = Object.values(JSON.parse(JSON.stringify(res.auctions)));
             const auctionsWithoutPagination = Object.values(JSON.parse(JSON.stringify(res.auctionsWithoutPagination)));
-            const totalItem = res.totalItem;
+            const totalItem = Object.values(Object.values(JSON.parse(JSON.stringify(res.totalItem)))[0])[0];
 
             for (const auction of auctions) {
                 let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
