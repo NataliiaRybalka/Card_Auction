@@ -2,39 +2,38 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 
 import './Admin.css';
 
-const data = [
-  {
-    name: "Page A",
-    pv: 240
-  },
-  {
-    name: "Page B",
-    pv: 139
-  },
-  {
-    name: "Page C",
-    pv: 980
-  },
-  {
-    name: "Page D",
-    pv: 390
-  },
-  {
-    name: "Page E",
-    pv: 480
-  },
-  {
-    name: "Page F",
-    pv: 380
-  },
-  {
-    name: "Page G",
-    pv: 430
-  }
-];
-
-export const Chart = () => {
-
+export const Chart = ({ totalAuctions, totalUsers }) => {
+  const data = [
+    {
+      name: "Page A",
+      pv: 240
+    },
+    {
+      name: "Page B",
+      pv: 139
+    },
+    {
+      name: "Page C",
+      pv: 980
+    },
+    {
+      name: "Page D",
+      pv: 390
+    },
+    {
+      name: "Page E",
+      pv: 480
+    },
+    {
+      name: "Page F",
+      pv: 380
+    },
+    {
+      name: "Page G",
+      pv: 430
+    }
+  ];
+  
   return (
     <div>
       <h3>Users</h3>

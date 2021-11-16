@@ -4,6 +4,7 @@ import { ACTIVE, INACTIVE } from "#constants/project.constants";
 import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { Auction } from '#models/Auction';
 import { bookshelfConf } from '#models/bookshelf';
+import { TotalAuctions } from '#models/TotalAuctions';
 import { ErrorHandler } from '#helpers/error.handler';
 
 class AuctionRepository {
@@ -110,6 +111,36 @@ class AuctionRepository {
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(InternalServerError, NotUpdated);
+        }
+    };
+
+    async countTotalAuctions() {
+        try {
+            return await Auction.count();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(BadRequest, BadRequestMes);
+        }
+    };
+
+    async writeDownTotalAuctions(total) {
+        try {
+            return await TotalAuctions.forge({
+                total,
+                created_at: new Date().toLocaleDateString('en-CA')
+            }).save();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
+
+    async getTotalAuctions() {
+        try {
+            return await TotalAuctions.fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 }

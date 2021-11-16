@@ -169,6 +169,15 @@ class AuctionService {
             throw new ErrorHandler(e.status, e.message);
         }
     };
+
+    async getTotalAuctions() {
+        try {
+            return await auctionRepository.getTotalAuctions();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
 }
 
 export default new AuctionService();

@@ -53,6 +53,14 @@ class UserController {
             next(e);
         }
     };
+
+    async getTotalUsers(req, res, next) {
+        try {
+            res.status(OK).json(await userService.getTotalUsers());
+        } catch (e) {
+            next(e);
+        }
+    };
 }
 
 export default new UserController();

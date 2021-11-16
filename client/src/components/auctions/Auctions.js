@@ -21,9 +21,9 @@ export const Auctions = () => {
   });
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
   const dispatch = useDispatch();
-  const auctions = useSelector(state => state.auctionReducer.auctions);
-  const auctionsWithoutPagination = useSelector(state => state.auctionReducer.auctionsWithoutPagination);
-  const totalItem = useSelector(state => state.auctionReducer.totalItem);
+  const auctions = useSelector(state => state.auctionsReducer.auctions);
+  const auctionsWithoutPagination = useSelector(state => state.auctionsReducer.auctionsWithoutPagination);
+  const totalItem = useSelector(state => state.auctionsReducer.totalItem);
   
   let auctionCards = [];
   !!auctionsWithoutPagination.length && auctionsWithoutPagination.map(auction => auctionCards.push(auction.card));

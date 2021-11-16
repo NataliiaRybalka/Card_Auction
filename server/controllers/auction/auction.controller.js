@@ -48,6 +48,14 @@ class AuctionController {
         next(e);
         }
     };
+
+    async getTotalAuctions(req, res, next) {
+        try {
+        res.status(OK).json(await auctionService.getTotalAuctions());
+        } catch (e) {
+        next(e);
+        }
+    };
 }
 
 export default new AuctionController();

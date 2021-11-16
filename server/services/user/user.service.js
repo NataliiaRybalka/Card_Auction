@@ -119,6 +119,15 @@ class UserService {
             throw new ErrorHandler(e.status, e.message);
         }
     };
+
+    async getTotalUsers() {
+        try {
+            return await userRepository.getTotalUsers();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
 }
 
 export default new UserService();

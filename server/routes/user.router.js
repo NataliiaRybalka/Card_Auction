@@ -18,6 +18,11 @@ router.get(
 );
 
 router.get(
+    '/total',
+    userController.getTotalUsers
+);
+
+router.get(
     '/:userId',
     userMiddlewar.checkRole,
     userController.getOneUser

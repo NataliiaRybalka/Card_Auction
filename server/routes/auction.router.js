@@ -18,6 +18,11 @@ router.get(
     auctionController.getAllAuctions
 );
 
+router.get(
+    '/total',
+    auctionController.getTotalAuctions
+);
+
 router.post(
     '/',
     userMiddlewar.checkRole,

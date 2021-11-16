@@ -79,7 +79,7 @@ const NewAuctionForm = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auction: state.auctionReducer.auction
+    auction: state.auctionsReducer.auction
   }
 };
 

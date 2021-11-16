@@ -1,7 +1,8 @@
 import logger from '#config/logger.config';
-import { BadRequestMes, NotFoundMes, NotUpdated} from '#constants/errorMessages.enum';
+import { BadRequestMes, NotFoundMes, NotUpdated, NotCreated } from '#constants/errorMessages.enum';
 import { BadRequest, InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { ErrorHandler } from '#helpers/error.handler';
+import { TotalUsers } from '#models/TotalUsers';
 import { User } from '#models/User';
 
 class UserRepository {
@@ -83,7 +84,7 @@ class UserRepository {
             logger.error(e);
             throw new ErrorHandler(InternalServerError, NotUpdated);
         }
-    }
+    };
 
     async deleteUser(id) {
         try {
@@ -92,7 +93,37 @@ class UserRepository {
             logger.error(e);
             throw new ErrorHandler(BadRequest, BadRequestMes);
         }
-    }
+    };
+
+    async countTotalUsers() {
+        try {
+            return await User.count();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(BadRequest, BadRequestMes);
+        }
+    };
+
+    async writeDownTotalUsers(total) {
+        try {
+            return await TotalUsers.forge({
+                total,
+                created_at: new Date().toLocaleDateString('en-CA')
+            }).save();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
+
+    async getTotalUsers() {
+        try {
+            return await TotalUsers.fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
 }
 
 export default new UserRepository();
