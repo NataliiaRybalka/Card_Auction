@@ -122,7 +122,19 @@ class UserService {
 
     async getTotalUsers() {
         try {
-            return await userRepository.getTotalUsers();
+            let totalUsers = await userRepository.getTotalUsers();
+            totalUsers = totalUsers.toJSON();
+
+            totalUsers.map(total => {
+                const fullDate = total.created_at;
+                const date = new Date(fullDate).toString();
+                const finalDate = date.split(' ');
+                finalDate.splice(4);
+                finalDate.splice(0, 1);
+                total.created_at = finalDate.join(' ');
+            });
+
+            return totalUsers;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

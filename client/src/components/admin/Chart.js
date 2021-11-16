@@ -2,47 +2,17 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 
 import './Admin.css';
 
-export const Chart = ({ totalAuctions, totalUsers }) => {
-  const data = [
-    {
-      name: "Page A",
-      pv: 240
-    },
-    {
-      name: "Page B",
-      pv: 139
-    },
-    {
-      name: "Page C",
-      pv: 980
-    },
-    {
-      name: "Page D",
-      pv: 390
-    },
-    {
-      name: "Page E",
-      pv: 480
-    },
-    {
-      name: "Page F",
-      pv: 380
-    },
-    {
-      name: "Page G",
-      pv: 430
-    }
-  ];
-  
+export const Chart = ({ title, entity }) => {
+
   return (
     <div>
-      <h3>Users</h3>
+      <h3 className={'chartTitle'}>{title}</h3>
 
-      <LineChart width={500} height={300} data={data} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" interval={0} dx={20} />
-        <YAxis />
-        <Line dataKey="pv" stroke="#8884d8" />
+      <LineChart width={500} height={300} data={entity} margin={{ top: 10, right: 50, left: 10, bottom: 100 }} className={`chart chart${title}`}>
+      <CartesianGrid strokeDasharray='3 3' style={{color: 'red'}} />
+        <XAxis dataKey='created_at' interval={0} angle={-45} dy={50} style={{fontSize: '15px'}} stroke='white' />
+        <YAxis stroke='white' style={{fontSize: '15px'}} />
+        <Line dataKey='total' stroke='black' />
       </LineChart>
     </div>
   );

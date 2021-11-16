@@ -18,7 +18,10 @@ export const Dashboard = () => {
     <div className={'adminPage'}>
       <h2>Dashboard</h2>
 
-      <Chart totalAuctions={totalAuctions} totalUsers={totalUsers} />
+      <div id={'charts'}>
+        <Chart title={'Users'} entity={totalUsers} />
+        <Chart title={'Auctions'} entity={totalAuctions} />
+      </div>
     </div>
   );
 };

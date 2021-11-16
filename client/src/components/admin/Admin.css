@@ -48,6 +48,20 @@ th {
   color: #ff751a;
 }
 
-.chart {
+#charts {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.chartTitle {
+  text-align: center;
+}
+
+.chartAuctions {
   background-color: #ff751a;
+}
+
+.chartUsers {
+  background-color: green;
 }

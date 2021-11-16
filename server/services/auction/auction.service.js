@@ -172,7 +172,19 @@ class AuctionService {
 
     async getTotalAuctions() {
         try {
-            return await auctionRepository.getTotalAuctions();
+            let totalAuctions = await auctionRepository.getTotalAuctions();
+            totalAuctions = totalAuctions.toJSON();
+
+            totalAuctions.map(total => {
+                const fullDate = total.created_at;
+                const date = new Date(fullDate).toString();
+                const finalDate = date.split(' ');
+                finalDate.splice(4);
+                finalDate.splice(0, 1);
+                total.created_at = finalDate.join(' ');
+            });
+
+            return totalAuctions;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
