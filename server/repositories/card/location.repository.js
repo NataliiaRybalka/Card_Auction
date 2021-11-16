@@ -22,6 +22,15 @@ class LocationRepository {
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
+    
+    async getLocationById(id) {
+        try {
+            return await Location.where({ id }).fetch();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
 
     async checkIsLocationPresent(title) {
         try {

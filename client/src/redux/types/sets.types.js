@@ -1,0 +1,4 @@
+export const GET_SETS = 'SETS/GET_SETS';
+export const REQUEST_SETS = 'SETS/REQUEST_SETS';
+export const CREATE_SET = 'SETS/CREATE_SET';
+export const CREATE_SET_SUCCESS = 'SETS/CREATE_SET_SUCCESS';

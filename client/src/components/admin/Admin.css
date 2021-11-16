@@ -1,0 +1,67 @@
+.navLinks {
+  color: #e6e6ff;
+  text-decoration: none;
+  width: 100%;
+  font-size: 18px;
+}
+
+.navLinkDiv {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.navLinkDiv:hover {
+  background-color: #4dffff;
+}
+
+#adminMenu {
+  position: fixed;
+  width: 20%;
+  height: 100vh;
+  float: left;
+  border-right: 2px dashed  #4dffff;
+}
+
+.adminPage {
+  margin-left: 30%;
+}
+
+table {
+  border: 2px solid #ff4dff;
+  border-spacing: 0;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #ff4dff;
+  text-align: center;
+  height: 50px;
+}
+td > button {
+  margin: 0;
+  font-size: 15px;
+  width: 150px;
+}
+
+th {
+  color: #ff751a;
+}
+
+#charts {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.chartTitle {
+  text-align: center;
+}
+
+.chartAuctions {
+  background-color: #ff751a;
+}
+
+.chartUsers {
+  background-color: green;
+}

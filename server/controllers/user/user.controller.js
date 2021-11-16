@@ -5,7 +5,7 @@ class UserController {
     async getAllUsers(req, res, next) {
         try {
             const { userId } = req;
-            res.status(OK).json(await userService.getAllUsers(userId));
+            res.status(OK).json(await userService.getAllUsers(userId, req.query));
         } catch (e) {
             next(e);
         }
@@ -32,6 +32,14 @@ class UserController {
         }
     };
 
+    async updateUserRole(req, res, next) {
+        try {
+            res.status(Created).json(await userService.updateUserRole(req.params.userId, req.body.newRole));
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async deleteUser(req, res, next) {
         try {
             const {
@@ -41,6 +49,14 @@ class UserController {
             await userService.deleteUser(id, idFromTokens);
 
             res.status(NoContent).json('Ok');
+        } catch (e) {
+            next(e);
+        }
+    };
+
+    async getTotalUsers(req, res, next) {
+        try {
+            res.status(OK).json(await userService.getTotalUsers());
         } catch (e) {
             next(e);
         }

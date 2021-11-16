@@ -18,6 +18,11 @@ router.get(
     auctionController.getAllAuctions
 );
 
+router.get(
+    '/total',
+    auctionController.getTotalAuctions
+);
+
 router.post(
     '/',
     userMiddlewar.checkRole,
@@ -29,7 +34,7 @@ router.post(
 router.put(
     '/:auctionId',
     auctionMiddlewar.checkIsCorrectRate,
-    balanceMiddlewar.checkBalans,
+    balanceMiddlewar.checkBalance,
     auctionMiddlewar.checkIsAuctionActive,
     auctionController.updateRateAuction
 );

@@ -5,7 +5,7 @@ class CardController {
     async getAllCards(req, res, next) {
         try {
             const {role, userId} = req;
-            const cards = await cardService.getAllCards();
+            const cards = await cardService.getAllCards(req.query);
             let userCards = await cardService.getAllUserCards(role, userId);
 
             return res.status(OK).json({ cards, userCards });
@@ -16,8 +16,7 @@ class CardController {
 
     async createCard(req, res, next) {
         try {
-            const cardData = req.body;
-            return res.status(Created).json(await cardService.createCard(cardData));
+            return res.status(Created).json(await cardService.createCard(req.body, req.photo));
         } catch (e) {
             next(e);
         }

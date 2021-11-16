@@ -5,9 +5,9 @@ import { ErrorHandler } from '#helpers/error.handler';
 import { Card } from '#models/Card';
 
 class CardRepository {
-    async getAllCards() {
+    async getAllCards(limit, offset) {
         try {
-            return await Card.fetchAll();
+            return await Card.query(qb => qb.orderBy('created_at', 'DESC')).fetchPage({ offset, limit });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
@@ -32,18 +32,34 @@ class CardRepository {
         }
     };
 
-    async createCard(name, is_alive, species, type, gender, location_id, image) {
+    async getNameAndImageOneCardById(id) {
+        try {
+            return await Card.where({ id }).fetch({ columns: ['id', 'name', 'image'] });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async createCard(name, is_alive, species, gender, location_id) {
         try {
             return await Card.forge({
                 name,
                 is_alive,
                 species,
-                type,
                 gender,
                 location_id,
-                image,
                 created_at: new Date()
             }).save();
+        }  catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
+
+    async addImageForCard(id, image) {
+        try {
+            return await Card.forge({ id }).save({ image });
         }  catch (e) {
             logger.error(e);
             throw new ErrorHandler(InternalServerError, NotCreated);

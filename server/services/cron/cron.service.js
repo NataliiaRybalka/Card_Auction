@@ -1,3 +1,6 @@
+import logger from '#config/logger.config';
+import { ErrorHandler } from '#helpers/error.handler';
+import auctionRepository from '#repositories/auction/auction.repository';
 import cronRepository from '#repositories/cron/cron.repository';
 import setRepository from '#repositories/card/set.repository';
 import userRepository from '#repositories/user/user.repository';
@@ -50,7 +53,21 @@ class CronService {
         await cronRepository.deleteTasks(cronTask.id);
       }
     } catch (e) {
-      console.log(e);
+      logger.error(e);
+      throw new ErrorHandler(e.status, e.message);
+    }
+  };
+
+  async countTotal() {
+    try {
+      const totalUsers = await userRepository.countTotalUsers();
+      await userRepository.writeDownTotalUsers(totalUsers);
+
+      const totalAuctions = await auctionRepository.countTotalAuctions();
+      await auctionRepository.writeDownTotalAuctions(totalAuctions);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorHandler(e.status, e.message);
     }
   };
 }

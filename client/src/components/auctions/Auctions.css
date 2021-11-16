@@ -1,0 +1,74 @@
+.auctionFinalDate {
+  font-size: 17px;
+}
+
+.auctionInactiveCircle {
+  height: 15px;
+  width: 15px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.auctionActiveCircle {
+  height: 15px;
+  width: 15px;
+  background-color: #00ff00;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.nameAndBtnBlock {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nameAndBtnBlock > div {
+  width: 80%;
+}
+
+.auctionFilterBlock {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  font-size: 15px;
+  line-height: 15px;
+}
+
+.priceFilterInput {
+  width: 150px;
+}
+
+.filterCheckbox {
+  text-align: right;
+}
+
+.filterCheckbox > label {
+  padding-right: 0;
+}
+
+.filterCheckbox > input{
+  width: 20px;
+}
+
+.auctionSortingBlock {
+  text-align: right;
+}
+
+#cardNameInput {
+  margin-bottom: 20px;
+  width: 100%;
+  height: 30px;
+}
+
+.arrayCardByLetters {
+  margin-top: -20px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.filterOkBtn {
+  margin: 0;
+  font-size: 15px;
+  height: 35px;
+}

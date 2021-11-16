@@ -3,28 +3,64 @@ import { NotFoundMes, NotCreated, NotUpdated } from '#constants/errorMessages.en
 import { ACTIVE, INACTIVE } from "#constants/project.constants";
 import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { Auction } from '#models/Auction';
+import { bookshelfConf } from '#models/bookshelf';
+import { TotalAuctions } from '#models/TotalAuctions';
 import { ErrorHandler } from '#helpers/error.handler';
 
 class AuctionRepository {
-    async getAllAuctions() {
+    async getAllAuctions(limit, offset) {
         try {
-            return await Auction.fetchAll();
+            const auctions = await Auction.query(qb => qb.orderBy('created_at', 'DESC')).fetchPage({ offset, limit });
+            const auctionsWithoutPagination = await Auction.fetchAll();
+
+            return {
+                auctions,
+                auctionsWithoutPagination
+            }
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 
-    async createAuction(lot_id, lot_type, init_price, max_price, min_step, max_time, min_extension_time) {
+    async getAllAuctionsWithFilter(limit, offset, filter, sort) {
+        try {
+            const auctions = await bookshelfConf.knex
+                .select()
+                .where(bookshelfConf.knex.raw(filter))
+                .from('auction as a')
+                .limit(limit)
+                .offset(offset)
+                .orderBy('a.current_price', sort);
+
+            const auctionsWithoutPagination = await Auction.fetchAll();
+
+            const totalItem = await bookshelfConf.knex
+                .count()
+                .where(bookshelfConf.knex.raw(filter))
+                .from('auction as a')
+            
+            return {
+                auctions,
+                auctionsWithoutPagination,
+                totalItem
+            }
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async createAuction(lot_id, lot_type, init_price, max_price, current_price, min_step, max_time) {
         try {
             return await Auction.forge({
                 lot_id,
                 lot_type,
                 init_price,
                 max_price,
+                current_price,
                 min_step,
                 max_time,
-                min_extension_time,
                 created_at: new Date(),
                 status: ACTIVE
             }).save();
@@ -75,6 +111,36 @@ class AuctionRepository {
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(InternalServerError, NotUpdated);
+        }
+    };
+
+    async countTotalAuctions() {
+        try {
+            return await Auction.count();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(BadRequest, BadRequestMes);
+        }
+    };
+
+    async writeDownTotalAuctions(total) {
+        try {
+            return await TotalAuctions.forge({
+                total,
+                created_at: new Date().toLocaleDateString('en-CA')
+            }).save();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
+
+    async getTotalAuctions() {
+        try {
+            return await TotalAuctions.fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
 }

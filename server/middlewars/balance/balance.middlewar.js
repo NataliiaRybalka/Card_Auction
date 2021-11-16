@@ -4,7 +4,7 @@ import { ErrorHandler } from "#helpers/error.handler";
 import balanceRepository from '#repositories/balance/balance.repository';
 
 class BalanceMiddlewar {
-    async checkBalans(req, res, next) {
+    async checkBalance(req, res, next) {
         try {
         const {
             body: { newPrice },

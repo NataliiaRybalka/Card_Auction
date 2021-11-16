@@ -1,13 +1,14 @@
 import logger from '#config/logger.config';
-import { BadRequestMes, NotFoundMes, NotUpdated} from '#constants/errorMessages.enum';
+import { BadRequestMes, NotFoundMes, NotUpdated, NotCreated } from '#constants/errorMessages.enum';
 import { BadRequest, InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { ErrorHandler } from '#helpers/error.handler';
+import { TotalUsers } from '#models/TotalUsers';
 import { User } from '#models/User';
 
 class UserRepository {
-    async getUsers() {
+    async getUsers(limit, offset) {
         try {
-            return await User.fetchAll();
+            return await User.query(qb => qb.orderBy('rating', 'DESC')).fetchPage({ offset, limit });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
@@ -49,6 +50,15 @@ class UserRepository {
         }
     };
 
+    async getUserLoginById(id) {
+        try {
+            return await User.where({ id }).fetch({ columns: ['id', 'login'] });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
     async updateUserData(id, login, email, password, role) {
         try {
             return await User.forge({ id }).save({ login, email, password, role });
@@ -67,6 +77,15 @@ class UserRepository {
         }
     };
 
+    async updateUserRole(id, role_id) {
+        try {
+            return await User.forge({ id }).save({ role_id });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
+        }
+    };
+
     async deleteUser(id) {
         try {
             return await User.where({ id }).destroy();
@@ -74,7 +93,37 @@ class UserRepository {
             logger.error(e);
             throw new ErrorHandler(BadRequest, BadRequestMes);
         }
-    }
+    };
+
+    async countTotalUsers() {
+        try {
+            return await User.count();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(BadRequest, BadRequestMes);
+        }
+    };
+
+    async writeDownTotalUsers(total) {
+        try {
+            return await TotalUsers.forge({
+                total,
+                created_at: new Date().toLocaleDateString('en-CA')
+            }).save();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
+
+    async getTotalUsers() {
+        try {
+            return await TotalUsers.fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
 }
 
 export default new UserRepository();

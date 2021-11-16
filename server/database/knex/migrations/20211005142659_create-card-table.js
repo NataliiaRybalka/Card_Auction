@@ -6,7 +6,6 @@ exports.up = function(knex) {
         table.string('name');
         table.boolean('is_alive');
         table.string('species');
-        table.string('type');
         table.string('gender');
         table.integer('location_id').unsigned();
         table.foreign('location_id').references('id').inTable('location');

@@ -5,7 +5,7 @@ import setRepository from "#repositories/card/set.repository";
 class SetService {
     async createSet(title, bonus) {
         try {
-            return await setRepository.createSet(title, bonus);
+            return await setRepository.createSet(title, Number(bonus));
         }  catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

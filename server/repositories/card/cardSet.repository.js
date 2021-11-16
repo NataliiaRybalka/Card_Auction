@@ -23,9 +23,9 @@ class CardSetRepository {
         }
     };
 
-    async getOneCardSetByCardId(card_id) {
+    async getAllCardSetBySetId(set_id) {
         try {
-            return await CardSet.where({ card_id }).fetch();
+            return await CardSet.where({ set_id }).fetchAll();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

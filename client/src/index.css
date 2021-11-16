@@ -6,10 +6,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #00001a;
   color: #e6e6ff;
+  font-size: 20px;
+  line-height: 1.5em;
 }
 
 main {
-  padding: 100px 0;
+  padding: 50px 0;
 }
 
 button {
@@ -28,4 +30,5 @@ button {
   orange: #ff751a;
   green: #00ff00;
   blue: #0000ff;
+  darkGray: #808080;
 */

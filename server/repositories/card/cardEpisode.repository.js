@@ -13,6 +13,15 @@ class CardEpisodeRepository {
             throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
+
+    async getCardEpisodeByCardId(card_id) {
+        try {
+            return await CardEpisode.where({ card_id }).fetch();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
 }
 
 export default new CardEpisodeRepository();

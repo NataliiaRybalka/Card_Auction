@@ -1,0 +1,81 @@
+.cardsBlock {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card {
+  border: 1px solid #ff4dff;
+  width: 45%;
+  margin-top: 50px;
+  display: flex;
+}
+
+.cardImgBlock {
+  width: 40%;
+}
+
+.cardImg {
+  width: 100%;
+}
+
+.cardInfoBlock {
+  font-size: 17px;
+  line-height: 1em;
+  padding-left: 20px;
+}
+
+.cardTitle {
+  color: #ff751a;
+  line-height: 0;
+}
+
+.cardInfoBlock > h4 {
+  color: #808080;
+  font-size: 15px;
+  line-height: 0;
+}
+
+.startAuctionBtn {
+  margin: 20px 0;
+  font-size: 15px;
+  width: 150px;
+}
+
+#cardPageHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+#createCardBtn {
+  width: 200px;
+  height: 50px;
+  margin: 0;
+}
+
+.radioInput {
+  display: flex;
+}
+
+.modal {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(250, 250, 250, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+}
+
+.modal.active {
+  transform: scale(1);
+}
+
+.modalContent {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #00001a;
+}

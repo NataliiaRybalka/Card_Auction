@@ -4,7 +4,7 @@ import cardSetService from "#services/card/cardSet.service";
 class CardSetController {
     async getAllCardSets(req, res, next) {
         try {
-            res.status(OK).json(await cardSetService.getAllCardSets());
+            res.status(OK).json(await cardSetService.getAllCardSets(req.query));
         } catch (e) {
             next(e);
         }
@@ -12,8 +12,7 @@ class CardSetController {
 
     async createCardSet(req, res, next) {
         try {
-            const { cardId, setId } = req.body;
-            res.status(Created).json(await cardSetService.createCardSet(cardId, setId));
+            res.status(Created).json(await cardSetService.createCardSet(req.body));
         } catch (e) {
             next(e);
         }

@@ -6,7 +6,7 @@ import {io} from '../../app';
 class AuctionController {
     async getAllAuctions(req, res, next) {
         try {
-        res.status(OK).json(await auctionService.getAllAuctions());
+        res.status(OK).json(await auctionService.getAllAuctions(req.query));
         } catch (e) {
         next(e);
         }
@@ -44,6 +44,14 @@ class AuctionController {
     async cancelAuction(req, res, next) {
         try {
         res.status(Created).json(await auctionService.cancelAuction(req.params.auctionId));
+        } catch (e) {
+        next(e);
+        }
+    };
+
+    async getTotalAuctions(req, res, next) {
+        try {
+        res.status(OK).json(await auctionService.getTotalAuctions());
         } catch (e) {
         next(e);
         }

@@ -18,6 +18,11 @@ router.get(
 );
 
 router.get(
+    '/total',
+    userController.getTotalUsers
+);
+
+router.get(
     '/:userId',
     userMiddlewar.checkRole,
     userController.getOneUser
@@ -28,6 +33,11 @@ router.put(
     userMiddlewar.checkUpdatedUserData,
     registrMiddlewar.checkIsEmailBusy,
     userController.updateUserData
+);
+
+router.put(
+    '/admin/:userId',
+    userController.updateUserRole
 );
 
 router.delete(

@@ -1,18 +1,92 @@
 import logger from '#config/logger.config';
 import { CARD, USER_CARD } from "#constants/database.enum";
+import { PRICE_MAX, PRICE_MIN, SORT_PRICE, FILTER_CARD } from '#constants/filters.enum';
 import { ADMIN } from "#constants/project.constants";
 import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
+import cardRepository from '#repositories/card/card.repository';
+import cronRepository from '#repositories/cron/cron.repository';
+import userRepository from '#repositories/user/user.repository';
 import balanceService from '#services/balance/balance.service';
 import cardService from '#services/card/card.service';
-import cronRepository from '#repositories/cron/cron.repository';
 import userService from '#services/user/user.service';
 import userCardService from '#services/user/userCard.service';
 
 class AuctionService {
-    async getAllAuctions() {
+    createRawForGetFilteredAuctions(params) {
+        let filter = 'id > 0 ';
+        let sort = 'DESC';
+
+        for (const key in params) {
+            const val = params[key];
+
+            if (val) {
+                if (key === SORT_PRICE) {
+                    sort = val;
+                } else if (key === FILTER_CARD) {
+                    filter += `AND a.lot_id = ${val} `;
+                } else if (key === PRICE_MIN) {
+                    filter += `AND a.current_price >= ${val} `;
+                } else if (key === PRICE_MAX) {
+                    filter += `AND a.current_price <= ${val} `;
+                }
+            }
+        }
+
+        return {
+            filter,
+            sort
+        }
+    };
+
+    async getAllAuctions(params) {
         try {
-            return await auctionRepository.getAllAuctions();
+            let {
+                limit,
+                offset,
+                lotId,
+                priceMin,
+                priceMax,
+                sortPrice
+            } = params;
+            offset = (offset - 1) * limit;
+
+            const { filter, sort } = this.createRawForGetFilteredAuctions({ lotId, priceMin, priceMax, sortPrice });
+            const res = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
+            const auctions = Object.values(JSON.parse(JSON.stringify(res.auctions)));
+            const auctionsWithoutPagination = Object.values(JSON.parse(JSON.stringify(res.auctionsWithoutPagination)));
+            const totalItem = Object.values(Object.values(JSON.parse(JSON.stringify(res.totalItem)))[0])[0];
+
+            for (const auction of auctions) {
+                let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
+                card = card.toJSON();
+                auction.card = card;
+
+                if (auction.customer_id) {
+                    let user = await userRepository.getUserLoginById(auction.customer_id);
+                    user = user.toJSON();
+                    auction.customer_id = user;
+                }
+
+                const finalDateMS = Date.parse(auction.created_at) + auction.max_time;
+                const date = new Date(finalDateMS).toString();
+                const finalDate = date.split(' ');
+                finalDate.splice(5);
+                finalDate.splice(0, 1);
+                auction.finalDate = finalDate.join(' ');
+            }
+
+            for (const auction of auctionsWithoutPagination) {
+                let card = await cardRepository.getNameAndImageOneCardById(auction.lot_id);
+                card = card.toJSON();
+                auction.card = card;
+            }
+
+            return {
+                auctions,
+                auctionsWithoutPagination,
+                totalItem
+            };
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
@@ -21,13 +95,13 @@ class AuctionService {
 
     async createAuction(auctionData, role) {
         try {
-            const { lotId, initPrice, maxPrice, minStep, maxTime, minExtensionTime } = auctionData;
+            const { lotId, initPrice, maxPrice, minStep, maxTime } = auctionData;
 
             const maxTimeNum = maxTime * 24 * 60 * 60 * 1000;
-            const minExtensionTimeNum = minExtensionTime * 24 * 60 * 60 * 1000;
             const lotType = (role === ADMIN) ? CARD : USER_CARD;
+            const current_price = initPrice;
 
-            let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, minStep, maxTimeNum, minExtensionTimeNum);
+            let createdAuction = await auctionRepository.createAuction(lotId, lotType, initPrice, maxPrice, current_price, minStep, maxTimeNum);
             createdAuction = createdAuction.toJSON();
 
             return await auctionRepository.getOneAuctionById(createdAuction.id);
@@ -90,6 +164,27 @@ class AuctionService {
                     }
                 }
             });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
+
+    async getTotalAuctions() {
+        try {
+            let totalAuctions = await auctionRepository.getTotalAuctions();
+            totalAuctions = totalAuctions.toJSON();
+
+            totalAuctions.map(total => {
+                const fullDate = total.created_at;
+                const date = new Date(fullDate).toString();
+                const finalDate = date.split(' ');
+                finalDate.splice(4);
+                finalDate.splice(0, 1);
+                total.created_at = finalDate.join(' ');
+            });
+
+            return totalAuctions;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
