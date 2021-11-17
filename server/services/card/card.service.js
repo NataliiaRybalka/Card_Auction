@@ -10,15 +10,25 @@ import locationService from "./location.service";
 class CardService {
     async getAllCards(params) {
         try {
-            let {
-                limit,
-                offset
-            } = params;
-            offset = (offset - 1) * limit;
+            let res;
+            let cards;
+            let totalItem;
 
-            const res = await cardRepository.getAllCards(limit, offset);
-            const cards = res.toJSON();
-            const totalItem = res.pagination.rowCount;
+            if (Object.keys(params).length === 0) {
+                res = await cardRepository.getAllCardsWithoutFilter();
+                cards = res.toJSON();
+            } else {
+                let {
+                    limit,
+                    offset
+                } = params;
+                offset = (offset - 1) * limit;
+
+                res = await cardRepository.getAllCards(limit, offset);
+                cards = res.toJSON();
+                totalItem = res.pagination.rowCount;
+            }
+            
 
             for (const card of cards) {
                 let location = await locationService.getLocationById(card.location_id);

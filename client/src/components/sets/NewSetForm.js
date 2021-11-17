@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Alert } from "../alert/Alert";
 import { createSet } from "../../redux/actions/sets.actions";
-import { getCards } from "../../redux/actions/cards.actions";
+import { getCardsWithoutFilter } from "../../redux/actions/cards.actions";
 
-const NewSetForm = (props) => {
+export const NewSetForm = (props) => {
   const [inputValues, setInputValues] = useState({
     title: '',
     bonus: '',
@@ -17,12 +16,11 @@ const NewSetForm = (props) => {
   const [msg, setMsg] = useState();
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
   const history = useHistory();
-
   const dispatch = useDispatch();
-  const allCards = props.cards;
-  
+  const allCards = useSelector(state => state.cardsReducer.cards);
+
   useEffect(() => {
-    dispatch(getCards());
+    dispatch(getCardsWithoutFilter());
   }, [dispatch]);
 
   const onChangeInputHandler = e => {
@@ -38,7 +36,7 @@ const NewSetForm = (props) => {
       ...{[e.target.name]: e.target.value}
     }));
 
-    setArrayCardByLetters(allCards[0].filter(card => card.name.includes(e.target.value)));
+    setArrayCardByLetters(allCards.filter(card => card.name.includes(e.target.value)));
   };
 
   const onSelectCardHandler = e => {
@@ -100,12 +98,3 @@ const NewSetForm = (props) => {
     </div>
   );
 };
-
-const mapStateToProps = (state) => {
-  return {
-    set: state.setsReducer.set,
-    cards: state.cardsReducer.cards
-  }
-};
-
-export default connect(mapStateToProps)(NewSetForm);
