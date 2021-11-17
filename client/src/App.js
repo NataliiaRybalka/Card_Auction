@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import './App.css';
-import UserPage from './components/account/UserPage';
+import { UserPage } from './components/account/UserPage';
 import { Admin } from './components/admin/Admin';
-import Login from './components/auth/Login';
+import { Login } from './components/auth/Login';
 import { Logout } from './components/auth/Logout';
-import Registration from './components/auth/Registration';
+import { Registration } from './components/auth/Registration';
 import { Footer } from './components/pages/Footer';
 import { Header } from './components/pages/Header';
 import { ADMIN } from "./constants/contants";
@@ -22,9 +22,11 @@ function App() {
             <Route path='/registration' component={Registration} />
             <Route path='/login' component={Login} />
             <Route path='/logout' component={Logout} />
-            <Route path='/account' component={UserPage} />
+            <Route path='/account' render={() => (
+              !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <UserPage />
+            )} />
             <Route path='/admin' render={() => (
-              localStorage.getItem('role') !== ADMIN ? <Redirect to='/' /> : <Admin />
+              (!localStorage.getItem('refreshToken') || localStorage.getItem('role') !== ADMIN) ? <Redirect to='/' /> : <Admin />
             )} />
           </Switch>
         </Router>

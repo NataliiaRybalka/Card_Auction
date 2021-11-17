@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import './Sets.css';
 import { LOCALHOST } from "../../constants/contants";
 import { getSets } from "../../redux/actions/sets.actions";
-import NewSetForm from "./NewSetForm";
+import { NewSetForm } from "./NewSetForm";
 
 export const Sets = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

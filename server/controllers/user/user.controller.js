@@ -24,9 +24,10 @@ class UserController {
             const {
                 params: { userId: id },
                 body: userData,
-                userId: idFromTokens
+                userId: idFromTokens,
+                photo
             } = req;
-            res.status(Created).json(await userService.updateUserData(id, userData, idFromTokens));
+            res.status(Created).json(await userService.updateUserData(id, userData, idFromTokens, photo));
         } catch (e) {
             next(e);
         }

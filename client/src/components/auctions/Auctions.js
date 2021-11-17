@@ -14,7 +14,7 @@ export const Auctions = () => {
     offset: 1,
     priceMin: '',
     priceMax: '',
-    sortPrice: 'DESC',
+    sortDate: 'DESC',
     lotId: '',
     lotName: '',
     cardName: ''
@@ -98,10 +98,10 @@ export const Auctions = () => {
 
         <span className={'filterCheckbox'}>
           <label>ascending</label>
-          <input type={'radio'} name={'sortPrice'} value={'ASC'} onChange={onChangeInputHandler} />
+          <input type={'radio'} name={'sortDate'} value={'ASC'} onChange={onChangeInputHandler} />
           <br />
           <label>descending</label>
-          <input type={'radio'} name={'sortPrice'} value={'DESC'} onChange={onChangeInputHandler} />
+          <input type={'radio'} name={'sortDate'} value={'DESC'} onChange={onChangeInputHandler} />
         </span>
       </div>
 

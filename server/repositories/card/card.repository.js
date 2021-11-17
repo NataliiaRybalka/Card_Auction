@@ -13,6 +13,15 @@ class CardRepository {
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
+    
+    async getAllCardsWithoutFilter() {
+        try {
+            return await Card.fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
 
     async getAllUserCards(user_id) {
         try {

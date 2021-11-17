@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 
 import './Auth.css';
 
 import { login } from '../../redux/actions/auth.actions';
-import UserPage from "../account/UserPage";
+import { UserPage } from "../account/UserPage";
 import { Alert } from "../alert/Alert";
 
-const Login = (props) => {
+export const Login = () => {
   const [inputValues, setInputValues] = useState({
     email: '',
     password: ''
   });
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.authReducer.user);
+  const alert = useSelector(state => state.alertReducer.alert);
 
   const onChangeInputHandler = e => {
     setInputValues(prev => ({
@@ -22,7 +25,7 @@ const Login = (props) => {
   };
 
   const onHandleLogin = async () => {
-    props.dispatch(login(inputValues));
+    dispatch(login(inputValues));
 
     setInputValues({
       email: '',
@@ -42,22 +45,11 @@ const Login = (props) => {
         <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
       </div>
 
-      {props.alert && <Alert msg={props.alert} />}
+      {alert && <Alert msg={alert} />}
       
       <button onClick={onHandleLogin}>send</button>
 
-
-      {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
+      {user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>
   );
-}
-
-const mapStateToProps = (state) => {
-  return {
-    user: state.authReducer.user,
-    userTokens: state.authReducer.userTokens,
-    alert: state.alertReducer.alert
-  }
 };
-
-export default connect(mapStateToProps)(Login);

@@ -7,6 +7,7 @@ import { WrongToken } from "../constants/errorMessages.enum";
 import { GET_CARDS, CREATE_CARD_SUCCESS } from '../redux/types/cards.types';
 import { updateTokens } from "../services/token.service";
 import { getTable } from './saga.fuctions';
+import { httpHelper } from "../helpers/http.helper";
 
 export function* getCardsWorker(data) {
   try {
@@ -21,6 +22,25 @@ export function* getCardsWorker(data) {
       yield put(updateTokens());
     }
   }
+};
+
+export function* getCardsWithoutFilterWorker() {
+  try {
+    const payload = yield call(getCardsWithoutFilter);
+    if (payload.status === OK) {
+      yield put({ type: GET_CARDS, payload: payload.data.cards });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const getCardsWithoutFilter = async () => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}cards`, localStorage.getItem('accessToken'));
 };
 
 export function* createCardWorker(data) {

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { Alert } from "../alert/Alert";
 import { createCard } from "../../redux/actions/cards.actions";
 
-const NewCardForm = (props) => {
+export const NewCardForm = (props) => {
+  const { isModalVisible, setIsModalVisible } = props;
   const [inputValues, setInputValues] = useState({
     name: '',
     isAlive: '',
@@ -20,6 +21,7 @@ const NewCardForm = (props) => {
   });
   const [msg, setMsg] = useState();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onChangeInputHandler = e => {
     if (e.target.name === 'image') {
@@ -46,7 +48,7 @@ const NewCardForm = (props) => {
     const formData = new FormData();
     formData.append('image', inputValues.image);
     Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
-    props.dispatch(createCard(formData));
+    dispatch(createCard(formData));
 
     setInputValues({
       name: '',
@@ -65,7 +67,7 @@ const NewCardForm = (props) => {
   };
 
   return (
-    <div className={props.isModalVisible ? 'modal active' : 'modal'} onClick={() => props.setIsModalVisible(false)}>
+    <div className={isModalVisible ? 'modal active' : 'modal'} onClick={() => setIsModalVisible(false)}>
       <div className={'modalContent'} onClick={e => e.stopPropagation()}>
         <div className={'form'}>
           <div>
@@ -132,11 +134,3 @@ const NewCardForm = (props) => {
     </div>
   );
 };
-
-const mapStateToProps = (state) => {
-  return {
-    card: state.cardsReducer.card
-  }
-};
-
-export default connect(mapStateToProps)(NewCardForm);

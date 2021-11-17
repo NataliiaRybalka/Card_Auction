@@ -5,8 +5,8 @@ import { promisify } from 'util';
 
 const mkdirPromise = promisify(fs.mkdir);
 
-export const createPhotoPath = async (filename, id) => {
-  const pathWithoutStatic = path.join('cards', id.toString());
+export const createPhotoPath = async (filename, id, folderName) => {
+  const pathWithoutStatic = path.join(folderName, id.toString());
   const uploadPath = path.join(process.cwd(), 'static', pathWithoutStatic);
   const fileExtension = filename.split('.').pop();
   const photoName = `${v1()}.${fileExtension}`;

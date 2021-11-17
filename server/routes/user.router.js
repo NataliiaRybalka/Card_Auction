@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import cardMiddlewar from '#middlewars/card/card.middlewar';
 import registrMiddlewar from '#middlewars/auth/registr.middlewar';
 import tokenMiddlewar from '#middlewars/user/token.middlewar';
 import userMiddlewar from '#middlewars/user/user.middlewar';
@@ -31,6 +32,7 @@ router.get(
 router.put(
     '/:userId',
     userMiddlewar.checkUpdatedUserData,
+    cardMiddlewar.checkCardImageValidity,
     registrMiddlewar.checkIsEmailBusy,
     userController.updateUserData
 );
