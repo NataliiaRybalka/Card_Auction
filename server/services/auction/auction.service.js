@@ -1,6 +1,6 @@
 import logger from '#config/logger.config';
 import { CARD, USER_CARD } from "#constants/database.enum";
-import { PRICE_MAX, PRICE_MIN, SORT_PRICE, FILTER_CARD } from '#constants/filters.enum';
+import { PRICE_MAX, PRICE_MIN, SORT_DATE, FILTER_CARD } from '#constants/filters.enum';
 import { ADMIN } from "#constants/project.constants";
 import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
@@ -21,7 +21,7 @@ class AuctionService {
             const val = params[key];
 
             if (val) {
-                if (key === SORT_PRICE) {
+                if (key === SORT_DATE) {
                     sort = val;
                 } else if (key === FILTER_CARD) {
                     filter += `AND a.lot_id = ${val} `;
@@ -47,11 +47,11 @@ class AuctionService {
                 lotId,
                 priceMin,
                 priceMax,
-                sortPrice
+                sortDate
             } = params;
             offset = (offset - 1) * limit;
 
-            const { filter, sort } = this.createRawForGetFilteredAuctions({ lotId, priceMin, priceMax, sortPrice });
+            const { filter, sort } = this.createRawForGetFilteredAuctions({ lotId, priceMin, priceMax, sortDate });
             const res = await auctionRepository.getAllAuctionsWithFilter(limit, offset, filter, sort);
             const auctions = Object.values(JSON.parse(JSON.stringify(res.auctions)));
             const auctionsWithoutPagination = Object.values(JSON.parse(JSON.stringify(res.auctionsWithoutPagination)));

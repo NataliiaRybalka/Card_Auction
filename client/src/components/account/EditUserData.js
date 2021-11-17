@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import './User.css';
 import { editUserData } from '../../redux/actions/user.actions';
 import { Alert } from "../alert/Alert";
 
-export const EditUserData = (props) => {
+export const EditUserData = () => {
   const [inputValues, setInputValues] = useState({
     login: '',
     email: '',
@@ -14,6 +15,7 @@ export const EditUserData = (props) => {
   });
   const [msg, setMsg] = useState();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onChangeInputHandler = e => {
     if (e.target.name === 'image') {
@@ -50,7 +52,7 @@ export const EditUserData = (props) => {
     const formData = new FormData();
     if (inputValues.image) formData.append('image', inputValues.image);
     Object.entries(inputValues).map(([key, value]) => formData.append(key, value));
-    props.dispatch(editUserData(formData));
+    dispatch(editUserData(formData));
 
     setInputValues({
       login: '',

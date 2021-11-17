@@ -8,21 +8,6 @@ import { TotalAuctions } from '#models/TotalAuctions';
 import { ErrorHandler } from '#helpers/error.handler';
 
 class AuctionRepository {
-    async getAllAuctions(limit, offset) {
-        try {
-            const auctions = await Auction.query(qb => qb.orderBy('created_at', 'DESC')).fetchPage({ offset, limit });
-            const auctionsWithoutPagination = await Auction.fetchAll();
-
-            return {
-                auctions,
-                auctionsWithoutPagination
-            }
-        } catch (e) {
-            logger.error(e);
-            throw new ErrorHandler(NotFound, NotFoundMes);
-        }
-    };
-
     async getAllAuctionsWithFilter(limit, offset, filter, sort) {
         try {
             const auctions = await bookshelfConf.knex
@@ -31,7 +16,7 @@ class AuctionRepository {
                 .from('auction as a')
                 .limit(limit)
                 .offset(offset)
-                .orderBy('a.current_price', sort);
+                .orderBy('a.created_at', sort);
 
             const auctionsWithoutPagination = await Auction.fetchAll();
 

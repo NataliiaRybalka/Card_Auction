@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import './Cards.css';
 import { LOCALHOST } from "../../constants/contants";
-import NewAuctionForm from '../auctions/NewAuctionForm';
+import { NewAuctionForm } from '../auctions/NewAuctionForm';
 
 export const Card = ({ card }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);

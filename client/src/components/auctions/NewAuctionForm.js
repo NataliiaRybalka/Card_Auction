@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
 import { Alert } from "../alert/Alert";
 import { createAuction } from "../../redux/actions/auctions.actions";
 
-const NewAuctionForm = (props) => {
+export const NewAuctionForm = (props) => {
   const [inputValues, setInputValues] = useState({
     lotId: props.card,
     initPrice: '',
@@ -15,6 +15,7 @@ const NewAuctionForm = (props) => {
   });
   const [msg, setMsg] = useState();
   const location = useHistory();
+  const dispatch = useDispatch();
 
   const onChangeInputHandler = e => {
     setInputValues(prev => ({
@@ -31,7 +32,7 @@ const NewAuctionForm = (props) => {
       }
     }
 
-    props.dispatch(createAuction(inputValues));
+    dispatch(createAuction(inputValues));
 
     setInputValues({
       lotId: props.card,
@@ -76,11 +77,3 @@ const NewAuctionForm = (props) => {
     </div>
   );
 };
-
-const mapStateToProps = (state) => {
-  return {
-    auction: state.auctionsReducer.auction
-  }
-};
-
-export default connect(mapStateToProps)(NewAuctionForm);
