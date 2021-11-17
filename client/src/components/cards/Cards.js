@@ -6,7 +6,7 @@ import { getCards } from "../../redux/actions/cards.actions";
 import { LIMIT } from "../../constants/contants";
 import { CARDS } from "../../constants/url.enum";
 import { Card } from "./Card";
-import NewCardForm from "./NewCardForm";
+import { NewCardForm } from "./NewCardForm";
 import { ButtonPagination } from "../pages/ButtonPagination";
 
 export const Cards = () => {

@@ -6,8 +6,9 @@ import { Alert } from "../alert/Alert";
 import { createAuction } from "../../redux/actions/auctions.actions";
 
 export const NewAuctionForm = (props) => {
+  const { card, isModalVisible, setIsModalVisible } = props;
   const [inputValues, setInputValues] = useState({
-    lotId: props.card,
+    lotId: card,
     initPrice: '',
     maxPrice: '',
     minStep: '',
@@ -35,7 +36,7 @@ export const NewAuctionForm = (props) => {
     dispatch(createAuction(inputValues));
 
     setInputValues({
-      lotId: props.card,
+      lotId: card,
       initPrice: '',
       maxPrice: '',
       minStep: '',
@@ -46,7 +47,7 @@ export const NewAuctionForm = (props) => {
   };
 
   return (
-    <div className={props.isModalVisible ? 'modal active' : 'modal'} onClick={() => props.setIsModalVisible(false)}>
+    <div className={isModalVisible ? 'modal active' : 'modal'} onClick={() => setIsModalVisible(false)}>
       <div className={'modalContent'} onClick={e => e.stopPropagation()}>
         <div className={'form'}>
           <div>
