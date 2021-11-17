@@ -4,6 +4,7 @@ import { Forbidden, NotFound } from '#constants/responseCodes.enum';
 import { ADMIN, USER } from "#constants/project.constants";
 import { createPhotoPath } from '#helpers/createPhotoPath';
 import { ErrorHandler } from '#helpers/error.handler';
+import { hashPassword } from '#helpers/passwordHasher';
 import registrRepository from "#repositories/auth/registr.repository";
 import tokenRepository from "#repositories/auth/token.repository";
 import userRepository from '#repositories/user/user.repository';
@@ -74,6 +75,8 @@ class UserService {
     async updateUserData(id, userData, idFromTokens, photo) {
         try {
             const { login, email, password } = userData;
+            
+            const hashedPassword = await hashPassword(password);
 
             if (id  != idFromTokens) {
                 throw new ErrorHandler(Forbidden, ForbiddenMes);
@@ -86,7 +89,7 @@ class UserService {
                 imagePath = photoPath;
             };
             
-            await userRepository.updateUserData(id, login, email, password, imagePath);
+            await userRepository.updateUserData(id, login, email, hashedPassword, imagePath);
             return await userRepository.getUserById(id);
         } catch (e) {
             logger.error(e);
