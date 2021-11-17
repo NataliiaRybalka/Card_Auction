@@ -2,6 +2,7 @@ import logger from '#config/logger.config';
 import { ForbiddenMes, ThisUserIsNotRegistered, YouAreNotAdmin } from '#constants/errorMessages.enum';
 import { Forbidden, NotFound } from '#constants/responseCodes.enum';
 import { ADMIN, USER } from "#constants/project.constants";
+import { createPhotoPath } from '#helpers/createPhotoPath';
 import { ErrorHandler } from '#helpers/error.handler';
 import registrRepository from "#repositories/auth/registr.repository";
 import tokenRepository from "#repositories/auth/token.repository";
@@ -57,8 +58,8 @@ class UserService {
             let roleId = user.role_id;
             let role = await registrRepository.getRoleById(roleId);
             role = role.toJSON();
-            if (role.title === ADMIN) {
-                throw  new ErrorHandler(Forbidden, YouAreNotAdmin);
+            if (role.title === ADMIN && user.role_id !== role.id) {
+                throw new ErrorHandler(Forbidden, YouAreNotAdmin);
             }
 
             user.role_id = role.title;
@@ -70,20 +71,28 @@ class UserService {
         }
     };
 
-    async updateUserData(id, userData, idFromTokens) {
+    async updateUserData(id, userData, idFromTokens, photo) {
         try {
             const { login, email, password } = userData;
 
             if (id  != idFromTokens) {
                 throw new ErrorHandler(Forbidden, ForbiddenMes);
             }
-            await userRepository.updateUserData(id, login, email, password);
+
+            let imagePath;
+            if (photo) {
+                const { finalPath, photoPath } = await createPhotoPath(photo.name, id, 'users');
+                await photo.mv(finalPath);
+                imagePath = photoPath;
+            };
+            
+            await userRepository.updateUserData(id, login, email, password, imagePath);
             return await userRepository.getUserById(id);
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
         }
-            };
+    };
 
     async updateUserRating(id, rating) {
         try {

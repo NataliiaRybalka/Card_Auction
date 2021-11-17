@@ -101,7 +101,7 @@ class CardService {
             await cardEpisodeRepository.createCardEpisode(card.id, episode.id);
 
             if (photo) {
-                const { finalPath, photoPath } = await createPhotoPath(photo.name, card.id);
+                const { finalPath, photoPath } = await createPhotoPath(photo.name, card.id, 'cards');
                 await photo.mv(finalPath);
         
                 card = await cardRepository.addImageForCard(card.id, photoPath);

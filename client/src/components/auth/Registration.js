@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import './Auth.css';
 
 import { registration } from '../../redux/actions/auth.actions';
-import UserPage from "../account/UserPage";
+import { UserPage } from "../account/UserPage";
 import { Alert } from "../alert/Alert";
 
 const Registration = (props) => {
@@ -52,7 +52,6 @@ const Registration = (props) => {
       {props.alert && <Alert msg={props.alert} />}
       
       <button onClick={onHandleRegistration}>send</button>
-
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>

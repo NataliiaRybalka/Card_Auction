@@ -9,6 +9,7 @@ exports.up = function(knex) {
         table.integer('role_id').unsigned();
         table.foreign('role_id').references('id').inTable('role');
         table.integer('rating').defaultTo(0);
+        table.string('image');
         table.dateTime('created_at');
     })
 };

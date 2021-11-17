@@ -2,7 +2,8 @@ import { httpHelper } from "../helpers/http.helper";
 import { LOCALHOST } from "../constants/contants";
 import { POST } from "../constants/httpMethods";
 
-export const setTokenAndRoleService = (tokens, role) => {
+export const setTokenAndRoleService = (id, tokens, role) => {
+  localStorage.setItem('id', id);
   localStorage.setItem('accessToken', tokens.access_token);
   localStorage.setItem('refreshToken', tokens.refresh_token);
   localStorage.setItem('role', role);

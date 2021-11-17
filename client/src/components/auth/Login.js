@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import './Auth.css';
 
 import { login } from '../../redux/actions/auth.actions';
-import UserPage from "../account/UserPage";
+import { UserPage } from "../account/UserPage";
 import { Alert } from "../alert/Alert";
 
 const Login = (props) => {
@@ -45,7 +45,6 @@ const Login = (props) => {
       {props.alert && <Alert msg={props.alert} />}
       
       <button onClick={onHandleLogin}>send</button>
-
 
       {props.user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>

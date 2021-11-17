@@ -1,0 +1,32 @@
+.userPage {
+  display: flex;
+  justify-content: space-around;
+}
+
+#userLogin {
+  color: #ff4dff;
+}
+
+#userImg {
+  
+}
+
+.userForm {
+  border: 2px dashed #4dffff;
+}
+
+.userForm > h3 {
+  text-align: center;
+}
+
+.userForm > div {
+  margin: 20px;
+}
+
+.userForm > div > input {
+  width: 300px;
+}
+
+.userFromBtn {
+  margin: 20px 40%;
+}

@@ -59,9 +59,9 @@ class UserRepository {
         }
     };
 
-    async updateUserData(id, login, email, password, role) {
+    async updateUserData(id, login, email, password, image) {
         try {
-            return await User.forge({ id }).save({ login, email, password, role });
+            return await User.forge({ id }).save({ login, email, password, image });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(InternalServerError, NotUpdated);

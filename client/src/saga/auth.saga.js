@@ -31,7 +31,7 @@ export function* loginSagaWorker(data) {
     const payload = yield call(login, data.payload);
     if (payload.status === OK) {
       yield put({ type: LOGIN_SUCCESS, payload: payload.data });
-      yield put(setTokenAndRoleService(payload.data.userTokens, payload.data.user.role_id));
+      yield put(setTokenAndRoleService(payload.data.user.id, payload.data.userTokens, payload.data.user.role_id));
     } else {
       throw payload;
     }
