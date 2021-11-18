@@ -34,7 +34,10 @@ function App() {
             <Route path='/account' exact render={() => (
               !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <UserPage />
             )} />
-            <Route path='/admin' render={() => (
+            <Route path='/admin/account' render={() => (
+              !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <UserPage />
+            )} />
+            <Route path='/admin' exact render={() => (
               (!localStorage.getItem('refreshToken') || localStorage.getItem('role') !== ADMIN) ? <Redirect to='/' /> : <Admin />
             )} />
           </Switch>

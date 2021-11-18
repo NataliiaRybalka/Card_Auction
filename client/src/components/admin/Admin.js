@@ -1,12 +1,12 @@
 import "./Admin.css";
 
-import { Menu } from "./Menu";
+import { AdminMenu } from "./Menu";
 
 export const Admin = () => {
 
   return (
     <div>
-      <Menu />
+      <AdminMenu />
     </div>
   );
 };

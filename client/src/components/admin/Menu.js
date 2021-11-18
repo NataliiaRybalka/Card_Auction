@@ -13,7 +13,7 @@ import { Cards } from '../cards/Cards';
 import { Sets } from '../sets/Sets';
 import { Auctions } from '../auctions/Auctions';
 
-export const Menu = () => {
+export const AdminMenu = () => {
 
   return (
     <div>

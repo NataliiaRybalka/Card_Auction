@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 
 import './Auth.css';
-
 import { login } from '../../redux/actions/auth.actions';
 import { UserPage } from "../account/UserPage";
 import { Alert } from "../alert/Alert";
@@ -14,7 +13,6 @@ export const Login = () => {
     password: ''
   });
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authReducer.user);
   const alert = useSelector(state => state.alertReducer.alert);
 
   const onChangeInputHandler = e => {
@@ -49,7 +47,11 @@ export const Login = () => {
       
       <button onClick={onHandleLogin}>send</button>
 
-      {user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
+      {!!localStorage.getItem('refreshToken') && (
+        localStorage.getItem('role') === 'admin'
+        ? <Redirect to='/admin/account'> <UserPage /> </Redirect> 
+        : <Redirect to='/account'> <UserPage /> </Redirect>
+      )}
     </div>
   );
 };
