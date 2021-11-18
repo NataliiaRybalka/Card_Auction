@@ -19,7 +19,7 @@ function App() {
       <Header />
 
       <main>
-        {localStorage.getItem('refreshToken') && <AdminMenu />}
+        {!!localStorage.getItem('refreshToken') && <AdminMenu />}
 
         <Switch>
           <Route path='/registration' component={Registration} />
