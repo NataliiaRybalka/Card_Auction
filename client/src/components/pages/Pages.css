@@ -29,10 +29,19 @@
 }
 
 .personMenuLink {
+  display: flex;
+  align-items: center;
   padding-left: 5px;
   height: 30px;
 }
 
+.personMenuLink:hover {
+  background-color: #4dffff;
+}
+
 .navPersonLink {
+  color: #e6e6ff;
+  text-decoration: none;
+  width: 100%;
   font-size: 15px;
 }
