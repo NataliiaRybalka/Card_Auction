@@ -7,6 +7,7 @@ import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
+import { getTable } from "./saga.fuctions";
 
 export function* getUserByIdWorker() {
   try {
@@ -48,4 +49,19 @@ const editUserData = async (data) => {
       'Authorization': localStorage.getItem('accessToken')
     }
   });
+};
+
+export function* getSoldUserCardsByIdWorker(data) {
+  try {
+    const payload = yield call(getTable, data.payload);
+    if (payload.status === OK) {
+      yield put({ type: GET_USER, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
 };
