@@ -15,7 +15,6 @@ export const Registration = () => {
     password: ''
   });
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authReducer.user);
   const alert = useSelector(state => state.alertReducer.alert);
 
   const onChangeInputHandler = e => {
@@ -56,7 +55,7 @@ export const Registration = () => {
       
       <button onClick={onHandleRegistration}>send</button>
 
-      {user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
+      {!!localStorage.getItem('refreshToken') && <Redirect to='/account'> <UserPage /> </Redirect>}
     </div>
   );
 };

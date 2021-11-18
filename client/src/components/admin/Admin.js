@@ -1,6 +1,6 @@
 import "./Admin.css";
 
-import { AdminMenu } from "./Menu";
+import { AdminMenu } from "./AdminMenu";
 
 export const Admin = () => {
 

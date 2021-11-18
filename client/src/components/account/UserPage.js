@@ -12,7 +12,7 @@ export const UserPage = () => {
 
   useEffect(() => {
     dispatch(getUserById());
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <div className={'userPage'}>
