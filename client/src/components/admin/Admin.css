@@ -28,26 +28,6 @@
   margin-left: 30%;
 }
 
-table {
-  border: 2px solid #ff4dff;
-  border-spacing: 0;
-  width: 100%;
-}
-td, th {
-  border: 1px solid #ff4dff;
-  text-align: center;
-  height: 50px;
-}
-td > button {
-  margin: 0;
-  font-size: 15px;
-  width: 150px;
-}
-
-th {
-  color: #ff751a;
-}
-
 #charts {
   display: flex;
   justify-content: space-around;

@@ -1,8 +1,3 @@
-h1 {
-  text-align: center;
-  font-size: 45px;
-}
-
 .footerLink {
   text-align: right;
 }
@@ -17,4 +12,27 @@ h1 {
 
 .footerLink > span > a::after {
   color: #ff4dff;
+}
+
+#personMenuBtn {
+  cursor: pointer;
+}
+
+.personMenuBlock {
+  display: none;
+}
+
+.activepPersonMenuBlock {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.personMenuLink {
+  padding-left: 5px;
+  height: 30px;
+}
+
+.navPersonLink {
+  font-size: 15px;
 }
