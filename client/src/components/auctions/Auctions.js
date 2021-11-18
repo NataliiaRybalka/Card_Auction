@@ -76,7 +76,7 @@ export const Auctions = () => {
   };
 
   return (
-    <div className={'adminPage'}>
+    <div className={'main'}>
       <h2>Auctions</h2>
 
       <div className={'nameAndBtnBlock'}>

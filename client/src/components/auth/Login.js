@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import './Auth.css';
 import { login } from '../../redux/actions/auth.actions';
-import { UserPage } from "../account/UserPage";
+import { Account } from "../account/Account";
 import { Alert } from "../alert/Alert";
 import { Registration } from "./Registration";
 
@@ -53,8 +53,8 @@ export const Login = () => {
 
       {!!localStorage.getItem('refreshToken') && (
         localStorage.getItem('role') === 'admin'
-        ? <Redirect to='/admin/account'> <UserPage /> </Redirect> 
-        : <Redirect to='/account'> <UserPage /> </Redirect>
+        ? <Redirect to='/admin/account'> <Account /> </Redirect> 
+        : <Redirect to='/account'> <Account /> </Redirect>
       )}
     </div>
   );

@@ -6,7 +6,7 @@ import { LOCALHOST } from "../../constants/contants";
 import { EditUserData } from "./EditUserData";
 import { getUserById } from "../../redux/actions/user.actions";
 
-export const UserPage = () => {
+export const Account = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userReducer.user);
 
@@ -15,7 +15,7 @@ export const UserPage = () => {
   }, [dispatch]);
 
   return (
-    <div className={'userPage'}>
+    <div className={'userPage main'}>
       <EditUserData />
 
       <div>
