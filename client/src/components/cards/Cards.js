@@ -26,7 +26,7 @@ export const Cards = () => {
   }, [dispatch, filter]);
 
   return (
-    <div className={'adminPage'}>
+    <div className={'main'}>
       <header id={'cardPageHeader'}>
         <h2>Cards</h2>
         <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}>create new card</button>

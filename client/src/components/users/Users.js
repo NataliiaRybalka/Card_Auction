@@ -29,7 +29,7 @@ export const Users = () => {
   };
 
   return (
-    <div className={'adminPage'}>
+    <div className={'main'}>
       <h2>Users</h2>
 
       <table>

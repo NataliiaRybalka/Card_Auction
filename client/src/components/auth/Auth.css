@@ -8,3 +8,18 @@
   margin: 20px 30%;
 }
 
+.form > button {
+  display:block;
+  width:100px;
+  height: 100%;
+  margin: 0 auto 10px;
+}
+
+#toRegistration {
+  font-size: 15px;
+  cursor: pointer;
+  display:block;
+  width:100px;
+  height: 100%;
+  margin: 0 auto;
+}

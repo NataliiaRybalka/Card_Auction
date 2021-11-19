@@ -2,6 +2,7 @@ import { render } from 'react-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import { BrowserRouter as Router} from 'react-router-dom';
 
 import './index.css';
 import App from './App';
@@ -21,7 +22,9 @@ saga.run(sagaWatcher);
 
 render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

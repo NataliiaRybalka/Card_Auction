@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 import './Auth.css';
 
 import { registration } from '../../redux/actions/auth.actions';
-import { UserPage } from "../account/UserPage";
 import { Alert } from "../alert/Alert";
 
 export const Registration = () => {
@@ -15,7 +14,6 @@ export const Registration = () => {
     password: ''
   });
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authReducer.user);
   const alert = useSelector(state => state.alertReducer.alert);
 
   const onChangeInputHandler = e => {
@@ -56,7 +54,7 @@ export const Registration = () => {
       
       <button onClick={onHandleRegistration}>send</button>
 
-      {user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
+      {!!localStorage.getItem('refreshToken') && <Redirect to='/reload' />}
     </div>
   );
 };

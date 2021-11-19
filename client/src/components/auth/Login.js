@@ -3,18 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 
 import './Auth.css';
-
 import { login } from '../../redux/actions/auth.actions';
-import { UserPage } from "../account/UserPage";
 import { Alert } from "../alert/Alert";
+import { Registration } from "./Registration";
 
 export const Login = () => {
+  const [toRegistration, setToRegistration] = useState(false);
   const [inputValues, setInputValues] = useState({
     email: '',
     password: ''
   });
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authReducer.user);
   const alert = useSelector(state => state.alertReducer.alert);
 
   const onChangeInputHandler = e => {
@@ -48,8 +47,10 @@ export const Login = () => {
       {alert && <Alert msg={alert} />}
       
       <button onClick={onHandleLogin}>send</button>
+      <span onClick={() => setToRegistration(true)} id={'toRegistration'}>registration</span>
+      {toRegistration && <Redirect to='/registration'> <Registration /> </Redirect>}
 
-      {user.email && <Redirect to='/account'> <UserPage /> </Redirect>}
+      {!!localStorage.getItem('refreshToken') && <Redirect to='/reload' />}
     </div>
   );
 };

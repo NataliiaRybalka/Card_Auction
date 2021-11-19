@@ -15,7 +15,7 @@ export const Dashboard = () => {
   }, [dispatch]);
 
   return (
-    <div className={'adminPage'}>
+    <div className={'main'}>
       <h2>Dashboard</h2>
 
       <div id={'charts'}>

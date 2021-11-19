@@ -17,7 +17,7 @@ export const Sets = () => {
   }, [dispatch]);
 
   return (
-    <div className={'adminPage'}>
+    <div className={'main'}>
       <header id={'cardPageHeader'}>
         <h2>Sets</h2>
         <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}>create new set</button>
