@@ -78,5 +78,5 @@ export function* createBetWorker(data) {
 };
 const createBet = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}auctions/${data.id}`, localStorage.getItem('accessToken'), PUT, data.bet);
+  return await request(`${LOCALHOST}auctions/${data.id}`, localStorage.getItem('accessToken'), PUT, data.newPrice);
 };

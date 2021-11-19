@@ -22,6 +22,7 @@ export const Auctions = () => {
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
+  const [idAuction, setIdAuctions] = useState();
   const dispatch = useDispatch();
   const auctions = useSelector(state => state.auctionsReducer.auctions);
   const auctionsWithoutPagination = useSelector(state => state.auctionsReducer.auctionsWithoutPagination);
@@ -77,7 +78,9 @@ export const Auctions = () => {
     }));
   };
 
-  const onPlaceBetHandler = () => {
+  const onPlaceBetHandler = (id) => {
+    setIdAuctions(id);
+    
     if (localStorage.getItem('role') === USER) {
       setIsModalVisible(true);
     }
@@ -128,7 +131,7 @@ export const Auctions = () => {
 
         <tbody>
           {!!auctions.length && auctions.map(auction => (
-            <tr key={auction.id} className={auction.lot_type === CARD ? 'adminLot' : ''} onClick={onPlaceBetHandler}>
+            <tr key={auction.id} className={auction.lot_type === CARD ? 'adminLot' : ''} onClick={() => onPlaceBetHandler(auction.id)}>
               <td>
                 {!!auction.card.image 
                   ? <img src={`${LOCALHOST}/${auction.card.image}`} alt={auction.card.name} className={'cardSetCardImg'} key={auction.card.name + auction.card.id} /> 
@@ -151,7 +154,7 @@ export const Auctions = () => {
 
       <ButtonPagination totalItem={totalItem} setFilter={setFilter} />
 
-      <PlaceABet isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
+      <PlaceABet isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} idAuction={idAuction} />
     </div>
   );
 };

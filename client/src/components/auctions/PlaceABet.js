@@ -3,17 +3,17 @@ import { useDispatch } from "react-redux";
 
 import { createBet } from '../../redux/actions/auctions.actions';
 
-export const PlaceABet = ({ isModalVisible, setIsModalVisible }) => {
+export const PlaceABet = ({ isModalVisible, setIsModalVisible, idAuction }) => {
   const [data, setData] = useState({
-    bet: '',
-    id: 1
+    newPrice: ''
   });
+  data.id = idAuction;
   const dispatch = useDispatch();
 
   const onChangeBetHandler = e => {
     setData(prev => ({
       ...prev,
-      ...{[e.target.name]: +e.target.value}
+      ...{ [e.target.name]: +e.target.value }
     }));
   };
 
@@ -21,8 +21,8 @@ export const PlaceABet = ({ isModalVisible, setIsModalVisible }) => {
     dispatch(createBet(data));
 
     setData({
-      bet: '',
-      id: 1
+      newPrice: '',
+      id: null
     });
     setIsModalVisible(false);
   };
@@ -32,7 +32,7 @@ export const PlaceABet = ({ isModalVisible, setIsModalVisible }) => {
       <div className={'modalContent'} onClick={e => e.stopPropagation()}>
         <div className={'form'}>
           <label>Enter Your Bet</label>
-          <input type={'number'} name={'bet'} value={data.bet} onChange={onChangeBetHandler} />
+          <input type={'number'} name={'newPrice'} value={data.newPrice} onChange={onChangeBetHandler} />
           <button onClick={onSendBetHandler}>send</button>
         </div>
       </div>
