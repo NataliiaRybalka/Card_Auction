@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 import './Auth.css';
 
 import { registration } from '../../redux/actions/auth.actions';
-import { Account } from "../account/Account";
 import { Alert } from "../alert/Alert";
 
 export const Registration = () => {
@@ -55,7 +54,7 @@ export const Registration = () => {
       
       <button onClick={onHandleRegistration}>send</button>
 
-      {!!localStorage.getItem('refreshToken') && <Redirect to='/account'> <Account /> </Redirect>}
+      {!!localStorage.getItem('refreshToken') && <Redirect to='/reload' />}
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 
 import './Auth.css';
 import { login } from '../../redux/actions/auth.actions';
-import { Account } from "../account/Account";
 import { Alert } from "../alert/Alert";
 import { Registration } from "./Registration";
 
@@ -51,11 +50,7 @@ export const Login = () => {
       <span onClick={() => setToRegistration(true)} id={'toRegistration'}>registration</span>
       {toRegistration && <Redirect to='/registration'> <Registration /> </Redirect>}
 
-      {!!localStorage.getItem('refreshToken') && (
-        localStorage.getItem('role') === 'admin'
-        ? <Redirect to='/admin/account'> <Account /> </Redirect> 
-        : <Redirect to='/account'> <Account /> </Redirect>
-      )}
+      {!!localStorage.getItem('refreshToken') && <Redirect to='/reload' />}
     </div>
   );
 };

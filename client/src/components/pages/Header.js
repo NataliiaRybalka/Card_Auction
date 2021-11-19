@@ -13,7 +13,7 @@ export const Header = () => {
       <h1>Card Auction</h1>
 
       {(!!localStorage.getItem('refreshToken') && !toLogin) ? <DropdownMenu /> : <button onClick={() => setToLogin(true)}>login</button>}
-      {toLogin && <Redirect to='/login'> <Login /> </Redirect>}
+      {toLogin && <Redirect to='/login' />}
     </header>
   )
 };

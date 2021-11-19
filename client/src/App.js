@@ -11,6 +11,7 @@ import { Footer } from './components/pages/Footer';
 import { Header } from './components/pages/Header';
 import { Users } from './components/users/Users';
 import { AdminMenu } from './components/admin/AdminMenu';
+import { Reload } from './components/pages/Reload';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <Route path='/registration' component={Registration} />
           <Route path='/login' component={Login} />
           <Route path='/logout' component={Logout} />
+          <Route path='/reload' component={Reload} />
           <Route path='/rating' component={Users} />
           <Route path='/account/history' render={() => (
             !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <History />
