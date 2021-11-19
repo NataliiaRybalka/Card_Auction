@@ -1,7 +1,7 @@
 export const Balance = () => {
 
   return (
-    <div>
+    <div className={'main'}>
       <h2>Balance</h2>
     </div>
   );

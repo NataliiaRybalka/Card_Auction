@@ -50,9 +50,12 @@ class UserCardRepository {
         }
     };
 
-    async getAllSoldUserCards(user_id) {
+    async getAllSoldUserCards(user_id, limit, offset) {
         try {
-            return await UserCard.where({ user_id }).query((qb) => qb.whereNotNull('sold_at')).fetchAll();
+            return await UserCard.where({ user_id }).query((qb) => {
+                qb.whereNotNull('sold_at'),
+                qb.orderBy('sold_at', 'DESC')
+            }).fetchPage({ offset, limit });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

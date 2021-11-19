@@ -4,8 +4,7 @@ import historyService from '#services/card/history.service';
 class HistoryController {
     async getHistory(req, res, next) {
         try {
-            const { userId } = req;
-            res.status(OK).json(await historyService.getHistory(userId));
+            res.status(OK).json(await historyService.getHistory(req.userId, req.query));
         }  catch (e) {
             next(e);
         }

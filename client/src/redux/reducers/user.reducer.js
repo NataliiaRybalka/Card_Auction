@@ -2,7 +2,8 @@ import { GET_USER, GET_SOLD_USER_CARDS } from "../types/user.types";
 
 const initialState = {
   user: {},
-  cards: []
+  cards: [],
+  totalCards: null
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -11,7 +12,7 @@ export const userReducer = (state = initialState, action) => {
       return {...state, user: action.payload};
 
     case GET_SOLD_USER_CARDS:
-      return {...state, cards: action.payload};
+      return {...state, cards: action.payload.cards, totalCards: action.payload.totalItem};
 
     default:
       return state;

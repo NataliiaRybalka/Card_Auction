@@ -1,7 +1,7 @@
 import { put, call } from "redux-saga/effects";
 import axios from 'axios';
 
-import { GET_USER } from "../redux/types/user.types";
+import { GET_USER, GET_SOLD_USER_CARDS } from "../redux/types/user.types";
 import { LOCALHOST } from "../constants/contants";
 import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
@@ -55,7 +55,7 @@ export function* getSoldUserCardsByIdWorker(data) {
   try {
     const payload = yield call(getTable, data.payload);
     if (payload.status === OK) {
-      yield put({ type: GET_USER, payload: payload.data });
+      yield put({ type: GET_SOLD_USER_CARDS, payload: payload.data });
     } else {
       throw payload;
     }

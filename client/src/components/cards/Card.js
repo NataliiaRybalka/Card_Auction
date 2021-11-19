@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import './Cards.css';
 import { LOCALHOST } from "../../constants/contants";
@@ -6,6 +7,7 @@ import { NewAuctionForm } from '../auctions/NewAuctionForm';
 
 export const Card = ({ card }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const location = useLocation();
 
   return (
     <div className={'card'}>
@@ -23,7 +25,7 @@ export const Card = ({ card }) => {
         <h4>First Episode:</h4>
         <span>{card.episode_series} - {card.episode_title} -  {card.episode_air_date}</span>
 
-        <button className={'startAuctionBtn'} onClick={() => setIsModalVisible(true)}>start auction</button>
+        {location.pathname === '/admin/cards' && <button className={'startAuctionBtn'} onClick={() => setIsModalVisible(true)}>start auction</button>}
 
         <NewAuctionForm isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} card={card.id} />
       </div>
