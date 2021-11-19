@@ -20,6 +20,15 @@ class TokenRepository {
         }
     };
 
+    async getTokens() {
+        try {
+            return await UserToken.fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
     async getTokenByUserId(user_id) {
         try {
             return await UserToken.where({ user_id }).orderBy('user_id', 'DESC').fetchAll();
@@ -47,9 +56,9 @@ class TokenRepository {
         }
     };
 
-    async deleteTokens(user_id) {
+    async deleteTokens(id) {
         try {
-            return await UserToken.where({ user_id }).destroy();
+            return await UserToken.where({ id }).destroy();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(BadRequest, BadRequestMes);
