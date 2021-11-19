@@ -38,7 +38,7 @@ export const Users = () => {
             <th>username</th>
             <th>email</th>
             <th>rating</th>
-            <th>change role</th>
+            <th className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}>change role</th>
           </tr>
         </thead>
 
@@ -48,7 +48,7 @@ export const Users = () => {
             <td>{user.login}</td>
             <td>{user.email}</td>
             <td>{user.rating}</td>
-            <td> <button onClick={() => makeAdminHandler(user)}>change to {(!!user.role_id && user.role_id.title === ADMIN) ? USER : ADMIN}</button> </td>
+            <td className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}> <button onClick={() => makeAdminHandler(user)}>change to {(!!user.role_id && user.role_id.title === ADMIN) ? USER : ADMIN}</button> </td>
           </tr>
         ))}
         </tbody>

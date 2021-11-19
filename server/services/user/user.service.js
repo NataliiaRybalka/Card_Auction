@@ -19,7 +19,7 @@ class UserService {
             offset = (offset - 1) * limit;
 
             const res = await userRepository.getUsers(limit, offset);
-            const users = res.toJSON();
+            let users = res.toJSON();
             const totalItem = res.pagination.rowCount;
 
             let roles = await registrRepository.getRoles();

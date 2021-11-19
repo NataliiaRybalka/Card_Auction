@@ -19,7 +19,7 @@ export const History = () => {
 
   useEffect(() => {
     dispatch(getSoldUserCards(filter));
-  }, [dispatch])
+  }, [dispatch, filter])
 
   return (
     <div className={'main'}>
