@@ -49,11 +49,12 @@ h3 {
 }
 
 table {
+  border-collapse: collapse;
   border: 2px solid #ff4dff;
   border-spacing: 0;
   width: 100%;
 }
-td, th {
+tr {
   border: 1px solid #ff4dff;
   text-align: center;
   height: 50px;
