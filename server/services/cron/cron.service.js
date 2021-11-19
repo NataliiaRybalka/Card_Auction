@@ -1,8 +1,10 @@
 import logger from '#config/logger.config';
+import { ACCESS_EXPIRES_MS } from '#constants/tokens.constants';
 import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
 import cronRepository from '#repositories/cron/cron.repository';
 import setRepository from '#repositories/card/set.repository';
+import tokenRepository from '../../repositories/auth/token.repository';
 import userRepository from '#repositories/user/user.repository';
 import userCardRepository from '#repositories/user/userCard.repository';
 
@@ -65,6 +67,23 @@ class CronService {
 
       const totalAuctions = await auctionRepository.countTotalAuctions();
       await auctionRepository.writeDownTotalAuctions(totalAuctions);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorHandler(e.status, e.message);
+    }
+  };
+
+  async deleteTokens() {
+    try {
+      let tokens = await tokenRepository.getTokens();
+      tokens = tokens.toJSON();
+      
+      tokens.forEach(async token => {
+        const timePassed = Date.parse(token.created_at) + ACCESS_EXPIRES_MS;
+        if (timePassed < Date.now()) {
+          await tokenRepository.deleteTokens(token.id);
+        }
+      });
     } catch (e) {
       logger.error(e);
       throw new ErrorHandler(e.status, e.message);
