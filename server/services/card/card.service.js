@@ -48,12 +48,18 @@ class CardService {
         }
     };
 
-    async getAllUserCards(role, userId) {
+    async getAllUserCards(role, userId, params) {
         try {
+            let {
+                limit,
+                offset
+            } = params;
+            offset = (offset - 1) * limit;
+
             if (role === USER) {
-                let userCards = await cardRepository.getAllUserCards(userId);
-                userCards = userCards.toJSON();
-                userCards = userCards.filter(userCard => !userCard.sold_at);
+                const res = await cardRepository.getAllUserCards(userId, limit, offset);
+                let userCards = res.toJSON();
+                const totalItem = res.pagination.rowCount;
 
                 const cards = [];
                 for (const user of userCards) {
@@ -79,7 +85,10 @@ class CardService {
                     card.episode_series = episode.series;
                 }
 
-                return cards;
+                return {
+                    cards,
+                    totalItem
+                }
             }
         } catch (e) {
             logger.error(e);

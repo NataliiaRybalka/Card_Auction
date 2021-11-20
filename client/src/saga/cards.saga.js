@@ -80,3 +80,29 @@ export function* getSoldUserCardsByIdWorker(data) {
     }
   }
 };
+
+export function* getUserCardsWorker(data) {
+  try {
+    const payload = yield call(getUserCards, data.payload);
+    if (payload.status === OK) {
+      yield put({ type: GET_CARDS, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+export const getUserCards = async (params) => {
+  let query = '?';
+  for (const filter in params) {
+    if (params[filter] !== '' && filter !== 'url') {
+      query += `${filter}=${params[filter]}&`;
+    }
+  }
+
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}cards/${localStorage.getItem('id')}${query}`, localStorage.getItem('accessToken'));
+};

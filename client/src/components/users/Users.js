@@ -30,7 +30,9 @@ export const Users = () => {
 
   return (
     <div className={'main'}>
-      <h2>Users</h2>
+      <header>
+        <h2>Users</h2>
+      </header>
 
       <table>
         <thead>

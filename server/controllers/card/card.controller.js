@@ -24,8 +24,8 @@ class CardController {
 
     async getUserCardsInStock(req, res, next) {
         try {
-            const { role, userId } = req;
-            res.status(OK).json(await cardService.getAllUserCards(role, userId));
+            const { role, userId, query } = req;
+            res.status(OK).json(await cardService.getAllUserCards(role, userId, query));
         }  catch (e) {
             next(e);
         }

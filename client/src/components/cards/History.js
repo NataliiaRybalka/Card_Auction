@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { v1 } from "uuid";
 
 import { getSoldUserCards } from "../../redux/actions/cards.actions";
 import { HISTORY } from "../../constants/url.enum";
 import { LIMIT } from "../../constants/contants";
-import { Card } from "../cards/Card";
+import { Card } from "./Card";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 
 export const History = () => {
@@ -15,7 +16,7 @@ export const History = () => {
   });
   const dispatch = useDispatch();
   const cards = useSelector(state => state.cardsReducer.cards);
-  const totalCards = useSelector(state => state.cardsReducer.totalItem);
+  const totalItem = useSelector(state => state.cardsReducer.totalItem);
 
   useEffect(() => {
     dispatch(getSoldUserCards(filter));
@@ -28,10 +29,10 @@ export const History = () => {
       </header>
       
       <div className={'cardsBlock'}>
-        {!!cards.length && cards.map(card => <Card card={card} key={card.id} />)}
+        {!!cards.length && cards.map(card => <Card card={card} key={card.id + v1()} />)}
       </div>
 
-      <ButtonPagination totalItem={totalCards} setFilter={setFilter} />
+      <ButtonPagination totalItem={totalItem} setFilter={setFilter} />
     </div>
   );
 };
