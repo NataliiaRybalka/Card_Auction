@@ -1,4 +1,4 @@
-import { REQUEST_CARDS, CREATE_CARD, REQUEST_CARDS_WITHOUT_FILTER } from "../types/cards.types";
+import { REQUEST_CARDS, CREATE_CARD, REQUEST_CARDS_WITHOUT_FILTER, REQUEST_SOLD_USER_CARDS } from "../types/cards.types";
 
 export const getCards = filterData => {
   return {
@@ -17,5 +17,12 @@ export const createCard = cardData => {
   return {
     type: CREATE_CARD,
     payload: cardData
+  }
+};
+
+export const getSoldUserCards = filterData => {
+  return {
+    type: REQUEST_SOLD_USER_CARDS,
+    payload: filterData
   }
 };

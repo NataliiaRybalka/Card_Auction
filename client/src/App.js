@@ -1,7 +1,7 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import './App.css';
-import { History } from './components/account/History';
+import { History } from './components/cards/History';
 import { Balance } from './components/account/Balance';
 import { Login } from './components/auth/Login';
 import { Logout } from './components/auth/Logout';

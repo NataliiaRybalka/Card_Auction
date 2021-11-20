@@ -65,3 +65,18 @@ const createCard = async (data) => {
     }
   });
 };
+
+export function* getSoldUserCardsByIdWorker(data) {
+  try {
+    const payload = yield call(getTable, data.payload);
+    if (payload.status === OK) {
+      yield put({ type: GET_CARDS, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};

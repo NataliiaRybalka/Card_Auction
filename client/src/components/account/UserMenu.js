@@ -9,6 +9,7 @@ import { Auctions } from '../auctions/Auctions';
 import { Account } from './Account';
 import { Users } from '../users/Users';
 import { FAQ } from '../faq/FAQ';
+import { MyCards } from '../cards/MyCards';
 
 export const UserMenu = () => {
 
@@ -26,6 +27,7 @@ export const UserMenu = () => {
 
       <Switch>
         <Route path='/account' component={Account} exact />
+        <Route path='/my-cards' component={MyCards} />
         <Route path='/rating' component={Users} />
         <Route path='/faq' component={FAQ} />
         <Route path='/auctions' component={Auctions} />

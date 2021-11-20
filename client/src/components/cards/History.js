@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getSoldUserCards } from "../../redux/actions/user.actions";
+import { getSoldUserCards } from "../../redux/actions/cards.actions";
 import { HISTORY } from "../../constants/url.enum";
 import { LIMIT } from "../../constants/contants";
 import { Card } from "../cards/Card";
@@ -14,8 +14,8 @@ export const History = () => {
     offset: 1
   });
   const dispatch = useDispatch();
-  const cards = useSelector(state => state.userReducer.cards);
-  const totalCards = useSelector(state => state.userReducer.totalCards);
+  const cards = useSelector(state => state.cardsReducer.cards);
+  const totalCards = useSelector(state => state.cardsReducer.totalItem);
 
   useEffect(() => {
     dispatch(getSoldUserCards(filter));
