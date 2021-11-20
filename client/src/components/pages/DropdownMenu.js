@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom';
+
+import Person from "@material-ui/icons/Person";
 
 import './Pages.css';
-import Person from "@material-ui/icons/Person";
-import { Link } from 'react-router-dom';
 import { ADMIN } from "../../constants/contants";
 
 export const DropdownMenu = () => {

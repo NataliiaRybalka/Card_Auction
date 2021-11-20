@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import './Cards.css';
 import { getCards } from "../../redux/actions/cards.actions";
-import { LIMIT } from "../../constants/contants";
+import { LIMIT, USER } from "../../constants/contants";
 import { CARDS } from "../../constants/url.enum";
 import { Card } from "./Card";
 import { NewCardForm } from "./NewCardForm";
@@ -29,7 +29,7 @@ export const Cards = () => {
     <div className={'main'}>
       <header id={'cardPageHeader'}>
         <h2>Cards</h2>
-        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}>create new card</button>
+        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)} className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}>create new card</button>
       </header>
       
       <div className={'cardsBlock'}>
