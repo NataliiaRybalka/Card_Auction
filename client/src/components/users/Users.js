@@ -6,7 +6,7 @@ import { LOCALHOST, ADMIN, USER, LIMIT } from "../../constants/contants";
 import { USERS } from "../../constants/url.enum";
 import { PUT } from "../../constants/httpMethods";
 import { httpHelper } from "../../helpers/http.helper";
-import { ButtonPagination } from "../pages/ButtonPagination";
+import { ButtonPagination } from "../auxiliary/ButtonPagination";
 
 export const Users = () => {
   const [filter, setFilter] = useState({

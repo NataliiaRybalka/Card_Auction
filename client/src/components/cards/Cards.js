@@ -7,7 +7,7 @@ import { LIMIT, USER } from "../../constants/contants";
 import { CARDS } from "../../constants/url.enum";
 import { Card } from "./Card";
 import { NewCardForm } from "./NewCardForm";
-import { ButtonPagination } from "../pages/ButtonPagination";
+import { ButtonPagination } from "../auxiliary/ButtonPagination";
 
 export const Cards = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

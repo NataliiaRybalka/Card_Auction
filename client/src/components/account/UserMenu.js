@@ -25,7 +25,7 @@ export const UserMenu = () => {
       </nav>
 
       <Switch>
-        <Route path='/account' component={Account} />
+        <Route path='/account' component={Account} exact />
         <Route path='/rating' component={Users} />
         <Route path='/faq' component={FAQ} />
         <Route path='/auctions' component={Auctions} />

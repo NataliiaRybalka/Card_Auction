@@ -9,7 +9,7 @@ import { Registration } from './components/auth/Registration';
 import { Footer } from './components/pages/Footer';
 import { Header } from './components/pages/Header';
 import { AdminMenu } from './components/admin/AdminMenu';
-import { Reload } from './components/pages/Reload';
+import { Reload } from './components/auxiliary/Reload';
 import { UserMenu } from './components/account/UserMenu';
 import { ADMIN } from './constants/contants';
 

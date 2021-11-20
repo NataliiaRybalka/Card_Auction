@@ -5,7 +5,7 @@ import { getSoldUserCards } from "../../redux/actions/user.actions";
 import { HISTORY } from "../../constants/url.enum";
 import { LIMIT } from "../../constants/contants";
 import { Card } from "../cards/Card";
-import { ButtonPagination } from "../pages/ButtonPagination";
+import { ButtonPagination } from "../auxiliary/ButtonPagination";
 
 export const History = () => {
   const [filter, setFilter] = useState({

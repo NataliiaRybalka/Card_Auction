@@ -5,7 +5,7 @@ import './Auctions.css';
 import { LOCALHOST, LIMIT, CARD, USER } from "../../constants/contants";
 import { AUCTIONS } from "../../constants/url.enum";
 import { getAuctions } from "../../redux/actions/auctions.actions";
-import { ButtonPagination } from "../pages/ButtonPagination";
+import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { PlaceABet } from "./PlaceABet";
 
 export const Auctions = () => {
