@@ -16,7 +16,7 @@ export const httpHelper = () => {
 
     const res = await fetch(url, {method, body, headers});
     const data = await res.json();
-    
+
     return {
       data,
       status: res.status,

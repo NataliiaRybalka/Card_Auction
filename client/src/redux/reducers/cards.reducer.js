@@ -3,7 +3,7 @@ import { GET_CARDS, CREATE_CARD_SUCCESS } from "../types/cards.types";
 const initialState = {
   cards: [],
   totalItem: null,
-  card: {},
+  card: {}
 };
 
 export const cardsReducer = (state = initialState, action) => {

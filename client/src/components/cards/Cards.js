@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { v1 } from "uuid";
 
 import './Cards.css';
 import { getCards } from "../../redux/actions/cards.actions";
@@ -20,7 +21,7 @@ export const Cards = () => {
   const dispatch = useDispatch();
   const cards = useSelector(state => state.cardsReducer.cards);
   const totalItem = useSelector(state => state.cardsReducer.totalItem);
-  
+
   useEffect(() => {
     dispatch(getCards(filter));
   }, [dispatch, filter]);
@@ -33,7 +34,7 @@ export const Cards = () => {
       </header>
       
       <div className={'cardsBlock'}>
-        {!!cards.length && cards.map(card => <Card card={card} key={card.id} />)}
+        {!!cards.length && cards.map(card => <Card card={card} key={card.id + v1()} />)}
       </div>
 
       <ButtonPagination totalItem={totalItem} setFilter={setFilter} />

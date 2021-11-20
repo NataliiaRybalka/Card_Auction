@@ -13,7 +13,7 @@ export function* getCardsWorker(data) {
   try {
     const payload = yield call(getTable, data.payload);
     if (payload.status === OK) {
-      yield put({ type: GET_CARDS, payload: payload.data.cards });
+      yield put({ type: GET_CARDS, payload: payload.data });
     } else {
       throw payload;
     }
