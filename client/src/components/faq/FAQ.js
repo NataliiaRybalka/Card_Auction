@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import './FAQ.css';
 
@@ -18,6 +18,8 @@ export const FAQ = () => {
     <div className={'main faqPage'}>
       <h2 className={'faqBtn faqBtnCards'} onClick={onCardsHandler}>Cards</h2>
       <h2 className={'faqBtn'} onClick={onSetsHandler}>Sets</h2>
+
+      <Redirect to='/faq/cards' />
     </div>
   );
 };
