@@ -1,24 +1,24 @@
-import { Redirect, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import { Cards } from '../cards/Cards';
+import { Sets } from '../sets/Sets';
 
 import './FAQ.css';
 
 export const FAQ = () => {
-  const history = useHistory();
-
-  const onSelectCardsHandler = () => {
-    history.push('/faq/cards');
-    history.go(0);
-  };
-  const onSelectSetsHandler = () => {
-    history.push('/faq/sets');
-  };
 
   return (
-    <div className={'main faqPage'}>
-      <span type="button" onClick={onSelectCardsHandler} className={'faqBtn faqBtnCards'}>Cards</span>
-      <span type="button" onClick={onSelectSetsHandler} className={'faqBtn'}>Sets</span>
+    <Router>
+      <div className={'main faqPage'}>
+        <Link to='/faq/cards' className={'navLinks'}> <h2 className={'faqBtn faqBtnCards'}>Cards</h2> </Link>
+        <Link to='/faq/sets' className={'navLinks'}> <h2 className={'faqBtn'}>Sets</h2> </Link>
 
-      <Redirect to='/faq/cards' />
-    </div>
+        <Redirect to='/faq/cards' />
+      </div>
+
+      <Switch>
+        <Route path='/faq/cards' component={Cards} />
+        <Route path='/faq/sets' component={Sets} />
+      </Switch>
+    </Router>
   );
 };

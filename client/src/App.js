@@ -11,8 +11,6 @@ import { Header } from './components/pages/Header';
 import { AdminMenu } from './components/admin/AdminMenu';
 import { Reload } from './components/auxiliary/Reload';
 import { UserMenu } from './components/account/UserMenu';
-import { Cards } from './components/cards/Cards';
-import { Sets } from './components/sets/Sets';
 import { ADMIN } from './constants/contants';
 
 function App() {
@@ -33,8 +31,6 @@ function App() {
           <Route path='/login' component={Login} />
           <Route path='/logout' component={Logout} />
           <Route path='/reload' component={Reload} />
-          <Route path='/faq/cards' component={Cards} />
-          <Route path='/faq/sets' component={Sets} />
           <Route path='/account/history' render={() => (
             !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <History />
           )} />
