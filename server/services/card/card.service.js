@@ -8,7 +8,7 @@ import episodeService from "./episode.service";
 import locationService from "./location.service";
 
 class CardService {
-    async getAllCards(params) {
+    async getAllCards(params, userId) {
         try {
             let {
                 limit,
@@ -19,6 +19,12 @@ class CardService {
             const res = await cardRepository.getAllCards(limit, offset);
             const cards = res.toJSON();
             const totalItem = res.pagination.rowCount;
+
+            let userCards;
+            if (userId) {
+                userCards = await cardRepository.getAllUserCardsWithoutPagination(userId);
+                userCards = userCards.toJSON();
+            }
 
             for (const card of cards) {
                 let location = await locationService.getLocationById(card.location_id);
@@ -36,6 +42,14 @@ class CardService {
                 card.episode_title = episode.title;
                 card.episode_air_date = episode.air_date;
                 card.episode_series = episode.series;
+
+                if (userCards.length) {
+                    for (const userCard of userCards) {
+                        if (card.id === userCard.card_id){
+                            card.is_user_card = true;
+                        }
+                    }
+                }
             }
 
             return {

@@ -33,6 +33,15 @@ class CardRepository {
         }
     };
 
+    async getAllUserCardsWithoutPagination(user_id) {
+        try {
+            return await UserCard.where({ user_id, sold_at: null }).fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
     async getOneCardById(id) {
         try {
             return await Card.where({ id }).fetch();

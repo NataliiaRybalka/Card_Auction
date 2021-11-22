@@ -4,7 +4,7 @@ import cardService from '#services/card/card.service';
 class CardController {
     async getAllCards(req, res, next) {
         try {
-            return res.status(OK).json(await cardService.getAllCards(req.query));
+            return res.status(OK).json(await cardService.getAllCards(req.query, req.userId));
         } catch (e) {
             next(e);
         }
