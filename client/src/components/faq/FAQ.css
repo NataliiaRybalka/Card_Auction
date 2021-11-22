@@ -1,11 +1,14 @@
 .faqPage {
   display: flex;
-  text-align: center;
+  justify-content: center;
 }
 
 .faqBtn {
   color: #ff751a;
   height: 50px;
+  width: 300px;
+  text-align: center;
+  font-size: 30px;
 }
 
 .faqBtn:hover {

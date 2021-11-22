@@ -17,7 +17,6 @@ export const Cards = () => {
     limit: LIMIT,
     offset: 1
   });
-
   const dispatch = useDispatch();
   const cards = useSelector(state => state.cardsReducer.cards);
   const totalItem = useSelector(state => state.cardsReducer.totalItem);
