@@ -18,6 +18,15 @@ class BalanceRepository {
     }
   };
 
+  async getAllTransactions(user_id) {
+    try {
+      return await Transaction.where({ user_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetchAll();
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorHandler(NotFound, NotFoundMes);
+    }
+  };
+
   async createTransaction(user_id, sum) {
     try {
       return await Transaction.forge({

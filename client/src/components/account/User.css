@@ -31,3 +31,9 @@
 .userFromBtn {
   margin: 20px 40%;
 }
+
+#balance {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ff4dff;
+}

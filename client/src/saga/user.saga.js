@@ -1,7 +1,7 @@
 import { put, call } from "redux-saga/effects";
 import axios from 'axios';
 
-import { GET_USER } from "../redux/types/user.types";
+import { GET_USER, GET_BALANCE } from "../redux/types/user.types";
 import { LOCALHOST } from "../constants/contants";
 import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
@@ -48,4 +48,23 @@ const editUserData = async (data) => {
       'Authorization': localStorage.getItem('accessToken')
     }
   });
+};
+
+export function* getBalanceWorker() {
+  try {
+    const payload = yield call(getBalance);
+    if (payload.status === OK) {
+      yield put({ type: GET_BALANCE, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const getBalance = async () => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}balance`, localStorage.getItem('accessToken'));
 };
