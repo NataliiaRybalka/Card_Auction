@@ -7,6 +7,7 @@ import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
+import { POST } from "../constants/httpMethods";
 
 export function* getUserByIdWorker() {
   try {
@@ -67,4 +68,23 @@ export function* getBalanceWorker() {
 const getBalance = async () => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}balance`, localStorage.getItem('accessToken'));
+};
+
+export function* changeBalanceWorker(data) {
+  try {
+    const payload = yield call(changeBalance, data.payload);
+    if (payload.status === Created) {
+      yield put({ type: GET_USER, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const changeBalance = async (data) => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}balance`, localStorage.getItem('accessToken'), POST, data);
 };

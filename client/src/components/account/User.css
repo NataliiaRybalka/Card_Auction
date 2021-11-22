@@ -37,3 +37,12 @@
   font-weight: bold;
   color: #ff4dff;
 }
+
+.balanceForm {
+  width: 250px;
+  margin: 0;
+}
+
+.balanceForm > input {
+  width: 95%;
+}
