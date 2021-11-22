@@ -79,3 +79,13 @@
   border-radius: 12px;
   background-color: #00001a;
 }
+
+.faqCard {
+  border: 1px solid #ff4dff;
+  margin-top: 50px;
+  display: flex;
+}
+
+.userCard {
+  background-color: #000033;
+}

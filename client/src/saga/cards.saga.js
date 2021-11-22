@@ -13,7 +13,7 @@ export function* getCardsWorker(data) {
   try {
     const payload = yield call(getTable, data.payload);
     if (payload.status === OK) {
-      yield put({ type: GET_CARDS, payload: payload.data.cards });
+      yield put({ type: GET_CARDS, payload: payload.data });
     } else {
       throw payload;
     }
@@ -64,4 +64,45 @@ const createCard = async (data) => {
       'Authorization': localStorage.getItem('accessToken')
     }
   });
+};
+
+export function* getSoldUserCardsByIdWorker(data) {
+  try {
+    const payload = yield call(getTable, data.payload);
+    if (payload.status === OK) {
+      yield put({ type: GET_CARDS, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+
+export function* getUserCardsWorker(data) {
+  try {
+    const payload = yield call(getUserCards, data.payload);
+    if (payload.status === OK) {
+      yield put({ type: GET_CARDS, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+export const getUserCards = async (params) => {
+  let query = '?';
+  for (const filter in params) {
+    if (params[filter] !== '' && filter !== 'url') {
+      query += `${filter}=${params[filter]}&`;
+    }
+  }
+
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}cards/${localStorage.getItem('id')}${query}`, localStorage.getItem('accessToken'));
 };

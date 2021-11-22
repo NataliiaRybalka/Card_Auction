@@ -6,7 +6,7 @@ import { LOCALHOST, ADMIN, USER, LIMIT } from "../../constants/contants";
 import { USERS } from "../../constants/url.enum";
 import { PUT } from "../../constants/httpMethods";
 import { httpHelper } from "../../helpers/http.helper";
-import { ButtonPagination } from "../pages/ButtonPagination";
+import { ButtonPagination } from "../auxiliary/ButtonPagination";
 
 export const Users = () => {
   const [filter, setFilter] = useState({
@@ -30,7 +30,9 @@ export const Users = () => {
 
   return (
     <div className={'main'}>
-      <h2>Users</h2>
+      <header>
+        <h2>Users</h2>
+      </header>
 
       <table>
         <thead>
@@ -38,7 +40,7 @@ export const Users = () => {
             <th>username</th>
             <th>email</th>
             <th>rating</th>
-            <th>change role</th>
+            <th className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}>change role</th>
           </tr>
         </thead>
 
@@ -48,7 +50,7 @@ export const Users = () => {
             <td>{user.login}</td>
             <td>{user.email}</td>
             <td>{user.rating}</td>
-            <td> <button onClick={() => makeAdminHandler(user)}>change to {(!!user.role_id && user.role_id.title === ADMIN) ? USER : ADMIN}</button> </td>
+            <td className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}> <button onClick={() => makeAdminHandler(user)}>change to {(!!user.role_id && user.role_id.title === ADMIN) ? USER : ADMIN}</button> </td>
           </tr>
         ))}
         </tbody>

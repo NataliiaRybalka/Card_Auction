@@ -4,11 +4,7 @@ import cardService from '#services/card/card.service';
 class CardController {
     async getAllCards(req, res, next) {
         try {
-            const {role, userId} = req;
-            const cards = await cardService.getAllCards(req.query);
-            let userCards = await cardService.getAllUserCards(role, userId);
-
-            return res.status(OK).json({ cards, userCards });
+            return res.status(OK).json(await cardService.getAllCards(req.query, req.userId));
         } catch (e) {
             next(e);
         }
@@ -24,8 +20,8 @@ class CardController {
 
     async getUserCardsInStock(req, res, next) {
         try {
-            const { role, userId } = req;
-            res.status(OK).json(await cardService.getAllUserCards(role, userId));
+            const { role, userId, query } = req;
+            res.status(OK).json(await cardService.getAllUserCards(role, userId, query));
         }  catch (e) {
             next(e);
         }

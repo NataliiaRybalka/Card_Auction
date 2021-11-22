@@ -3,6 +3,7 @@ import { NotFoundMes, NotCreated, NotUpdated } from '#constants/errorMessages.en
 import { InternalServerError, NotFound } from '#constants/responseCodes.enum';
 import { ErrorHandler } from '#helpers/error.handler';
 import { Card } from '#models/Card';
+import { UserCard } from '#models/UserCard';
 
 class CardRepository {
     async getAllCards(limit, offset) {
@@ -23,9 +24,18 @@ class CardRepository {
         }
     };
 
-    async getAllUserCards(user_id) {
+    async getAllUserCards(user_id, limit, offset) {
         try {
-            return await UserCard.where({ user_id }).fetchAll();
+            return await UserCard.where({ user_id, sold_at: null }).query(qb => qb.orderBy('bought_at', 'DESC')).fetchPage({ offset, limit });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async getAllUserCardsWithoutPagination(user_id) {
+        try {
+            return await UserCard.where({ user_id, sold_at: null }).fetchAll();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

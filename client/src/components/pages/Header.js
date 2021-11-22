@@ -1,8 +1,7 @@
 import { Redirect } from 'react-router-dom';
 
 import './Pages.css';
-import { DropdownMenu } from './DropdownMenu';
-import { Login } from '../auth/Login';
+import { DropdownMenu } from '../auxiliary/DropdownMenu';
 import { useState } from 'react';
 
 export const Header = () => {

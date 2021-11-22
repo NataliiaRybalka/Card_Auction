@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import './Sets.css';
-import { LOCALHOST } from "../../constants/contants";
+import { LOCALHOST, USER } from "../../constants/contants";
 import { getSets } from "../../redux/actions/sets.actions";
 import { NewSetForm } from "./NewSetForm";
 
@@ -20,7 +20,7 @@ export const Sets = () => {
     <div className={'main'}>
       <header id={'cardPageHeader'}>
         <h2>Sets</h2>
-        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}>create new set</button>
+        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)} className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}>create new set</button>
       </header>
       
       <div className={'setsBlock'}>

@@ -78,6 +78,10 @@ input {
   background-color: #d9d9d9;
 }
 
+.noDisplay {
+  display: none;
+}
+
 /*
   main-background-color: #00001a;
   main-color: #e6e6ff;
@@ -86,6 +90,6 @@ input {
   red: #ff0000;
   orange: #ff751a;
   green: #00ff00;
-  blue: #0000ff;
+  blue: #000033;
   darkGray: #808080;
 */

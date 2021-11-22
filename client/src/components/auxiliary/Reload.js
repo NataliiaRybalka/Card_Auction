@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Redirect, useHistory } from 'react-router-dom';
 
+import { ADMIN } from "../../constants/contants";
+
 export const Reload = () => {
   const history = useHistory();
 
@@ -10,7 +12,7 @@ export const Reload = () => {
 
   return (
     <div>
-      {localStorage.getItem('role') === 'admin'
+      {localStorage.getItem('role') === ADMIN
         ? <Redirect to='/admin/account' />
         : <Redirect to='/account' />
       }

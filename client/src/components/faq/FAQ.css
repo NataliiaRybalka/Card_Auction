@@ -1,0 +1,19 @@
+.faqPage {
+  display: flex;
+  justify-content: center;
+}
+
+.faqBtn {
+  color: #ff751a;
+  width: 300px;
+  text-align: center;
+  height: 50px;
+}
+
+.faqBtn:hover {
+  font-size: 40px;
+}
+
+.faqBtnCards {
+  border-right: 1px solid #4dffff;
+}

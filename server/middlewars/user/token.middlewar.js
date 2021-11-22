@@ -20,6 +20,7 @@ class TokenMiddlewar {
 
             req.userId = userTokens.user_id;
             req.tokenId = userTokens.id;
+            
             next();
         } catch (e) {
             logger.error(e);
@@ -41,6 +42,7 @@ class TokenMiddlewar {
 
             req.userId = userTokens.user_id;
             req.tokenId = userTokens.id;
+
             next();
         } catch (e) {
             logger.error(e);

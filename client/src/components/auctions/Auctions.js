@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import './Auctions.css';
-import { LOCALHOST, LIMIT, CARD } from "../../constants/contants";
+import { LOCALHOST, LIMIT, CARD, USER } from "../../constants/contants";
 import { AUCTIONS } from "../../constants/url.enum";
 import { getAuctions } from "../../redux/actions/auctions.actions";
-import { ButtonPagination } from "../pages/ButtonPagination";
+import { ButtonPagination } from "../auxiliary/ButtonPagination";
+import { PlaceABet } from "./PlaceABet";
 
 export const Auctions = () => {
   const [filter, setFilter] = useState({
@@ -19,7 +20,9 @@ export const Auctions = () => {
     lotName: '',
     cardName: ''
   });
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
+  const [idAuction, setIdAuctions] = useState();
   const dispatch = useDispatch();
   const auctions = useSelector(state => state.auctionsReducer.auctions);
   const auctionsWithoutPagination = useSelector(state => state.auctionsReducer.auctionsWithoutPagination);
@@ -75,6 +78,14 @@ export const Auctions = () => {
     }));
   };
 
+  const onPlaceBetHandler = (id) => {
+    setIdAuctions(id);
+    
+    if (localStorage.getItem('role') === USER) {
+      setIsModalVisible(true);
+    }
+  };
+
   return (
     <div className={'main'}>
       <h2>Auctions</h2>
@@ -120,7 +131,7 @@ export const Auctions = () => {
 
         <tbody>
           {!!auctions.length && auctions.map(auction => (
-            <tr key={auction.id} className={auction.lot_type === CARD ? 'adminLot' : ''}>
+            <tr key={auction.id} className={auction.lot_type === CARD ? 'adminLot' : ''} onClick={() => onPlaceBetHandler(auction.id)}>
               <td>
                 {!!auction.card.image 
                   ? <img src={`${LOCALHOST}/${auction.card.image}`} alt={auction.card.name} className={'cardSetCardImg'} key={auction.card.name + auction.card.id} /> 
@@ -142,6 +153,8 @@ export const Auctions = () => {
       </table>
 
       <ButtonPagination totalItem={totalItem} setFilter={setFilter} />
+
+      <PlaceABet isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} idAuction={idAuction} />
     </div>
   );
 };

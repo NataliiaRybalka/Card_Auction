@@ -5,7 +5,7 @@ import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
-import { POST } from "../constants/httpMethods";
+import { POST, PUT } from "../constants/httpMethods";
 import { CREATE_AUCTION_SUCCESS, GET_AUCTION, GET_TOTAL_AUCTION } from "../redux/types/auctions.types";
 import { getTable } from './saga.fuctions';
 
@@ -60,4 +60,23 @@ export function* getTotalAuctionsWorker() {
 const getTotalAuctions = async () => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}auctions/total`, localStorage.getItem('accessToken'));
+};
+
+export function* createBetWorker(data) {
+  try {
+    const payload = yield call(createBet, data.payload);
+    if (payload.status === Created) {
+      yield put({ type: CREATE_AUCTION_SUCCESS, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const createBet = async (data) => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}auctions/${data.id}`, localStorage.getItem('accessToken'), PUT, data);
 };

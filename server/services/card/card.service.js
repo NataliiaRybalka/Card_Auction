@@ -8,7 +8,7 @@ import episodeService from "./episode.service";
 import locationService from "./location.service";
 
 class CardService {
-    async getAllCards(params) {
+    async getAllCards(params, userId) {
         try {
             let {
                 limit,
@@ -19,6 +19,12 @@ class CardService {
             const res = await cardRepository.getAllCards(limit, offset);
             const cards = res.toJSON();
             const totalItem = res.pagination.rowCount;
+
+            let userCards;
+            if (userId) {
+                userCards = await cardRepository.getAllUserCardsWithoutPagination(userId);
+                userCards = userCards.toJSON();
+            }
 
             for (const card of cards) {
                 let location = await locationService.getLocationById(card.location_id);
@@ -36,6 +42,14 @@ class CardService {
                 card.episode_title = episode.title;
                 card.episode_air_date = episode.air_date;
                 card.episode_series = episode.series;
+
+                if (userCards.length) {
+                    for (const userCard of userCards) {
+                        if (card.id === userCard.card_id){
+                            card.is_user_card = true;
+                        }
+                    }
+                }
             }
 
             return {
@@ -48,12 +62,18 @@ class CardService {
         }
     };
 
-    async getAllUserCards(role, userId) {
+    async getAllUserCards(role, userId, params) {
         try {
+            let {
+                limit,
+                offset
+            } = params;
+            offset = (offset - 1) * limit;
+
             if (role === USER) {
-                let userCards = await cardRepository.getAllUserCards(userId);
-                userCards = userCards.toJSON();
-                userCards = userCards.filter(userCard => !userCard.sold_at);
+                const res = await cardRepository.getAllUserCards(userId, limit, offset);
+                let userCards = res.toJSON();
+                const totalItem = res.pagination.rowCount;
 
                 const cards = [];
                 for (const user of userCards) {
@@ -79,7 +99,10 @@ class CardService {
                     card.episode_series = episode.series;
                 }
 
-                return cards;
+                return {
+                    cards,
+                    totalItem
+                }
             }
         } catch (e) {
             logger.error(e);
