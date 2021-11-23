@@ -21,6 +21,8 @@ export function* createAuctionWorker(data) {
   } catch (e) {
     if (e.status === Unauthorized && e.data === WrongToken) {
       yield put(updateTokens());
+    } else {
+      yield put({ type: SHOW_ALERT, payload: e.data });
     }
   }
 };

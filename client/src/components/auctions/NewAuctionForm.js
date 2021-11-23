@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
 import { Alert } from "../alert/Alert";
@@ -17,6 +17,8 @@ export const NewAuctionForm = (props) => {
   const [msg, setMsg] = useState();
   const location = useHistory();
   const dispatch = useDispatch();
+  const alert = useSelector(state => state.alertReducer.alert);
+  const auction = useSelector(state => state.auctionsReducer.auction);
 
   const onChangeInputHandler = e => {
     setInputValues(prev => ({
@@ -42,9 +44,11 @@ export const NewAuctionForm = (props) => {
       minStep: '',
       maxTime: ''
     });
-
-    location.replace('/admin/auctions');
   };
+
+  if (Object.keys(auction).length !== 0) {
+    location.replace('/admin/auctions');
+  }
 
   return (
     <div className={isModalVisible ? 'modal active' : 'modal'} onClick={() => setIsModalVisible(false)}>
@@ -71,6 +75,7 @@ export const NewAuctionForm = (props) => {
           </div>
 
           {msg && <Alert msg={msg} />}
+          {alert && <Alert msg={alert} />}
           
           <button onClick={onHandleCreateSet}>send</button>
         </div>

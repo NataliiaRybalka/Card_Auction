@@ -29,7 +29,7 @@ export function* getCardsWithoutFilterWorker() {
   try {
     const payload = yield call(getCardsWithoutFilter);
     if (payload.status === OK) {
-      yield put({ type: GET_CARDS, payload: payload.data.cards });
+      yield put({ type: GET_CARDS, payload: payload.data });
     } else {
       throw payload;
     }
@@ -55,6 +55,8 @@ export function* createCardWorker(data) {
   } catch (e) {
     if (e.status === Unauthorized && e.data === WrongToken) {
       yield put(updateTokens());
+    } else {
+      yield put({ type: SHOW_ALERT, payload: e.data });
     }
   }
 };
@@ -93,8 +95,6 @@ export function* getUserCardsWorker(data) {
   } catch (e) {
     if (e.status === Unauthorized && e.data === WrongToken) {
       yield put(updateTokens());
-    } else {
-      yield put({ type: SHOW_ALERT, payload: e.data });
     }
   }
 };

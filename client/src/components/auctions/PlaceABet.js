@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { createBet } from '../../redux/actions/auctions.actions';
 import { Alert } from "../alert/Alert";
@@ -11,6 +12,8 @@ export const PlaceABet = ({ isModalVisible, setIsModalVisible, idAuction }) => {
   data.id = idAuction;
   const dispatch = useDispatch();
   const alert = useSelector(state => state.alertReducer.alert);
+  const auction = useSelector(state => state.auctionsReducer.auction);
+  const history = useHistory();
 
   const onChangeBetHandler = e => {
     setData(prev => ({
@@ -27,6 +30,11 @@ export const PlaceABet = ({ isModalVisible, setIsModalVisible, idAuction }) => {
       id: null
     });
   };
+
+  if (Object.keys(auction).length !== 0) {
+    setIsModalVisible(false);
+    history.go(0);
+  }
 
   return (
     <div className={isModalVisible ? 'modal active' : 'modal'} onClick={() => setIsModalVisible(false)}>

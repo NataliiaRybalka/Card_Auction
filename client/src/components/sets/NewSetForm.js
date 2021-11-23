@@ -7,6 +7,7 @@ import { createSet } from "../../redux/actions/sets.actions";
 import { getCardsWithoutFilter } from "../../redux/actions/cards.actions";
 
 export const NewSetForm = (props) => {
+  const { isModalVisible, setIsModalVisible } = props;
   const [inputValues, setInputValues] = useState({
     title: '',
     bonus: '',
@@ -18,6 +19,8 @@ export const NewSetForm = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const allCards = useSelector(state => state.cardsReducer.cards);
+  const alert = useSelector(state => state.alertReducer.alert);
+  const set = useSelector(state => state.setsReducer.set);
 
   useEffect(() => {
     dispatch(getCardsWithoutFilter());
@@ -64,12 +67,15 @@ export const NewSetForm = (props) => {
       cardName: ''
     });
     setArrayCardByLetters([]);
-
-    history.go(0);
   };
 
+  if (Object.keys(set).length !== 0) {
+    setIsModalVisible(false);
+    history.go(0);
+  }
+
   return (
-    <div className={props.isModalVisible ? 'modal active' : 'modal'} onClick={() => props.setIsModalVisible(false)}>
+    <div className={isModalVisible ? 'modal active' : 'modal'} onClick={() => setIsModalVisible(false)}>
       <div className={'modalContent'} onClick={e => e.stopPropagation()}>
         <div className={'form'}>
           <div>
@@ -91,6 +97,7 @@ export const NewSetForm = (props) => {
           </div>
 
           {msg && <Alert msg={msg} />}
+          {alert && <Alert msg={alert} />}
           
           <button onClick={onHandleCreateSet}>send</button>
         </div>
