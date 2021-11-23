@@ -8,6 +8,7 @@ import { GET_CARDS, CREATE_CARD_SUCCESS } from '../redux/types/cards.types';
 import { updateTokens } from "../services/token.service";
 import { getTable } from './saga.fuctions';
 import { httpHelper } from "../helpers/http.helper";
+import { SHOW_ALERT } from "../redux/types/alert.types";
 
 export function* getCardsWorker(data) {
   try {
@@ -92,6 +93,8 @@ export function* getUserCardsWorker(data) {
   } catch (e) {
     if (e.status === Unauthorized && e.data === WrongToken) {
       yield put(updateTokens());
+    } else {
+      yield put({ type: SHOW_ALERT, payload: e.data });
     }
   }
 };

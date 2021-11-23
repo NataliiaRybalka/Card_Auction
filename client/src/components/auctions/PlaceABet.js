@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { createBet } from '../../redux/actions/auctions.actions';
+import { Alert } from "../alert/Alert";
 
 export const PlaceABet = ({ isModalVisible, setIsModalVisible, idAuction }) => {
   const [data, setData] = useState({
@@ -10,7 +10,7 @@ export const PlaceABet = ({ isModalVisible, setIsModalVisible, idAuction }) => {
   });
   data.id = idAuction;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const alert = useSelector(state => state.alertReducer.alert);
 
   const onChangeBetHandler = e => {
     setData(prev => ({
@@ -26,9 +26,6 @@ export const PlaceABet = ({ isModalVisible, setIsModalVisible, idAuction }) => {
       newPrice: '',
       id: null
     });
-    setIsModalVisible(false);
-
-    history.go(0);
   };
 
   return (
@@ -38,6 +35,8 @@ export const PlaceABet = ({ isModalVisible, setIsModalVisible, idAuction }) => {
           <label>Enter Your Bet</label>
           <input type={'number'} name={'newPrice'} value={data.newPrice} onChange={onChangeBetHandler} />
           <button onClick={onSendBetHandler}>send</button>
+
+          {alert && <Alert msg={alert} />}
         </div>
       </div>
     </div>

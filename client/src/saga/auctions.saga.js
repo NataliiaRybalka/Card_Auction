@@ -8,6 +8,7 @@ import { updateTokens } from "../services/token.service";
 import { POST, PUT } from "../constants/httpMethods";
 import { CREATE_AUCTION_SUCCESS, GET_AUCTION, GET_TOTAL_AUCTION } from "../redux/types/auctions.types";
 import { getTable } from './saga.fuctions';
+import { SHOW_ALERT } from "../redux/types/alert.types";
 
 export function* createAuctionWorker(data) {
   try {
@@ -73,6 +74,8 @@ export function* createBetWorker(data) {
   } catch (e) {
     if (e.status === Unauthorized && e.data === WrongToken) {
       yield put(updateTokens());
+    } else {
+      yield put({ type: SHOW_ALERT, payload: e.data });
     }
   }
 };

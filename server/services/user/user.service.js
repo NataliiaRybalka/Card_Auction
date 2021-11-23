@@ -75,8 +75,11 @@ class UserService {
     async updateUserData(id, userData, idFromTokens, photo) {
         try {
             const { login, email, password } = userData;
-            
-            const hashedPassword = await hashPassword(password);
+
+            let hashedPassword;
+            if (password) {
+                hashedPassword = await hashPassword(password);
+            }
 
             if (id  != idFromTokens) {
                 throw new ErrorHandler(Forbidden, ForbiddenMes);

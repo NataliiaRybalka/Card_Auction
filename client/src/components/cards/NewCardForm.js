@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { Alert } from "../alert/Alert";
@@ -22,6 +22,7 @@ export const NewCardForm = (props) => {
   const [msg, setMsg] = useState();
   const history = useHistory();
   const dispatch = useDispatch();
+  const alert = useSelector(state => state.alertReducer.alert);
 
   const onChangeInputHandler = e => {
     if (e.target.name === 'image') {
@@ -62,8 +63,6 @@ export const NewCardForm = (props) => {
       series: '',
       image: ''
     });
-
-    history.go(0);
   };
 
   return (
@@ -127,6 +126,7 @@ export const NewCardForm = (props) => {
           </div>
 
           {msg && <Alert msg={msg} />}
+          {alert && <Alert msg={alert} />}
           
           <button onClick={onHandleCreateCard}>send</button>
         </div>

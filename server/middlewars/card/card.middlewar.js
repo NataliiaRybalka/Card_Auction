@@ -13,7 +13,6 @@ class CardMiddlewar {
             if (error) {
                 throw new ErrorHandler(BadRequest, error);
             }
-
             next();
         } catch (e) {
             logger.error(e.errors);

@@ -42,7 +42,7 @@ class AuctionMiddlewar {
             next();
         } catch (e) {
             logger.error('New price is not validity', e);
-            res.status(Forbidden).json('You can not suggest this price');
+            res.status(e.status).json('You can not suggest this price');
         }
     };
 
@@ -60,7 +60,7 @@ class AuctionMiddlewar {
             next();
         } catch (e) {
             logger.error('This auction has already completed', e);
-            res.status(BadRequest).json('This auction has already completed');
+            res.status(e.status).json('This auction has already completed');
         }
     };
 }
