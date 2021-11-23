@@ -23,6 +23,7 @@ export const NewCardForm = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const alert = useSelector(state => state.alertReducer.alert);
+  const card = useSelector(state => state.cardsReducer.card);
 
   const onChangeInputHandler = e => {
     if (e.target.name === 'image') {
@@ -64,6 +65,11 @@ export const NewCardForm = (props) => {
       image: ''
     });
   };
+
+  if (Object.keys(card).length !== 0) {
+    setIsModalVisible(false);
+    history.go(0);
+  }
 
   return (
     <div className={isModalVisible ? 'modal active' : 'modal'} onClick={() => setIsModalVisible(false)}>
