@@ -7,6 +7,7 @@ import { CREATE_SET_SUCCESS, GET_SETS } from "../redux/types/sets.types";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
 import { POST } from "../constants/httpMethods";
+import { SHOW_ALERT } from "../redux/types/alert.types";
 
 export function* getSetsWorker() {
   try {
@@ -38,6 +39,8 @@ export function* createSetWorker(data) {
   } catch (e) {
     if (e.status === Unauthorized && e.data === WrongToken) {
       yield put(updateTokens());
+    } else {
+      yield put({ type: SHOW_ALERT, payload: e.data });
     }
   }
 };
