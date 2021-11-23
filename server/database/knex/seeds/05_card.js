@@ -12,7 +12,6 @@ exports.seed = function(knex) {
       species: faker.random.word(),
       gender: faker.name.gender(),
       location_id: Math.round(Math.random() * (3 - 1) + 1),
-      image: faker.image.animals(),
       created_at: faker.date.recent()
     });
   }

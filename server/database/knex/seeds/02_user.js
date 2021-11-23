@@ -14,7 +14,6 @@ exports.seed = async function(knex) {
         email: 'admin@gmail.com',
         password,
         role_id: 1,
-        image: faker.image.avatar(),
         created_at: faker.date.recent()
       });
     } else {
@@ -23,7 +22,6 @@ exports.seed = async function(knex) {
         email: faker.internet.email(),
         password,
         role_id: 2,
-        image: faker.image.avatar(),
         created_at: faker.date.recent()
       });
     }
