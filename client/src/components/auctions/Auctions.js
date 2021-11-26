@@ -126,6 +126,7 @@ export const Auctions = () => {
             <th>duration</th>
             <th>currect price</th>
             <th>current customer</th>
+            <th></th>
           </tr>
         </thead>
 
