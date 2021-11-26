@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import './Auctions.css';
 import { LOCALHOST, LIMIT, CARD, USER } from "../../constants/contants";
@@ -7,6 +8,8 @@ import { AUCTIONS } from "../../constants/url.enum";
 import { getAuctions } from "../../redux/actions/auctions.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { PlaceABet } from "./PlaceABet";
+
+import { socket } from "../../constants/socket";
 
 export const Auctions = () => {
   const [filter, setFilter] = useState({
@@ -24,6 +27,7 @@ export const Auctions = () => {
   const [arrayCardByLetters, setArrayCardByLetters] = useState([]);
   const [idAuction, setIdAuctions] = useState();
   const dispatch = useDispatch();
+  const history = useHistory();
   const auctions = useSelector(state => state.auctionsReducer.auctions);
   const auctionsWithoutPagination = useSelector(state => state.auctionsReducer.auctionsWithoutPagination);
   const totalItem = useSelector(state => state.auctionsReducer.totalItem);
@@ -85,6 +89,10 @@ export const Auctions = () => {
       setIsModalVisible(true);
     }
   };
+
+  socket.on('update auction rate', (auction) => {
+    if (auction) history.go(0);
+  });
 
   return (
     <div className={'main'}>
