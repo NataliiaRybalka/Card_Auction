@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import './Chats.css';
 import { LIMIT } from "../../constants/contants";
 import { CHATS } from "../../constants/url.enum";
 import { getChats } from "../../redux/actions/chats.actions";
@@ -26,8 +27,11 @@ export const Chats = () => {
       </header>
 
       <ul>
-        
+        {!!chats.length && chats.map(chat => (
+          <li key={chat.id}>{chat.from} {chat.message}</li>
+        ))}
       </ul>
+
     </div>
   );
 };
