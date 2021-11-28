@@ -25,6 +25,11 @@ class ChatService {
                 user = await userRepository.getUserById(chat.to);
                 user = user.toJSON();
                 chat.to = user;
+
+                let message = await chatRepository.getLastMessageByChatId(chat.id);
+                message = message.toJSON();
+
+                chat.message = message;
             }      
 
             return {

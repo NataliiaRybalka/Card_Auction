@@ -35,7 +35,7 @@ export const Chats = () => {
         {!!chats.length && chats.map(chat => (
           <li key={chat.id} onClick={onOpenChatHandler}>
             <div className={'chatName'}>{(+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login}</div>
-            <div className={'chatMsg'}>{chat.message}</div>
+            <div className={'chatMsg'}>{chat.message.message}</div>
           </li>
         ))}
       </ul>
