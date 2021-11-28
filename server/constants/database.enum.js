@@ -3,6 +3,7 @@ export const  CARD = 'card';
 export const  CARD_EPISODE = 'card_episode';
 export const  CARD_SET = 'card_set';
 export const  CHAT = 'chat';
+export const  CHAT_LIST = 'chat_list';
 export const  CRON_TASK = 'cron_task';
 export const  EPISODE = 'episode';
 export const  LOCATION = 'location';

@@ -5,8 +5,10 @@ import './Chats.css';
 import { LIMIT } from "../../constants/contants";
 import { CHATS } from "../../constants/url.enum";
 import { getChats } from "../../redux/actions/chats.actions";
+import { ButtonPagination } from "../auxiliary/ButtonPagination";
 
 export const Chats = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [filter, setFilter] = useState({
     url: CHATS,
     limit: LIMIT,
@@ -26,17 +28,19 @@ export const Chats = () => {
     <div className={'main'}>
       <header>
         <h2>Chats</h2>
+        <button id={'createChatBtn'} onClick={() => setIsModalVisible(true)}>new chat</button>
       </header>
 
       <ul className={'chatList'}>
         {!!chats.length && chats.map(chat => (
           <li key={chat.id} onClick={onOpenChatHandler}>
             <div className={'chatName'}>{(+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login}</div>
-            <div>{chat.message}</div>
+            <div className={'chatMsg'}>{chat.message}</div>
           </li>
         ))}
       </ul>
 
+      <ButtonPagination totalItem={totalItem} setFilter={setFilter} />
     </div>
   );
 };

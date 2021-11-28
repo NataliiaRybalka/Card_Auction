@@ -14,8 +14,8 @@ class ChatService {
             offset = (offset - 1) * limit;
 
             const res = await chatRepository.getAllChatsByUserId(userId, limit, offset);
-            const chats= res.toJSON();
-            const totalItem= res.pagination.rowCount;
+            const chats = res.toJSON();
+            const totalItem = res.pagination.rowCount;
 
             for (const chat of chats) {
                 let user = await userRepository.getUserById(chat.from);
@@ -27,32 +27,8 @@ class ChatService {
                 chat.to = user;
             }      
 
-            const emails = [];
-            const filteredChats = [];
-            chats.forEach((chat, i) => {
-                if (i === 0) {
-                    filteredChats.push(chat);
-                    if (chat.from.id !== userId) {
-                        emails.push(chat.from.email);
-                    }
-                    if (chat.to.id !== userId) {
-                        emails.push(chat.to.email);
-                    }
-                } else {
-                    if (!emails.includes(chat.from.email) && !emails.includes(chat.to.email)) {
-                        filteredChats.push(chat);
-                        if (chat.from.id !== userId) {
-                            emails.push(chat.from.email);
-                        }
-                        if (chat.to.id !== userId) {
-                            emails.push(chat.to.email);
-                        }
-                    }
-                }
-            })
-
             return {
-                chats: filteredChats,
+                chats,
                 totalItem
             }
         } catch (e) {

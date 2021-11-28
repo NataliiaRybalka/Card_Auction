@@ -12,4 +12,15 @@
 
 .chatName {
   width: 35%;
+  font-size: 22px;
+}
+
+.chatMsg {
+  font-size: 18px;
+}
+
+#createChatBtn {
+  width: 200px;
+  height: 50px;
+  margin: 0;
 }
