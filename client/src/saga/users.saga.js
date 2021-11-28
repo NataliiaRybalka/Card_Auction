@@ -41,3 +41,22 @@ const getTotalUsers = async () => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}users/total`, localStorage.getItem('accessToken'));
 };
+
+export function* getUsersWithoutPaginationWorker() {
+  try {
+    const payload = yield call(getUsersWithoutPagination);
+    if (payload.status === OK) {
+      yield put({ type: GET_USERS, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const getUsersWithoutPagination = async () => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}users`, localStorage.getItem('accessToken'));
+};

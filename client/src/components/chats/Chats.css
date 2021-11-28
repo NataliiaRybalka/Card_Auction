@@ -24,3 +24,9 @@
   height: 50px;
   margin: 0;
 }
+
+.usersListForChat {
+  list-style-type: none;
+  cursor: pointer;
+  margin-right: 30px;
+}

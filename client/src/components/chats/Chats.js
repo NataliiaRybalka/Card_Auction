@@ -6,6 +6,7 @@ import { LIMIT } from "../../constants/contants";
 import { CHATS } from "../../constants/url.enum";
 import { getChats } from "../../redux/actions/chats.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
+import { NewChat } from "./NewChat";
 
 export const Chats = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -41,6 +42,8 @@ export const Chats = () => {
       </ul>
 
       <ButtonPagination totalItem={totalItem} setFilter={setFilter} />
+
+      <NewChat isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
     </div>
   );
 };
