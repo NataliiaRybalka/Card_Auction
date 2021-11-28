@@ -34,7 +34,7 @@ export const Auctions = () => {
 
   let auctionCards = [];
   !!auctionsWithoutPagination.length && auctionsWithoutPagination.map(auction => auctionCards.push(auction.card));
-  auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
+  auctionCards = auctionCards.filter((auction, i, self) => self.findIndex(t => (t.id === auction.id)) === i);
 
   useEffect(() => {
     dispatch(getAuctions(filter));

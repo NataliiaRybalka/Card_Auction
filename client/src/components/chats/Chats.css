@@ -1,0 +1,14 @@
+.chatList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.chatList > li {
+  margin-top: 40px;
+  cursor: pointer;
+  border-bottom: 1px solid #4dffff;
+}
+
+.chatName {
+  margin-right: 35%;
+}

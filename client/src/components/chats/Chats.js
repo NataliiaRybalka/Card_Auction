@@ -20,16 +20,18 @@ export const Chats = () => {
     dispatch(getChats(filter));
   }, [dispatch, filter]);
 
+  const onOpenChatHandler = () => {};
+
   return (
     <div className={'main'}>
       <header>
         <h2>Chats</h2>
       </header>
 
-      <ul>
+      <ul className={'chatList'}>
         {!!chats.length && chats.map(chat => (
-          <li key={chat.id}>
-            <span>{chat.from.login}</span>
+          <li key={chat.id} onClick={onOpenChatHandler}>
+            <span className={'chatName'}>{(+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login}</span>
             <span>{chat.message}</span>
           </li>
         ))}

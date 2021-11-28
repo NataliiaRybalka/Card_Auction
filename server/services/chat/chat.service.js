@@ -2,6 +2,7 @@ import logger from '#config/logger.config';
 import { ErrorHandler } from '#helpers/error.handler';
 import chatRepository from '#repositories/chat/chat.repository';
 import userRepository from '#repositories/user/user.repository';
+import e from 'cors';
 
 class ChatService {
     async getAllChats(params, userId) {
@@ -13,15 +14,10 @@ class ChatService {
             offset = (offset - 1) * limit;
 
             const res = await chatRepository.getAllChatsByUserId(userId, limit, offset);
-            const chatsFrom = res.chatsFrom.toJSON();
-            const totalItemFrom = res.chatsFrom.pagination.rowCount;
-            const chatsTo = res.chatsTo.toJSON();
-            const totalItemTo = res.chatsTo.pagination.rowCount;
+            const chats= res.toJSON();
+            const totalItem= res.pagination.rowCount;
 
-            const chats = [];
-            const totalItem = totalItemFrom + totalItemTo;
-
-            for (const chat of chatsFrom) {
+            for (const chat of chats) {
                 let user = await userRepository.getUserById(chat.from);
                 user = user.toJSON();
                 chat.from = user;
@@ -29,24 +25,34 @@ class ChatService {
                 user = await userRepository.getUserById(chat.to);
                 user = user.toJSON();
                 chat.to = user;
+            }      
 
-                chats.push(chat);
-            }
-
-            for (const chat of chatsTo) {
-                let user = await userRepository.getUserById(chat.from);
-                user = user.toJSON();
-                chat.from = user;
-
-                user = await userRepository.getUserById(chat.to);
-                user = user.toJSON();
-                chat.to = user;
-
-                chats.push(chat);
-            }
+            const emails = [];
+            const filteredChats = [];
+            chats.forEach((chat, i) => {
+                if (i === 0) {
+                    filteredChats.push(chat);
+                    if (chat.from.id !== userId) {
+                        emails.push(chat.from.email);
+                    }
+                    if (chat.to.id !== userId) {
+                        emails.push(chat.to.email);
+                    }
+                } else {
+                    if (!emails.includes(chat.from.email) && !emails.includes(chat.to.email)) {
+                        filteredChats.push(chat);
+                        if (chat.from.id !== userId) {
+                            emails.push(chat.from.email);
+                        }
+                        if (chat.to.id !== userId) {
+                            emails.push(chat.to.email);
+                        }
+                    }
+                }
+            })
 
             return {
-                chats,
+                chats: filteredChats,
                 totalItem
             }
         } catch (e) {
