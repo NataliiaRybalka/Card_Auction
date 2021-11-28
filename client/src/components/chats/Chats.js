@@ -28,7 +28,10 @@ export const Chats = () => {
 
       <ul>
         {!!chats.length && chats.map(chat => (
-          <li key={chat.id}>{chat.from} {chat.message}</li>
+          <li key={chat.id}>
+            <span>{chat.from.login}</span>
+            <span>{chat.message}</span>
+          </li>
         ))}
       </ul>
 
