@@ -8,6 +8,7 @@ exports.up = function(knex) {
         table.integer('to').unsigned();
         table.foreign('to').references('id').inTable(USER);
         table.string('message');
+        table.dateTime('created_at');
     })
 };
 

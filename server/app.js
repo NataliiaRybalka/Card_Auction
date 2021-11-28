@@ -11,6 +11,7 @@ import authRouter from './routes/auth.router';
 import balanceRouter from './routes/balance.router';
 import cardRouter from './routes/card.router';
 import cardSetRouter from './routes/cardSet.router';
+import chatRouter from './routes/chat.router';
 import historyRouter from './routes/history.router';
 import userRouter from './routes/user.router';
 
@@ -28,6 +29,7 @@ app.use('/auth', authRouter);
 app.use('/balance', balanceRouter);
 app.use('/cards', cardRouter);
 app.use('/card-sets', cardSetRouter);
+app.use('/chats', chatRouter);
 app.use('/history', historyRouter);
 app.use('/users', userRouter);
 
