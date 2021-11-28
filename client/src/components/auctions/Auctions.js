@@ -91,7 +91,9 @@ export const Auctions = () => {
   };
 
   socket.on('update auction rate', (auction) => {
-    if (auction) history.go(0);
+    if (auction) {
+      history.go(0);
+    }
   });
 
   return (
