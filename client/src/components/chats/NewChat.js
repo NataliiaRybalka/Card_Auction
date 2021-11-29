@@ -14,8 +14,9 @@ export const NewChat = (props) => {
     dispatch(getUsersWithoutPagination());
   }, [dispatch]);
 
-  const onSelectChatHandler = userId => {
-    localStorage.setItem('toUserId', userId);
+  const onSelectChatHandler = user => {
+    localStorage.setItem('toUserId', user.id);
+    localStorage.setItem('toUserLogin', user.login);
 
     setIsModalVisible(false);
   };
@@ -25,7 +26,7 @@ export const NewChat = (props) => {
       <div className={'modalContent modalContentChat'} onClick={e => e.stopPropagation()}>
         <ul className={'usersListForChat'}>
           {!!users.length && users.map(user => (
-            <li key={user.id} onClick={() => onSelectChatHandler(user.id)}>
+            <li key={user.id} onClick={() => onSelectChatHandler(user)}>
               <Link to='/chat' className={'navLinks'}>{user.login}</Link>
             </li>
           ))}

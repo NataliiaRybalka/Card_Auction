@@ -25,8 +25,9 @@ export const Chats = () => {
   }, [dispatch, filter]);
 
   const onSelectChatHandler = chat => {
-    const toUserId = (+localStorage.getItem('id') === chat.from.id) ? chat.to.id : chat.from.id;
-    localStorage.setItem('toUserId', toUserId);
+    const toUser = (+localStorage.getItem('id') === chat.from.id) ? chat.to : chat.from;
+    localStorage.setItem('toUserId', toUser.id);
+    localStorage.setItem('toUserLogin', toUser.login);
   };
 
   return (
