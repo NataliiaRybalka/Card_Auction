@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import './Chats.css';
 import { LIMIT } from "../../constants/contants";
@@ -23,20 +24,25 @@ export const Chats = () => {
     dispatch(getChats(filter));
   }, [dispatch, filter]);
 
-  const onOpenChatHandler = () => {};
+  const onSelectChatHandler = chat => {
+    const toUserId = (+localStorage.getItem('id') === chat.from.id) ? chat.to.id : chat.from.id;
+    localStorage.setItem('toUserId', toUserId);
+  };
 
   return (
     <div className={'main'}>
       <header>
         <h2>Chats</h2>
-        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}>new chat</button>
+        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}>chat</button>
       </header>
 
       <ul className={'chatList'}>
         {!!chats.length && chats.map(chat => (
-          <li key={chat.id} onClick={onOpenChatHandler}>
-            <div className={'chatName'}>{(+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login}</div>
-            <div className={'chatMsg'}>{chat.message}</div>
+          <li key={chat.id} onClick={() => onSelectChatHandler(chat)}>
+            <Link to='/chat' className={'navLinks'}>
+              <div className={'chatName'}>{(+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login}</div>
+              <div className={'chatMsg'}>{chat.message}</div>
+            </Link>
           </li>
         ))}
       </ul>

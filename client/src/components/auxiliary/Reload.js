@@ -8,7 +8,7 @@ export const Reload = () => {
 
   useEffect(() => {
     history.go(0);
-  }, [history])
+  }, [history]);
 
   return (
     <div>

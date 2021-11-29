@@ -6,14 +6,14 @@ import { getCardsWorker, createCardWorker, getCardsWithoutFilterWorker, getSoldU
 import { createSetWorker, getSetsWorker } from "./sets.saga";
 import { createAuctionWorker, getAuctionsWorker, getTotalAuctionsWorker, createBetWorker } from "./auctions.saga";
 import { getUserByIdWorker, editUserDataWorker, getBalanceWorker, changeBalanceWorker } from "./user.saga";
-import { getChatsWorker, createChatWorker } from "./chats.saga";
+import { getChatsWorker, getChatWorker } from "./chats.saga";
 import { LOGIN, REGISTRATION } from "../redux/types/auth.types";
 import { REQUEST_USERS, REQUEST_TOTAL_USERS, REQUEST_USERS_WITHOUT_FILTER } from "../redux/types/users.types";
 import { CREATE_CARD, REQUEST_CARDS, REQUEST_CARDS_WITHOUT_FILTER, REQUEST_SOLD_USER_CARDS, REQUEST_USER_CARDS } from "../redux/types/cards.types";
 import { CREATE_SET, REQUEST_SETS } from "../redux/types/sets.types";
 import { CREATE_AUCTION, REQUEST_AUCTION, REQUEST_TOTAL_AUCTION, CREATE_BET } from "../redux/types/auctions.types";
 import { REQUEST_USER, EDIT_USERDATA, REQUEST_BALANCE, CHANGE_BALANCE } from "../redux/types/user.types";
-import { REQUEST_CHATS, CREATE_CHAT } from "../redux/types/chats.types";
+import { REQUEST_CHATS, REQUEST_CHAT } from "../redux/types/chats.types";
 
 export function* sagaWatcher() {
   yield takeEvery(REGISTRATION, registrationSagaWorker);
@@ -37,5 +37,5 @@ export function* sagaWatcher() {
   yield takeEvery(REQUEST_BALANCE, getBalanceWorker);
   yield takeEvery(CHANGE_BALANCE, changeBalanceWorker);
   yield takeEvery(REQUEST_CHATS, getChatsWorker);
-  yield takeEvery(CREATE_CHAT, createChatWorker);
+  yield takeEvery(REQUEST_CHAT, getChatWorker);
 }

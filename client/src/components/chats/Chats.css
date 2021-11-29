@@ -7,6 +7,9 @@
   margin-top: 40px;
   cursor: pointer;
   border-bottom: 1px solid #4dffff;
+}
+
+.chatList > li > a{
   display: flex;
 }
 

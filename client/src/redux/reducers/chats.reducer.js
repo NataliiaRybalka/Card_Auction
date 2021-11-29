@@ -1,4 +1,4 @@
-import { GET_CHATS, CREATE_CHAT_SUCCESS } from "../types/chats.types";
+import { GET_CHATS, GET_CHAT } from "../types/chats.types";
 
 const initialState = {
   chats: [],
@@ -11,7 +11,7 @@ export const chatsReducer = (state = initialState, action) => {
     case GET_CHATS:
       return {...state, chats: action.payload.chats, totalItem: action.payload.totalItem};
 
-    case CREATE_CHAT_SUCCESS:
+    case GET_CHAT:
       return {...state, chat: action.payload};
   
     default:

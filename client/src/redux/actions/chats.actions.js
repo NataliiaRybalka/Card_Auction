@@ -1,4 +1,4 @@
-import { REQUEST_CHATS, CREATE_CHAT } from '../types/chats.types';
+import { REQUEST_CHATS, REQUEST_CHAT } from '../types/chats.types';
 
 export const getChats = filterData => {
   return {
@@ -7,9 +7,9 @@ export const getChats = filterData => {
   }
 };
 
-export const createChat = userId => {
+export const getChat = userId => {
   return {
-    type: CREATE_CHAT,
+    type: REQUEST_CHAT,
     payload: userId
   }
 };

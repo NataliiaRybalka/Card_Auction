@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { createChat } from '../../redux/actions/chats.actions';
 import { getUsersWithoutPagination } from '../../redux/actions/users.actions';
 
 export const NewChat = (props) => {
@@ -14,8 +14,9 @@ export const NewChat = (props) => {
     dispatch(getUsersWithoutPagination());
   }, [dispatch]);
 
-  const onSelectUserForChatHandler = userId => {
-    dispatch(createChat({ to: userId }));
+  const onSelectChatHandler = userId => {
+    localStorage.setItem('toUserId', userId);
+
     setIsModalVisible(false);
   };
 
@@ -24,7 +25,9 @@ export const NewChat = (props) => {
       <div className={'modalContent modalContentChat'} onClick={e => e.stopPropagation()}>
         <ul className={'usersListForChat'}>
           {!!users.length && users.map(user => (
-            <li key={user.id} onClick={() => onSelectUserForChatHandler(user.id)}>{user.login}</li>
+            <li key={user.id} onClick={() => onSelectChatHandler(user.id)}>
+              <Link to='/chat' className={'navLinks'}>{user.login}</Link>
+            </li>
           ))}
         </ul>
       </div>

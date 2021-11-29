@@ -55,6 +55,15 @@ class ChatRepository {
             throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
+
+    async getChat(chat_id) {
+        try {
+            return await Chat.where({ chat_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
 }
 
 export default new ChatRepository();

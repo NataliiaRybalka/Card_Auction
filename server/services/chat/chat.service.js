@@ -40,20 +40,18 @@ class ChatService {
         }
     };
 
-    async createChat(toUserId, fromUserId) {
+    async getChat(toUserId, fromUserId) {
         try {
-            let chat = await chatRepository.getOneChatWithoutError(fromUserId, toUserId);
+            let chatFromChatList = await chatRepository.getOneChatWithoutError(fromUserId, toUserId);
 
-            if (chat) {
-                return chat;
+            if (chatFromChatList) {
+                return await chatRepository.getChat(chatFromChatList.id);
             }
 
-            chat = await chatRepository.createChat(fromUserId, toUserId);
-            chat = chat.toJSON();
+            chatFromChatList = await chatRepository.createChat(fromUserId, toUserId);
+            chatFromChatList = chatFromChatList.toJSON();
 
-            await chatRepository.createMessage(fromUserId, toUserId, chat.id, '');
-
-            return chat;
+            return await chatRepository.createMessage(fromUserId, toUserId, chatFromChatList.id, '');
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

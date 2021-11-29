@@ -14,9 +14,9 @@ router.get(
     chatController.getAllChats
 );
 
-router.post(
-    '/',
-    chatController.createChat
+router.get(
+    '/:userId',
+    chatController.getChat
 );
 
 export default router;
