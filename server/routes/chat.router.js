@@ -14,4 +14,9 @@ router.get(
     chatController.getAllChats
 );
 
+router.post(
+    '/',
+    chatController.createChat
+);
+
 export default router;

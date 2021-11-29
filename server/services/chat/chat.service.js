@@ -2,7 +2,6 @@ import logger from '#config/logger.config';
 import { ErrorHandler } from '#helpers/error.handler';
 import chatRepository from '#repositories/chat/chat.repository';
 import userRepository from '#repositories/user/user.repository';
-import e from 'cors';
 
 class ChatService {
     async getAllChats(params, userId) {
@@ -28,14 +27,33 @@ class ChatService {
 
                 let message = await chatRepository.getLastMessageByChatId(chat.id);
                 message = message.toJSON();
-
-                chat.message = message;
+                chat.message = message.message;
             }      
 
             return {
                 chats,
                 totalItem
             }
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
+
+    async createChat(toUserId, fromUserId) {
+        try {
+            let chat = await chatRepository.getOneChatWithoutError(fromUserId, toUserId);
+
+            if (chat) {
+                return chat;
+            }
+
+            chat = await chatRepository.createChat(fromUserId, toUserId);
+            chat = chat.toJSON();
+
+            await chatRepository.createMessage(fromUserId, toUserId, chat.id, '');
+
+            return chat;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

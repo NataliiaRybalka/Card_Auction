@@ -15,7 +15,7 @@ export const NewChat = (props) => {
   }, [dispatch]);
 
   const onSelectUserForChatHandler = userId => {
-    dispatch(createChat(userId));
+    dispatch(createChat({ to: userId }));
     setIsModalVisible(false);
   };
 

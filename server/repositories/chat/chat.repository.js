@@ -20,10 +20,39 @@ class ChatRepository {
 
     async getLastMessageByChatId(chat_id) {
         try {
-            return await Chat.where({ chat_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetch();
+            return await Chat.where({ chat_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetch({ columns: ['message'] });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async getOneChatWithoutError(from, to) {
+        try {
+            return await ChatList.query(qb => {
+                qb.where({ from: from, to: to }),
+                qb.orWhere({ from: to, to: from })
+            }).fetch();
+        } catch (e) {
+            logger.error(e);
+        }
+    };
+
+    async createChat(from, to) {
+        try {
+            return await ChatList.forge({ from, to }).save();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
+
+    async createMessage(from, to, chat_id, message) {
+        try {
+            return await Chat.forge({ from, to, chat_id, message, created_at: new Date() }).save();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
         }
     };
 }

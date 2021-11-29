@@ -9,6 +9,14 @@ class ChatController {
             next(e);
         }
     };
+
+    async createChat(req, res, next) {
+        try {
+            return res.status(Created).json(await chatService.createChat(req.body.to, req.userId));
+        } catch (e) {
+            next(e);
+        }
+    };
 }
 
 export default new ChatController();
