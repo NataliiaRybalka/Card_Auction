@@ -29,7 +29,7 @@ export const Chats = () => {
     <div className={'main'}>
       <header>
         <h2>Chats</h2>
-        <button id={'createChatBtn'} onClick={() => setIsModalVisible(true)}>new chat</button>
+        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}>new chat</button>
       </header>
 
       <ul className={'chatList'}>
