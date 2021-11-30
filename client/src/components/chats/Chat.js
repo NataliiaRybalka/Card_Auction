@@ -2,15 +2,14 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getChat, sendMessage } from "../../redux/actions/chats.actions";
+import { socket } from "../../constants/socket";
 
 export const Chat = () => {
-  const [messageData, setMessageData] = useState({
-    from: localStorage.getItem('id'),
-    to: localStorage.getItem('toUserId'),
-    message: ''
-  });
+  const [message, setMessage] = useState('');
+  const [messageList, setMessageList] = useState([]);
   const dispatch = useDispatch();
   const chat = useSelector(state => state.chatsReducer.chat);
+  const room = localStorage.getItem('room');
 
   useEffect(() => {
     dispatch(getChat(localStorage.getItem('toUserId')));
@@ -21,36 +20,31 @@ export const Chat = () => {
   }, [chat]);
 
   const onChangeInputHandler = e => {
-    setMessageData(prev => ({
-      ...prev,
-      ...{[e.target.name]: e.target.value}
-    }));
+    setMessage(e.target.value);
   };
 
-  const onSendMessage = e => {
-    if(e.key === 'Enter') {
-      console.log('enter press here! ')
-    }
-    if (messageData.message.length) {
-      dispatch(sendMessage({ chatId: chat[0].chat_id, messageData }));
+  const onSendMessage = async () => {
+    if (message !== '') {
+      const messageData = {
+        room: room,
+        from: localStorage.getItem('id'),
+        to: localStorage.getItem('toUserId'),
+        message,
+        time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
+      };
 
-      setMessageData({
-        message: ''
-      });
+      await socket.emit('send_message', messageData);
+      setMessageList((list) => [...list, messageData]);
+
+      setMessage('');
     }
   };
 
-  const onSendMessageByEnter = e => {
-    if(e.key === 'Enter') {
-      if (messageData.message.length) {
-        dispatch(sendMessage({ chatId: chat[0].chat_id, messageData }));
-  
-        setMessageData({
-          message: ''
-        });
-      }
-    }
-  };
+  useEffect(() => {
+    socket.on('receive_message', (data) => {
+      setMessageList((list) => [...list, data]);
+    });
+  }, []);
 
   return (
     <div className={'main'}>
@@ -59,16 +53,18 @@ export const Chat = () => {
       </header>
 
       <ul id={'chatList'}>
-        {!!chat.length && chat.map(msgData => (
-          <li key={msgData.id} className={(msgData.from === +localStorage.getItem('id')) ? 'chatMessage fromMessage' : 'chatMessage toMessage'}>
-            <span>{msgData.message}</span>
+        {!!messageList.length && messageList.map(msgData => (
+          <li key={msgData.room + msgData.message} className={(msgData.from === localStorage.getItem('id')) ? 'chatMessage fromMessage' : 'chatMessage toMessage'}>
+            <span className={'chatMessageText'}>{msgData.message}</span>
+            <br />
+            <span className={'chatMessageTime'}>{msgData.time}</span>
           </li>
         ))}
       </ul>
-      
+
       <div className="form chatForm">
-        <input id="chatInput" value={messageData.message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={onSendMessageByEnter} />
-        <button onClick={onSendMessage}>send</button>
+        <input id="chatInput" value={message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={e => {e.key === 'Enter' && onSendMessage()}} />
+        <button onClick={onSendMessage}>&#187;&#187;&#187;</button>
       </div>
     </div>
   );

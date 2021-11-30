@@ -5,5 +5,6 @@ export const AMOUNT = 'amount';
 export const AUTHORIZATION = 'Authorization';
 export const DEAD = 'dead';
 export const INACTIVE = 'inactive';
+export const LOCALHOST = 'http://localhost:3000/';
 export const REFRESH_TOKEN = 'refresh_token';
 export const USER = 'user';

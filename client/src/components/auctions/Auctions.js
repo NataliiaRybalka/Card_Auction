@@ -90,7 +90,7 @@ export const Auctions = () => {
     }
   };
 
-  socket.on('update auction rate', (auction) => {
+  socket.on('update_auction_rate', (auction) => {
     if (auction) {
       history.go(0);
     }

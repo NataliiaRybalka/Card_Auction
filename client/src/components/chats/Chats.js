@@ -8,6 +8,7 @@ import { CHATS } from "../../constants/url.enum";
 import { getChats } from "../../redux/actions/chats.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { NewChat } from "./NewChat";
+import { socket } from "../../constants/socket";
 
 export const Chats = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -25,9 +26,11 @@ export const Chats = () => {
   }, [dispatch, filter]);
 
   const onSelectChatHandler = chat => {
-    const toUser = (+localStorage.getItem('id') === chat.from.id) ? chat.to : chat.from;
-    localStorage.setItem('toUserId', toUser.id);
-    localStorage.setItem('toUserLogin', toUser.login);
+    localStorage.setItem('toUserId', (+localStorage.getItem('id') === chat.from.id) ? chat.to.id : chat.from.id);
+    localStorage.setItem('toUserLogin', (+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login);
+    localStorage.setItem('room', `${chat.from.id}-${chat.to.id}`);
+    
+    socket.emit('join_room', `${chat.from.id}-${chat.to.id}`);
   };
 
   return (

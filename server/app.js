@@ -5,6 +5,7 @@ import { Server } from 'socket.io';
 import path from 'path';
 
 import { PORT } from './constants/env.constants';
+import { LOCALHOST } from './constants/project.constants';
 import cronRun from './helpers/cron.helper';
 import auctionRouter from './routes/auction.router';
 import authRouter from './routes/auth.router';
@@ -42,12 +43,26 @@ const connection = app.listen(PORT, () => {
     cronRun();
 });
 
-export const io = new Server(connection);
+export const io = new Server(connection, {
+    cors: {
+        origin: LOCALHOST,
+        methods: ['GET', 'POST', 'PUT', 'DELETE']
+    }
+});
 
 io.on('connection', (socket) => {
-    console.log('Made socket connection');
+    console.log(`User connected ${socket.id}`);
+
+    socket.on('join_room', (data) => {
+        socket.join(data);
+        console.log(`User with id: ${socket.id} joined room: ${data}`);
+    });
+
+    socket.on('send_message', (data) => {
+        socket.to(data.room).emit('receive_message', data);
+    });
 
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        console.log(`User disconnected ${socket.is}`);
     });
 });
