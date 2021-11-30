@@ -1,8 +1,5 @@
-import fs from 'fs';
-
 import logger from '#config/logger.config';
 import { ErrorHandler } from '#helpers/error.handler';
-import {io} from '../../app';
 import chatRepository from '#repositories/chat/chat.repository';
 import userRepository from '#repositories/user/user.repository';
 
