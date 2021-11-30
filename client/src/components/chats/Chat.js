@@ -5,7 +5,11 @@ import { getChat, sendMessage } from "../../redux/actions/chats.actions";
 import { socket } from '../../constants/socket';
 
 export const Chat = () => {
-  const [message, setMessage] = useState('');
+  const [messageData, setMessageData] = useState({
+    from: localStorage.getItem('id'),
+    to: localStorage.getItem('toUserId'),
+    message: ''
+  });
   const dispatch = useDispatch();
   const chat = useSelector(state => state.chatsReducer.chat);
 
@@ -33,14 +37,19 @@ export const Chat = () => {
   // });
 
   const onChangeInputHandler = e => {
-    setMessage(e.target.value);
+    setMessageData(prev => ({
+      ...prev,
+      ...{[e.target.name]: e.target.value}
+    }));
   };
 
   const onSendMessage = () => {
-    if (message.length) {
-      dispatch(sendMessage({ chatId: chat[0].chat_id, message }));
-      socket.emit('chat message', message);
-      setMessage('');
+    if (messageData.message.length) {
+      dispatch(sendMessage({ chatId: chat[0].chat_id, messageData }));
+      socket.emit('chat message', messageData.message);
+      setMessageData({
+        message: ''
+      });
     }
   };
 
@@ -52,7 +61,7 @@ export const Chat = () => {
 
       <ul id="chatMessages"></ul>
       <div className="form chatForm">
-        <input id="chatInput" value={message} type={'text'} name={message} onChange={onChangeInputHandler}  />
+        <input id="chatInput" value={messageData.message} type={'text'} name={'message'} onChange={onChangeInputHandler}  />
         <button onClick={onSendMessage}>send</button>
       </div>
     </div>

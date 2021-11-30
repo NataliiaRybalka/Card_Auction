@@ -59,5 +59,5 @@ export function* sendMessageWorker(data) {
 };
 const sendMessage = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}chats/${data.chatId}`, localStorage.getItem('accessToken'), POST, data.message);
+  return await request(`${LOCALHOST}chats/${data.chatId}`, localStorage.getItem('accessToken'), POST, data.messageData);
 };

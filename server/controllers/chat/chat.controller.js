@@ -20,8 +20,7 @@ class ChatController {
 
     async chatting(req, res, next) {
         try {
-            console.log(req.params, req.body);
-            return res.status(Created);
+            return res.status(Created).json(await chatService.chatting(req.params.chatId, req.body));
         } catch (e) {
             next(e);
         }
