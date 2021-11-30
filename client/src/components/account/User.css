@@ -12,6 +12,17 @@
   border-radius: 50%;
 }
 
+#userImgLogin {
+  width: 150px;
+  height: 150px;
+  background: #ff4dff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+}
+
 .userForm {
   border: 2px dashed #4dffff;
 }

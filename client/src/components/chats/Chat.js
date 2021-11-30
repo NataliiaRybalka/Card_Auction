@@ -65,6 +65,7 @@ export const Chat = () => {
           </li>
         ))}
       </ul>
+      
       <div className="form chatForm">
         <input id="chatInput" value={messageData.message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={onSendMessageByEnter} />
         <button onClick={onSendMessage}>send</button>
