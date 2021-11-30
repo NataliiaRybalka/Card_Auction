@@ -32,3 +32,52 @@
   width: 300px;
   height: 300px;
 }
+
+.chatForm {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 70px;
+}
+
+#chatInput {
+  width: 85%;
+  height: 20px;
+  padding: 0;
+}
+
+.chatForm > button {
+  margin-top: 5px;
+  margin-right: 0;
+}
+
+#chatList {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.chatMessage {
+  list-style-type: none;
+}
+
+.fromMessage {
+  text-align: right;
+  color: #000000;
+}
+
+.fromMessage > span {
+  padding: 0 20px;
+  background: #ccffff;
+}
+
+.toMessage {
+  text-align: left;
+  color: #000000;
+}
+
+.toMessage > span {
+  padding: 0 20px;
+  background: #ffccff;
+}

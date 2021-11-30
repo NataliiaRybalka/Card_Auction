@@ -58,7 +58,7 @@ class ChatRepository {
 
     async getChat(chat_id) {
         try {
-            return await Chat.where({ chat_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetchAll();
+            return await Chat.where({ chat_id }).fetchAll();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);

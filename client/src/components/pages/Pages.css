@@ -13,35 +13,3 @@
 .footerLink > span > a::after {
   color: #ff4dff;
 }
-
-#personMenuBtn {
-  cursor: pointer;
-}
-
-.personMenuBlock {
-  display: none;
-}
-
-.activepPersonMenuBlock {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-}
-
-.personMenuLink {
-  display: flex;
-  align-items: center;
-  padding-left: 5px;
-  height: 30px;
-}
-
-.personMenuLink:hover {
-  background-color: #4dffff;
-}
-
-.navPersonLink {
-  color: #e6e6ff;
-  text-decoration: none;
-  width: 100%;
-  font-size: 15px;
-}

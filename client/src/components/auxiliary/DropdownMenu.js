@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Person from "@material-ui/icons/Person";
 
-import '../pages/Pages.css';
+import './Auxiliary.css';
 import { ADMIN } from "../../constants/contants";
 
 export const DropdownMenu = () => {

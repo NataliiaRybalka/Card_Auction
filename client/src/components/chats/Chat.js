@@ -16,6 +16,10 @@ export const Chat = () => {
     dispatch(getChat(localStorage.getItem('toUserId')));
   }, [dispatch]);
 
+  useEffect(() => {
+      window.scrollTo(0,document.body.scrollHeight);
+  }, [chat]);
+
   const onChangeInputHandler = e => {
     setMessageData(prev => ({
       ...prev,
@@ -23,7 +27,10 @@ export const Chat = () => {
     }));
   };
 
-  const onSendMessage = () => {
+  const onSendMessage = e => {
+    if(e.key === 'Enter') {
+      console.log('enter press here! ')
+    }
     if (messageData.message.length) {
       dispatch(sendMessage({ chatId: chat[0].chat_id, messageData }));
 
@@ -33,19 +40,33 @@ export const Chat = () => {
     }
   };
 
+  const onSendMessageByEnter = e => {
+    if(e.key === 'Enter') {
+      if (messageData.message.length) {
+        dispatch(sendMessage({ chatId: chat[0].chat_id, messageData }));
+  
+        setMessageData({
+          message: ''
+        });
+      }
+    }
+  };
+
   return (
     <div className={'main'}>
       <header>
         <h2>{localStorage.getItem('toUserLogin')}</h2>
       </header>
 
-      <ul>
+      <ul id={'chatList'}>
         {!!chat.length && chat.map(msgData => (
-          <li key={msgData.id}>{msgData.message}</li>
+          <li key={msgData.id} className={(msgData.from === +localStorage.getItem('id')) ? 'chatMessage fromMessage' : 'chatMessage toMessage'}>
+            <span>{msgData.message}</span>
+          </li>
         ))}
       </ul>
       <div className="form chatForm">
-        <input id="chatInput" value={messageData.message} type={'text'} name={'message'} onChange={onChangeInputHandler}  />
+        <input id="chatInput" value={messageData.message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={onSendMessageByEnter} />
         <button onClick={onSendMessage}>send</button>
       </div>
     </div>
