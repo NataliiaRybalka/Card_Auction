@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { getUsersWithoutPagination } from '../../redux/actions/users.actions';
+import { socket } from "../../constants/socket";
 
 export const NewChat = (props) => {
   const { isModalVisible, setIsModalVisible } = props;
@@ -18,6 +19,7 @@ export const NewChat = (props) => {
     localStorage.setItem('toUserId', user.id);
     localStorage.setItem('toUserLogin', user.login);
 
+    socket.emit('join_room', `${localStorage.getItem('id')}-${user.id}`);
     setIsModalVisible(false);
   };
 

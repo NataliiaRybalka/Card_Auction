@@ -9,15 +9,14 @@ export const Chat = () => {
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const chat = useSelector(state => state.chatsReducer.chat);
-  const room = localStorage.getItem('room');
   const [messageList, setMessageList] = useState([]);
-
+  const room = localStorage.getItem('room');
+console.log(chat);
   useEffect(() => {
     dispatch(getChat(localStorage.getItem('toUserId')));
   }, [dispatch]);
 
   useEffect(() => {
-    setMessageList(chat);
     window.scrollTo(0,document.body.scrollHeight);
   }, [chat]);
 
@@ -50,7 +49,7 @@ export const Chat = () => {
     socket.on('receive_message', (data) => {
       setMessageList((list) => [...list, data]);
     });
-  }, [socket]);
+  }, []);
 
   return (
     <div className={'main'}>

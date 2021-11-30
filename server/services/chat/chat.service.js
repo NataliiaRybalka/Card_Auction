@@ -51,7 +51,10 @@ class ChatService {
             chatFromChatList = await chatRepository.createChat(fromUserId, toUserId);
             chatFromChatList = chatFromChatList.toJSON();
 
-            return await chatRepository.createMessage(fromUserId, toUserId, chatFromChatList.id, '');
+            let chat = await chatRepository.createMessage(fromUserId, toUserId, chatFromChatList.id, '');
+            chat = chat.toJSON();
+
+            return [chat];
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
