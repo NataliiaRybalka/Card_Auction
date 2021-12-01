@@ -8,7 +8,7 @@ import { AUCTIONS } from "../../constants/url.enum";
 import { getAuctions } from "../../redux/actions/auctions.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { PlaceABet } from "./PlaceABet";
-
+import { ROLE } from "../../constants/localStorage.enum";
 import { socket } from "../../constants/socket";
 
 export const Auctions = () => {
@@ -85,7 +85,7 @@ export const Auctions = () => {
   const onPlaceBetHandler = (id) => {
     setIdAuctions(id);
     
-    if (localStorage.getItem('role') === USER) {
+    if (localStorage.getItem(ROLE) === USER) {
       setIsModalVisible(true);
     }
   };

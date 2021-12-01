@@ -5,6 +5,7 @@ import Person from "@material-ui/icons/Person";
 
 import './Auxiliary.css';
 import { ADMIN } from "../../constants/contants";
+import { ROLE } from "../../constants/localStorage.enum";
 
 export const DropdownMenu = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -13,7 +14,7 @@ export const DropdownMenu = () => {
     <div>
       <span id={'personMenuBtn'} onClick={() => setIsDropdownVisible(!isDropdownVisible)}> <Person /> </span>
 
-      {(localStorage.getItem('role') === ADMIN) ? (
+      {(localStorage.getItem(ROLE) === ADMIN) ? (
         <nav className={isDropdownVisible ? 'activepPersonMenuBlock personMenuBlock' : 'personMenuBlock'}>
           <span className={'personMenuLink'} onClick={() => setIsDropdownVisible(false)}>
             <Link to='/admin/account' className={'navPersonLink'}>Profile</Link>

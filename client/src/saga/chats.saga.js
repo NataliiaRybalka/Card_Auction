@@ -7,6 +7,7 @@ import { updateTokens } from "../services/token.service";
 import { getTable } from './saga.fuctions';
 import { httpHelper } from "../helpers/http.helper";
 import { LOCALHOST } from "../constants/contants";
+import { ACCESS_TOKEN } from "../constants/localStorage.enum";
 
 export function* getChatsWorker(data) {
   try {
@@ -39,5 +40,5 @@ export function* getChatWorker(data) {
 };
 const getChat = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}chats/${data}`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}chats/${data}`, localStorage.getItem(ACCESS_TOKEN));
 };

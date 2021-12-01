@@ -9,6 +9,7 @@ import { POST, PUT } from "../constants/httpMethods";
 import { CREATE_AUCTION_SUCCESS, GET_AUCTION, GET_TOTAL_AUCTION } from "../redux/types/auctions.types";
 import { getTable } from './saga.fuctions';
 import { SHOW_ALERT } from "../redux/types/alert.types";
+import { ACCESS_TOKEN } from "../constants/localStorage.enum";
 
 export function* createAuctionWorker(data) {
   try {
@@ -28,7 +29,7 @@ export function* createAuctionWorker(data) {
 };
 const createAuction = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}auctions`, localStorage.getItem('accessToken'), POST, data);
+  return await request(`${LOCALHOST}auctions`, localStorage.getItem(ACCESS_TOKEN), POST, data);
 };
 
 export function* getAuctionsWorker(data) {
@@ -62,7 +63,7 @@ export function* getTotalAuctionsWorker() {
 };
 const getTotalAuctions = async () => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}auctions/total`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}auctions/total`, localStorage.getItem(ACCESS_TOKEN));
 };
 
 export function* createBetWorker(data) {
@@ -83,5 +84,5 @@ export function* createBetWorker(data) {
 };
 const createBet = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}auctions/${data.id}`, localStorage.getItem('accessToken'), PUT, data);
+  return await request(`${LOCALHOST}auctions/${data.id}`, localStorage.getItem(ACCESS_TOKEN), PUT, data);
 };

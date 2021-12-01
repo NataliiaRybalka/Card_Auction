@@ -8,6 +8,7 @@ import { CHATS } from "../../constants/url.enum";
 import { getChats } from "../../redux/actions/chats.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { NewChat } from "./NewChat";
+import { TO_USER_ID, ROOM, TO_USER_LOGIN, ID } from "../../constants/localStorage.enum";
 
 export const Chats = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -25,9 +26,9 @@ export const Chats = () => {
   }, [dispatch, filter]);
 
   const onSelectChatHandler = chat => {
-    localStorage.setItem('toUserId', (+localStorage.getItem('id') === chat.from.id) ? chat.to.id : chat.from.id);
-    localStorage.setItem('toUserLogin', (+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login);
-    localStorage.setItem('room', `${chat.from.id}-${chat.to.id}`);
+    localStorage.setItem(TO_USER_ID, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.id : chat.from.id);
+    localStorage.setItem(TO_USER_LOGIN, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login);
+    localStorage.setItem(ROOM, `${chat.from.id}-${chat.to.id}`);
   };
 
   return (
@@ -41,7 +42,7 @@ export const Chats = () => {
         {!!chats.length && chats.map(chat => (
           <li key={chat.id} onClick={() => onSelectChatHandler(chat)}>
             <Link to='/chat' className={'navLinks'}>
-              <div className={'chatName'}>{(+localStorage.getItem('id') === chat.from.id) ? chat.to.login : chat.from.login}</div>
+              <div className={'chatName'}>{(+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login}</div>
               <div className={'chatMsg'}>{chat.message}</div>
             </Link>
           </li>

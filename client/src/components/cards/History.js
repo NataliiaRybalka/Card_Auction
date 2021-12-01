@@ -7,10 +7,11 @@ import { HISTORY } from "../../constants/url.enum";
 import { LIMIT } from "../../constants/contants";
 import { Card } from "./Card";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
+import { ID } from "../../constants/localStorage.enum";
 
 export const History = () => {
   const [filter, setFilter] = useState({
-    url: `${HISTORY}/${localStorage.getItem('id')}`,
+    url: `${HISTORY}/${localStorage.getItem(ID)}`,
     limit: LIMIT,
     offset: 1
   });

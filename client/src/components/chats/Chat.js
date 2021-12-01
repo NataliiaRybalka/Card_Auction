@@ -4,17 +4,18 @@ import { v1 } from 'uuid';
 
 import { getChat } from "../../redux/actions/chats.actions";
 import { socket } from "../../constants/socket";
+import { TO_USER_ID, ROOM, TO_USER_LOGIN, ID } from "../../constants/localStorage.enum";
 
 export const Chat = () => {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const dispatch = useDispatch();
   const chat = useSelector(state => state.chatsReducer.chat);
-  const room = localStorage.getItem('room');
+  const room = localStorage.getItem(ROOM);
 
   useEffect(() => {
-    dispatch(getChat(localStorage.getItem('toUserId')));
-    socket.emit('join_room', `${localStorage.getItem('room')}`);
+    dispatch(getChat(localStorage.getItem(TO_USER_ID)));
+    socket.emit('join_room', `${localStorage.getItem(ROOM)}`);
   }, [dispatch]);
 
   const onChangeInputHandler = e => {
@@ -25,8 +26,8 @@ export const Chat = () => {
     if (message !== '') {
       const messageData = {
         room: room,
-        from: localStorage.getItem('id'),
-        to: localStorage.getItem('toUserId'),
+        from: localStorage.getItem(ID),
+        to: localStorage.getItem(TO_USER_ID),
         chatId: chat[0].chat_id,
         message,
         time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
@@ -57,19 +58,19 @@ export const Chat = () => {
   return (
     <div className={'main'}>
       <header>
-        <h2>{localStorage.getItem('toUserLogin')}</h2>
+        <h2>{localStorage.getItem(TO_USER_LOGIN)}</h2>
       </header>
 
       <ul id={'chatList'}>
         {!!chat.length && chat.map(msgData => (
-          <li key={msgData.message + v1()} className={(+msgData.from === +localStorage.getItem('id')) ? 'chatMessage fromMessage' : 'chatMessage toMessage'}>
+          <li key={msgData.message + v1()} className={(+msgData.from === +localStorage.getItem(ID)) ? 'chatMessage fromMessage' : 'chatMessage toMessage'}>
             <span className={'chatMessageText'}>{msgData.message}</span>
             <br />
             <span className={'chatMessageTime'}>{msgData.time}</span>
           </li>
         ))}
         {!!messageList.length && messageList.map(msgData => (
-          <li key={msgData.message + v1()} className={(+msgData.from === +localStorage.getItem('id')) ? 'chatMessage fromMessage' : 'chatMessage toMessage'}>
+          <li key={msgData.message + v1()} className={(+msgData.from === +localStorage.getItem(ID)) ? 'chatMessage fromMessage' : 'chatMessage toMessage'}>
             <span className={'chatMessageText'}>{msgData.message}</span>
             <br />
             <span className={'chatMessageTime'}>{msgData.time}</span>
