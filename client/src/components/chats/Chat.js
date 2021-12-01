@@ -11,7 +11,7 @@ export const Chat = () => {
   const chat = useSelector(state => state.chatsReducer.chat);
   const [messageList, setMessageList] = useState([]);
   const room = localStorage.getItem('room');
-console.log(chat);
+
   useEffect(() => {
     dispatch(getChat(localStorage.getItem('toUserId')));
   }, [dispatch]);
@@ -67,10 +67,12 @@ console.log(chat);
         ))}
       </ul>
 
-      <div className="form chatForm">
-        <input id="chatInput" value={message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={e => {e.key === 'Enter' && onSendMessage()}} />
-        <button onClick={onSendMessage}>&#187;&#187;&#187;</button>
-      </div>
+      <footer>
+        <div className="form chatForm">
+          <input id="chatInput" value={message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={e => {e.key === 'Enter' && onSendMessage()}} />
+          <button onClick={onSendMessage}>&#187;&#187;&#187;</button>
+        </div>
+      </footer>
     </div>
   );
 };
