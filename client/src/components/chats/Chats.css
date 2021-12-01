@@ -39,7 +39,7 @@
   align-items: center;
   padding: 10px;
   position: fixed;
-  bottom: 70px;
+  bottom: 10px;
 }
 
 #chatInput {
@@ -57,6 +57,7 @@
 #chatList {
   padding-left: 0;
   padding-right: 0;
+  margin-bottom: 100px;
 }
 
 .chatMessage {

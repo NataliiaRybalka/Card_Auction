@@ -14,6 +14,7 @@ export const Chat = () => {
 
   useEffect(() => {
     dispatch(getChat(localStorage.getItem('toUserId')));
+    socket.emit('join_room', `${localStorage.getItem('room')}`);
   }, [dispatch]);
 
   const onChangeInputHandler = e => {
@@ -50,7 +51,7 @@ export const Chat = () => {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0,document.body.scrollHeight);
+    window.scrollTo(0, document.body.scrollHeight);
   }, [messageList, chat]);
 
   return (
