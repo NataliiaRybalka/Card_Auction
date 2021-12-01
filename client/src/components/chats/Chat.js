@@ -67,12 +67,10 @@ export const Chat = () => {
         ))}
       </ul>
 
-      <footer>
-        <div className="form chatForm">
-          <input id="chatInput" value={message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={e => {e.key === 'Enter' && onSendMessage()}} />
-          <button onClick={onSendMessage}>&#187;&#187;&#187;</button>
-        </div>
-      </footer>
+      <div className="form chatForm">
+        <input id="chatInput" value={message} type={'text'} name={'message'} onChange={onChangeInputHandler} onKeyPress={e => {e.key === 'Enter' && onSendMessage()}} />
+        <button onClick={onSendMessage}>&#187;&#187;&#187;</button>
+      </div>
     </div>
   );
 };
