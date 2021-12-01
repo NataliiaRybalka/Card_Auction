@@ -60,16 +60,6 @@ class ChatService {
             throw new ErrorHandler(e.status, e.message);
         }
     };
-
-    async chatting(chatId, messageData) {
-        try {
-            const { from, to, message } = messageData;
-            return await chatRepository.createMessage(from, to, chatId, message);
-        } catch (e) {
-            logger.error(e);
-            throw new ErrorHandler(e.status, e.message);
-        }
-    };
 }
 
 export default new ChatService();

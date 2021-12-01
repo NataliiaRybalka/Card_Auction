@@ -15,6 +15,7 @@ import cardSetRouter from './routes/cardSet.router';
 import chatRouter from './routes/chat.router';
 import historyRouter from './routes/history.router';
 import userRouter from './routes/user.router';
+import chatRepository from './repositories/chat/chat.repository';
 
 const app = express();
 
@@ -59,6 +60,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('send_message', (data) => {
+        chatRepository.createMessage(data.from, data.to, data.chatId, data.message);
         socket.to(data.room).emit('receive_message', data);
     });
 

@@ -19,9 +19,4 @@ router.get(
     chatController.getChat
 );
 
-router.post(
-    '/:chatId',
-    chatController.chatting
-);
-
 export default router;
