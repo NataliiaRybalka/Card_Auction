@@ -43,7 +43,7 @@ export const Chats = () => {
           <li key={chat.id} onClick={() => onSelectChatHandler(chat)}>
             <Link to='/chat' className={'navLinks'}>
               <div className={'chatName'}>{(+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login}</div>
-              <div className={'chatMsg'}>{chat.message}</div>
+              <div className={'chatMsg'}>{chat.message.message}</div>
             </Link>
           </li>
         ))}

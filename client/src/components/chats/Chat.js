@@ -43,12 +43,6 @@ export const Chat = () => {
     socket.on('receive_message', (data) => {
       setMessageList((list) => [...list, data]);
     });
-
-    return () => {
-      socket.off('receive_message', (data) => {
-        setMessageList((list) => [...list, data]);
-      });
-    }
   }, []);
 
   useEffect(() => {

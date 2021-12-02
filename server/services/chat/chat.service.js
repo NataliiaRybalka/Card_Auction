@@ -27,8 +27,12 @@ class ChatService {
 
                 let message = await chatRepository.getLastMessageByChatId(chat.id);
                 message = message.toJSON();
-                chat.message = message.message;
+                chat.message = message;
             }      
+
+            chats.sort((a, b) => {
+                return b.message.created_at - a.message.created_at;
+            });
 
             return {
                 chats,

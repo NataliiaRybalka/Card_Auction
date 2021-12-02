@@ -20,7 +20,7 @@ class ChatRepository {
 
     async getLastMessageByChatId(chat_id) {
         try {
-            return await Chat.where({ chat_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetch({ columns: ['message'] });
+            return await Chat.where({ chat_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetch({ columns: ['message', 'created_at'] });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
