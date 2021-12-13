@@ -65,7 +65,8 @@ class CronService {
       const totalUsers = await userRepository.countTotalUsers();
       await userRepository.writeDownTotalUsers(totalUsers);
 
-      const totalAuctions = await auctionRepository.countTotalAuctions();
+      const yesterday = new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString('en-CA');
+      const totalAuctions = await auctionRepository.countTotalAuctions(`${yesterday} 00:00:00`, `${yesterday} 23:59:59`);
       await auctionRepository.writeDownTotalAuctions(totalAuctions);
     } catch (e) {
       logger.error(e);
