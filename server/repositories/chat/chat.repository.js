@@ -18,6 +18,18 @@ class ChatRepository {
         }
     };
 
+    async getAllChatsByUserIdWithoutPagination(userId) {
+        try {
+            return await ChatList.query(qb => {
+                qb.where({ from: userId }),
+                qb.orWhere({ to: userId })
+            }).fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
     async getLastMessageByChatId(chat_id) {
         try {
             return await Chat.where({ chat_id }).query(qb => qb.orderBy('created_at', 'DESC')).fetch({ columns: ['message', 'created_at'] });
@@ -59,6 +71,25 @@ class ChatRepository {
     async getChat(chat_id) {
         try {
             return await Chat.where({ chat_id }).fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async deleteByUserId(user_id) {
+        try {
+            await Chat.query(qb => {
+                qb.where({ from: user_id }),
+                qb.orWhere({ to: user_id })
+            }).destroy();
+
+            await ChatList.query(qb => {
+                qb.where({ from: user_id }),
+                qb.orWhere({ to: user_id })
+            }).destroy();
+
+            return;
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(NotFound, NotFoundMes);
