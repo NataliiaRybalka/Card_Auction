@@ -7,6 +7,7 @@ import { login } from '../../redux/actions/auth.actions';
 import { Alert } from "../alert/Alert";
 import { Registration } from "./Registration";
 import { LoginGoogle } from './LoginGoogle';
+import { LoginFacebook } from './LoginFacebook';
 import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Login = () => {
