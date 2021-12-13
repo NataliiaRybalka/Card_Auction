@@ -108,7 +108,7 @@ class UserRepository {
         try {
             return await TotalUsers.forge({
                 total,
-                created_at: new Date().toLocaleDateString('en-CA')
+                created_at: new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString('en-CA')
             }).save();
         } catch (e) {
             logger.error(e);

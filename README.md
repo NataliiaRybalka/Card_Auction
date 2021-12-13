@@ -10,6 +10,7 @@ Project is created with:
 * Redux-saga
 * Node
 * Express
+* MySQL
 * Bookshelf
 * Knex
 	

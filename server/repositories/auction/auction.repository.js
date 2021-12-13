@@ -99,9 +99,12 @@ class AuctionRepository {
         }
     };
 
-    async countTotalAuctions() {
+    async countTotalAuctions(from, to) {
         try {
-            return await Auction.count();
+            return await Auction
+                .where('created_at', '>=', from)
+                .where('created_at', '<=', to)
+                .count();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(BadRequest, BadRequestMes);
@@ -112,7 +115,7 @@ class AuctionRepository {
         try {
             return await TotalAuctions.forge({
                 total,
-                created_at: new Date().toLocaleDateString('en-CA')
+                created_at: new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString('en-CA')
             }).save();
         } catch (e) {
             logger.error(e);
