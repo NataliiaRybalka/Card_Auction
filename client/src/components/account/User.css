@@ -57,3 +57,11 @@
 .balanceForm > input {
   width: 95%;
 }
+
+#deleteAccount {
+  display: block;
+  font-size: 15px;
+  color: #ff4dff;
+  margin-top: 50px;
+  cursor: pointer;
+}

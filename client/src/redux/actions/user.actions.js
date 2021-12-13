@@ -1,4 +1,4 @@
-import { REQUEST_USER, EDIT_USERDATA, REQUEST_BALANCE, CHANGE_BALANCE } from "../types/user.types";
+import { REQUEST_USER, EDIT_USERDATA, REQUEST_BALANCE, CHANGE_BALANCE, DELETE_USER } from "../types/user.types";
 
 export const getUserById = id => {
   return {
@@ -24,5 +24,11 @@ export const changeBalance = sum => {
   return {
     type: CHANGE_BALANCE,
     payload: sum
+  }
+};
+
+export const deleteUser = () => {
+  return {
+    type: DELETE_USER
   }
 };

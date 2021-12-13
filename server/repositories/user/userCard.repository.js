@@ -61,6 +61,24 @@ class UserCardRepository {
             throw new ErrorHandler(NotFound, NotFoundMes);
         }
     };
+
+    async getAllUserCardsByUserId(user_id) {
+        try {
+            return await UserCard.where({ user_id }).fetchAll();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(NotFound, NotFoundMes);
+        }
+    };
+
+    async deleteUserCards(user_id) {
+        try {
+            return await UserCard.where({ user_id }).destroy();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
 }
 
 export default new UserCardRepository();

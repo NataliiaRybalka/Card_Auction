@@ -64,6 +64,15 @@ class TokenRepository {
             throw new ErrorHandler(BadRequest, BadRequestMes);
         }
     };
+
+    async deleteTokensByUserId(user_id) {
+        try {
+            return await UserToken.where({ user_id }).destroy();
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(BadRequest, BadRequestMes);
+        }
+    };
 }
 
 export default new TokenRepository();

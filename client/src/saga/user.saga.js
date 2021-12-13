@@ -3,11 +3,11 @@ import axios from 'axios';
 
 import { GET_USER, GET_BALANCE } from "../redux/types/user.types";
 import { LOCALHOST } from "../constants/contants";
-import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
+import { OK, Unauthorized, Created, NoContent } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
-import { POST } from "../constants/httpMethods";
+import { DELETE, POST } from "../constants/httpMethods";
 import { ACCESS_TOKEN, ID } from "../constants/localStorage.enum";
 
 export function* getUserByIdWorker() {
@@ -88,4 +88,21 @@ export function* changeBalanceWorker(data) {
 const changeBalance = async (data) => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}balance`, localStorage.getItem(ACCESS_TOKEN), POST, data);
+};
+
+export function* deleteUserWorker() {
+  try {
+    const payload = yield call(deleteUser);
+    if (payload.status !== NoContent) {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const deleteUser = async () => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}users/${localStorage.getItem(ID)}`, localStorage.getItem(ACCESS_TOKEN), DELETE);
 };

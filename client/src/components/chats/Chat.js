@@ -10,8 +10,12 @@ export const Chat = () => {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const dispatch = useDispatch();
-  const chat = useSelector(state => state.chatsReducer.chat);
+  let chat = useSelector(state => state.chatsReducer.chat);
   const room = localStorage.getItem(ROOM);
+
+  if (chat.length > 1) {
+    chat = chat.length && chat.filter(msg => msg.message !== '');
+  }
 
   useEffect(() => {
     dispatch(getChat(localStorage.getItem(TO_USER_ID)));

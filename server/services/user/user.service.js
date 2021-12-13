@@ -5,9 +5,11 @@ import { ADMIN, USER } from "#constants/project.constants";
 import { createPhotoPath } from '#helpers/createPhotoPath';
 import { ErrorHandler } from '#helpers/error.handler';
 import { hashPassword } from '#helpers/passwordHasher';
-import registrRepository from "#repositories/auth/registr.repository";
-import tokenRepository from "#repositories/auth/token.repository";
+import chatRepository from '#repositories/chat/chat.repository';
+import registrRepository from '#repositories/auth/registr.repository';
+import tokenRepository from '#repositories/auth/token.repository';
 import userRepository from '#repositories/user/user.repository';
+import userCardRepository from '#repositories/user/userCard.repository';
 
 class UserService {
     async getAllUsers(id, params) {
@@ -127,7 +129,19 @@ class UserService {
                 throw new ErrorHandler(Forbidden, ForbiddenMes);
             }
 
-            await tokenRepository.deleteTokens(id);
+            let chats = await chatRepository.getAllChatsByUserIdWithoutPagination(id);
+            chats = chats.toJSON();
+            if (chats.length) {
+                await chatRepository.deleteByUserId(id);
+            }
+
+            let cards = await userCardRepository.getAllUserCardsByUserId(id);
+            cards = cards.toJSON();
+            if (cards.length) {
+                await userCardRepository.deleteUserCards(id);
+            }
+
+            await tokenRepository.deleteTokensByUserId(id);
             return await userRepository.deleteUser(id);
         } catch (e) {
             logger.error(e);
