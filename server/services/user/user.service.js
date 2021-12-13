@@ -5,8 +5,7 @@ import { ADMIN, USER } from "#constants/project.constants";
 import { createPhotoPath } from '#helpers/createPhotoPath';
 import { ErrorHandler } from '#helpers/error.handler';
 import { hashPassword } from '#helpers/passwordHasher';
-import registrRepository from "#repositories/auth/registr.repository";
-import tokenRepository from "#repositories/auth/token.repository";
+import registrRepository from '#repositories/auth/registr.repository';
 import userRepository from '#repositories/user/user.repository';
 
 class UserService {
@@ -127,7 +126,6 @@ class UserService {
                 throw new ErrorHandler(Forbidden, ForbiddenMes);
             }
 
-            await tokenRepository.deleteTokens(id);
             return await userRepository.deleteUser(id);
         } catch (e) {
             logger.error(e);

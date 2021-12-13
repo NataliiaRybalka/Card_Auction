@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import './User.css';
 import { LOCALHOST } from "../../constants/contants";
 import { EditUserData } from "./EditUserData";
-import { getUserById } from "../../redux/actions/user.actions";
+import { getUserById, deleteUser } from "../../redux/actions/user.actions";
 
 export const Account = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,10 @@ export const Account = () => {
   useEffect(() => {
     dispatch(getUserById());
   }, [dispatch]);
+
+  const onDeleteAccountHandler = () => {
+    dispatch(deleteUser());
+  };
 
   return (
     <div className={'userPage main'}>
@@ -25,6 +29,8 @@ export const Account = () => {
         }
         <h2 id={'userLogin'}>{user.login}</h2>
         <span>{user.email}</span>
+
+        <span id={'deleteAccount'} onClick={onDeleteAccountHandler}>delete account</span>
       </div>
     </div>
   );
