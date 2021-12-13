@@ -1,9 +1,12 @@
+import { useLocation } from "react-router-dom";
+
 import './Pages.css';
 
 export const Footer = () => {
+  const location = useLocation();
 
   return (
-    <footer>
+    <footer className={location.pathname === '/chat' ? 'noDisplay' : ''}>
       <div>
         <p className={'footerLink'}>
           <span>

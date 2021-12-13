@@ -9,6 +9,7 @@ import { updateTokens } from "../services/token.service";
 import { getTable } from './saga.fuctions';
 import { httpHelper } from "../helpers/http.helper";
 import { SHOW_ALERT } from "../redux/types/alert.types";
+import { ACCESS_TOKEN, ID } from "../constants/localStorage.enum";
 
 export function* getCardsWorker(data) {
   try {
@@ -41,7 +42,7 @@ export function* getCardsWithoutFilterWorker() {
 };
 const getCardsWithoutFilter = async () => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}cards`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}cards`, localStorage.getItem(ACCESS_TOKEN));
 };
 
 export function* createCardWorker(data) {
@@ -64,7 +65,7 @@ const createCard = async (data) => {
   return await axios.post(`${LOCALHOST}cards`, data, {
     headers: {
       'Content-Type': 'multipart/form-data; boundary=something',
-      'Authorization': localStorage.getItem('accessToken')
+      'Authorization': localStorage.getItem(ACCESS_TOKEN)
     }
   });
 };
@@ -107,5 +108,5 @@ export const getUserCards = async (params) => {
   }
 
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}cards/${localStorage.getItem('id')}${query}`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}cards/${localStorage.getItem(ID)}${query}`, localStorage.getItem(ACCESS_TOKEN));
 };

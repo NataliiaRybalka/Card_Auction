@@ -34,7 +34,7 @@ class AuctionController {
             } = req;
 
             const auction = await auctionService.updateRateAuction(auctionId, newPrice, userId);
-            io.emit('update auction rate', auction);
+            io.emit('update_auction_rate', auction);
             res.status(Created).json(auction);
         } catch (e) {
             next(e);

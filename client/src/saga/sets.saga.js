@@ -8,6 +8,7 @@ import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
 import { POST } from "../constants/httpMethods";
 import { SHOW_ALERT } from "../redux/types/alert.types";
+import { ACCESS_TOKEN } from "../constants/localStorage.enum";
 
 export function* getSetsWorker() {
   try {
@@ -25,7 +26,7 @@ export function* getSetsWorker() {
 };
 export const getSets = async () => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}card-sets`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}card-sets`, localStorage.getItem(ACCESS_TOKEN));
 };
 
 export function* createSetWorker(data) {
@@ -46,5 +47,5 @@ export function* createSetWorker(data) {
 };
 const createSet = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}card-sets`, localStorage.getItem('accessToken'), POST, data);
+  return await request(`${LOCALHOST}card-sets`, localStorage.getItem(ACCESS_TOKEN), POST, data);
 };

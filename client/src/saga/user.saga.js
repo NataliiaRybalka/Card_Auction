@@ -8,6 +8,7 @@ import { WrongToken } from "../constants/errorMessages.enum";
 import { httpHelper } from "../helpers/http.helper";
 import { updateTokens } from "../services/token.service";
 import { POST } from "../constants/httpMethods";
+import { ACCESS_TOKEN, ID } from "../constants/localStorage.enum";
 
 export function* getUserByIdWorker() {
   try {
@@ -25,7 +26,7 @@ export function* getUserByIdWorker() {
 };
 const getUserById = async () => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}users/${localStorage.getItem('id')}`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}users/${localStorage.getItem(ID)}`, localStorage.getItem(ACCESS_TOKEN));
 };
 
 export function* editUserDataWorker(data) {
@@ -43,10 +44,10 @@ export function* editUserDataWorker(data) {
   }
 };
 const editUserData = async (data) => {
-  return await axios.put(`${LOCALHOST}users/${localStorage.getItem('id')}`, data, {
+  return await axios.put(`${LOCALHOST}users/${localStorage.getItem(ID)}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data; boundary=something',
-      'Authorization': localStorage.getItem('accessToken')
+      'Authorization': localStorage.getItem(ACCESS_TOKEN)
     }
   });
 };
@@ -67,7 +68,7 @@ export function* getBalanceWorker() {
 };
 const getBalance = async () => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}balance`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}balance`, localStorage.getItem(ACCESS_TOKEN));
 };
 
 export function* changeBalanceWorker(data) {
@@ -86,5 +87,5 @@ export function* changeBalanceWorker(data) {
 };
 const changeBalance = async (data) => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}balance`, localStorage.getItem('accessToken'), POST, data);
+  return await request(`${LOCALHOST}balance`, localStorage.getItem(ACCESS_TOKEN), POST, data);
 };

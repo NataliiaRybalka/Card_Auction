@@ -13,6 +13,7 @@ import { Reload } from './components/auxiliary/Reload';
 import { UserMenu } from './components/account/UserMenu';
 import { Cards } from './components/cards/Cards';
 import { Sets } from './components/sets/Sets';
+import { Chat } from './components/chats/Chat';
 import { ADMIN } from './constants/contants';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path='/reload' component={Reload} />
           <Route path='/faq/cards' component={Cards} />
           <Route path='/faq/sets' component={Sets} />
+          <Route path='/chat' component={Chat} />
           <Route path='/account/history' render={() => (
             !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <History />
           )} />

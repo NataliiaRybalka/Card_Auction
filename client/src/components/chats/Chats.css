@@ -1,0 +1,90 @@
+.chatList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.chatList > li {
+  margin-top: 40px;
+  cursor: pointer;
+  border-bottom: 1px solid #4dffff;
+}
+
+.chatList > li > a {
+  display: flex;
+}
+
+.chatName {
+  width: 35%;
+  font-size: 22px;
+}
+
+.chatMsg {
+  font-size: 18px;
+}
+
+.usersListForChat {
+  list-style-type: none;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.modalContentChat {
+  width: 300px;
+  height: 300px;
+}
+
+.chatForm {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 10px;
+}
+
+#chatInput {
+  width: 85%;
+  height: 40px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.chatForm > button {
+  margin-top: 5px;
+  margin-right: 0;
+}
+
+#chatList {
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 100px;
+}
+
+.chatMessage {
+  list-style-type: none;
+}
+
+.chatMessageTime {
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.fromMessage {
+  text-align: right;
+  color: #000000;
+}
+
+.fromMessage > .chatMessageText {
+  padding: 0 20px;
+  background: #ccffff;
+}
+
+.toMessage {
+  text-align: left;
+  color: #000000;
+}
+
+.toMessage > .chatMessageText {
+  padding: 0 20px;
+  background: #ffccff;
+}

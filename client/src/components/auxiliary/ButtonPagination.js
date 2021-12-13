@@ -1,4 +1,4 @@
-import './ButtonPagination.css';
+import './Auxiliary.css';
 import { LIMIT } from "../../constants/contants";
 
 export const ButtonPagination = ({ totalItem, setFilter }) => {

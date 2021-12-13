@@ -1,5 +1,6 @@
 import { LOCALHOST } from "../constants/contants";
 import { httpHelper } from "../helpers/http.helper";
+import { ACCESS_TOKEN } from "../constants/localStorage.enum";
 
 export const getTable = async (params) => {
   let query = '?';
@@ -10,5 +11,5 @@ export const getTable = async (params) => {
   }
 
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}${params.url}${query}`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}${params.url}${query}`, localStorage.getItem(ACCESS_TOKEN));
 };

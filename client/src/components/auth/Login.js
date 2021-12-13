@@ -6,6 +6,7 @@ import './Auth.css';
 import { login } from '../../redux/actions/auth.actions';
 import { Alert } from "../alert/Alert";
 import { Registration } from "./Registration";
+import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Login = () => {
   const [toRegistration, setToRegistration] = useState(false);
@@ -50,7 +51,7 @@ export const Login = () => {
       <span onClick={() => setToRegistration(true)} id={'toRegistration'}>registration</span>
       {toRegistration && <Redirect to='/registration'> <Registration /> </Redirect>}
 
-      {!!localStorage.getItem('refreshToken') && <Redirect to='/reload' />}
+      {!!localStorage.getItem(REFRESH_TOKEN) && <Redirect to='/reload' />}
     </div>
   );
 };

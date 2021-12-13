@@ -19,7 +19,10 @@ export const Account = () => {
       <EditUserData />
 
       <div>
-        {!!user.image &&  <img src={`${LOCALHOST}/${user.image}`} alt={user.login} id={'userImg'} />}
+        {!!user.image
+          ? <img src={`${LOCALHOST}/${user.image}`} alt={user.login} id={'userImg'} />
+          : <div id={'userImgLogin'}>{!!user.login && user.login[0]}</div>
+        }
         <h2 id={'userLogin'}>{user.login}</h2>
         <span>{user.email}</span>
       </div>

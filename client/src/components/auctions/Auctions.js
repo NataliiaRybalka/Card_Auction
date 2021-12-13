@@ -8,7 +8,7 @@ import { AUCTIONS } from "../../constants/url.enum";
 import { getAuctions } from "../../redux/actions/auctions.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { PlaceABet } from "./PlaceABet";
-
+import { ROLE } from "../../constants/localStorage.enum";
 import { socket } from "../../constants/socket";
 
 export const Auctions = () => {
@@ -34,7 +34,7 @@ export const Auctions = () => {
 
   let auctionCards = [];
   !!auctionsWithoutPagination.length && auctionsWithoutPagination.map(auction => auctionCards.push(auction.card));
-  auctionCards = auctionCards.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
+  auctionCards = auctionCards.filter((auction, i, self) => self.findIndex(t => (t.id === auction.id)) === i);
 
   useEffect(() => {
     dispatch(getAuctions(filter));
@@ -85,13 +85,15 @@ export const Auctions = () => {
   const onPlaceBetHandler = (id) => {
     setIdAuctions(id);
     
-    if (localStorage.getItem('role') === USER) {
+    if (localStorage.getItem(ROLE) === USER) {
       setIsModalVisible(true);
     }
   };
 
-  socket.on('update auction rate', (auction) => {
-    if (auction) history.go(0);
+  socket.on('update_auction_rate', (auction) => {
+    if (auction) {
+      history.go(0);
+    }
   });
 
   return (

@@ -7,6 +7,7 @@ import { GET_USERS, GET_TOTAL_USERS } from '../redux/types/users.types';
 import { updateTokens } from "../services/token.service";
 import { getTable } from './saga.fuctions';
 import { httpHelper } from "../helpers/http.helper";
+import { ACCESS_TOKEN } from "../constants/localStorage.enum";
 
 export function* getUsersWorker(data) {
   try {
@@ -39,5 +40,24 @@ export function* getTotalUsersWorker() {
 };
 const getTotalUsers = async () => {
   const { request } = httpHelper();
-  return await request(`${LOCALHOST}users/total`, localStorage.getItem('accessToken'));
+  return await request(`${LOCALHOST}users/total`, localStorage.getItem(ACCESS_TOKEN));
+};
+
+export function* getUsersWithoutPaginationWorker() {
+  try {
+    const payload = yield call(getUsersWithoutPagination);
+    if (payload.status === OK) {
+      yield put({ type: GET_USERS, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const getUsersWithoutPagination = async () => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}users`, localStorage.getItem(ACCESS_TOKEN));
 };

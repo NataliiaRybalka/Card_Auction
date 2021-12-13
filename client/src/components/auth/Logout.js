@@ -9,10 +9,7 @@ export const Logout = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  localStorage.removeItem('role');
-  localStorage.removeItem('id');
+  localStorage.clear();
 
   useEffect(() => {
     dispatch(logout());

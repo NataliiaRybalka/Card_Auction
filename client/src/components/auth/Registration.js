@@ -6,6 +6,7 @@ import './Auth.css';
 
 import { registration } from '../../redux/actions/auth.actions';
 import { Alert } from "../alert/Alert";
+import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Registration = () => {
   const [inputValues, setInputValues] = useState({
@@ -54,7 +55,7 @@ export const Registration = () => {
       
       <button onClick={onHandleRegistration}>send</button>
 
-      {!!localStorage.getItem('refreshToken') && <Redirect to='/reload' />}
+      {!!localStorage.getItem(REFRESH_TOKEN) && <Redirect to='/reload' />}
     </div>
   );
 };

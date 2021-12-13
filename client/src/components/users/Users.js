@@ -7,6 +7,7 @@ import { USERS } from "../../constants/url.enum";
 import { PUT } from "../../constants/httpMethods";
 import { httpHelper } from "../../helpers/http.helper";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
+import { ACCESS_TOKEN, ROLE } from "../../constants/localStorage.enum";
 
 export const Users = () => {
   const [filter, setFilter] = useState({
@@ -25,7 +26,7 @@ export const Users = () => {
   const makeAdminHandler = async (user) => {
     const { request } = httpHelper();
     const newRole = user.role_id.title === ADMIN ? USER : ADMIN;
-    return await request(`${LOCALHOST}users/admin/${user.id}`, localStorage.getItem('accessToken'), PUT, { newRole });
+    return await request(`${LOCALHOST}users/admin/${user.id}`, localStorage.getItem(ACCESS_TOKEN), PUT, { newRole });
   };
 
   return (
@@ -40,7 +41,7 @@ export const Users = () => {
             <th>username</th>
             <th>email</th>
             <th>rating</th>
-            <th className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}>change role</th>
+            <th className={localStorage.getItem(ROLE) === USER ? 'noDisplay' : ''}>change role</th>
           </tr>
         </thead>
 
@@ -50,7 +51,7 @@ export const Users = () => {
             <td>{user.login}</td>
             <td>{user.email}</td>
             <td>{user.rating}</td>
-            <td className={localStorage.getItem('role') === USER ? 'noDisplay' : ''}> <button onClick={() => makeAdminHandler(user)}>change to {(!!user.role_id && user.role_id.title === ADMIN) ? USER : ADMIN}</button> </td>
+            <td className={localStorage.getItem(ROLE) === USER ? 'noDisplay' : ''}> <button onClick={() => makeAdminHandler(user)}>change to {(!!user.role_id && user.role_id.title === ADMIN) ? USER : ADMIN}</button> </td>
           </tr>
         ))}
         </tbody>

@@ -1,0 +1,4 @@
+export const GET_CHATS = 'CHATS/GET_CHATS';
+export const REQUEST_CHATS = 'CHATS/REQUEST_CHATS';
+export const GET_CHAT = 'CHATS/GET_CHAT';
+export const REQUEST_CHAT = 'CHATS/REQUEST_CHAT';

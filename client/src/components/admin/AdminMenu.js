@@ -5,6 +5,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 import ReceiptIcon from "@material-ui/icons/Receipt";
+import Chat from "@material-ui/icons/Chat";
 
 import "./Admin.css";
 import { Dashboard } from './Dashboard';
@@ -13,6 +14,7 @@ import { Cards } from '../cards/Cards';
 import { Sets } from '../sets/Sets';
 import { Auctions } from '../auctions/Auctions';
 import { Account } from '../account/Account';
+import { Chats } from '../chats/Chats';
 
 export const AdminMenu = () => {
 
@@ -28,6 +30,8 @@ export const AdminMenu = () => {
         <div className={'navLinkDiv'}> <Link to='/admin/sets' className={'navLinks'}> <ViewCarouselIcon /> Sets</Link> </div>
         <br />
         <div className={'navLinkDiv'}> <Link to='/admin/auctions' className={'navLinks'}> <ReceiptIcon /> Auctions</Link> </div>
+        <br />
+        <div className={'navLinkDiv'}> <Link to='/chats' className={'navLinks'}> <Chat /> Chats</Link> </div>
       </nav>
 
       <Switch>
@@ -36,6 +40,7 @@ export const AdminMenu = () => {
         <Route path='/admin/cards' component={Cards} />
         <Route path='/admin/sets' component={Sets} />
         <Route path='/admin/auctions' component={Auctions} />
+        <Route path='/chats' component={Chats} />
         <Route path='/admin' component={Dashboard} exact />
       </Switch>
     </div>
