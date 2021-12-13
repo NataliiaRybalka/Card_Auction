@@ -6,21 +6,21 @@ import balanceRepository from '#repositories/balance/balance.repository';
 class BalanceMiddlewar {
     async checkBalance(req, res, next) {
         try {
-        const {
-            body: { newPrice },
-            userId
-        } = req;
+            const {
+                body: { newPrice },
+                userId
+            } = req;
 
-        let currentBalance = await balanceRepository.getCurrentBalance(userId);
-        currentBalance = currentBalance.toJSON();
-        if (Object.values(currentBalance) < newPrice) {
-            throw new ErrorHandler(Forbidden, 'There is not enough money in your account. Please, top up your balance.');
-        }
+            let currentBalance = await balanceRepository.getCurrentBalance(userId);
+            currentBalance = currentBalance.toJSON();
+            if (Object.values(currentBalance) < newPrice) {
+                throw new ErrorHandler(Forbidden, 'There is not enough money in your account. Please, top up your balance.');
+            }
 
-        next();
+            next();
         } catch (e) {
-        logger.error(e);
-        res.status(e.status).json(e.message);
+            logger.error(e);
+            res.status(e.status).json(e.message);
         }
     };
 }

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 import { changeBalance } from "../../redux/actions/user.actions";
 
@@ -9,7 +8,6 @@ export const TopUpAccount = () => {
     sum: ''
   });
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const onChangeInputHandler = e => {
     setInputValues(prev => ({
@@ -24,8 +22,6 @@ export const TopUpAccount = () => {
     setInputValues({
       sum: ''
     });
-
-    history.go(0);
   };
 
   return (
