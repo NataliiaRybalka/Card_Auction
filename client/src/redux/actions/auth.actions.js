@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, REGISTRATION } from "../types/auth.types";
+import { LOGIN, LOGOUT, REGISTRATION, LOGIN_GOOGLE } from "../types/auth.types";
 
 export const registration = userData => {
   return {
@@ -17,5 +17,12 @@ export const login = userData => {
 export const logout = () => {
   return {
     type: LOGOUT
+  }
+};
+
+export const loginGoogle = userData => {
+  return {
+    type: LOGIN_GOOGLE,
+    payload: userData
   }
 };

@@ -24,6 +24,14 @@ class UserRepository {
         }
     };
 
+    async getUsersByEmailWithoutError(email) {
+        try {
+            return await User.where({ email }).fetch();
+        } catch (e) {
+            logger.error(e);
+        }
+    };
+
     async getUserByEmail(email) {
         try {
             return await User.where({ email }).fetch();

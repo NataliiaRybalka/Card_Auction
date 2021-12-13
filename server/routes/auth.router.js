@@ -23,6 +23,11 @@ router.post(
 );
 
 router.post(
+    '/login-google',
+    loginController.loginUser
+);
+
+router.post(
     '/create-tokens',
     tokenMiddlewar.checkRefreshToken,
     loginController.createNewTokenPair

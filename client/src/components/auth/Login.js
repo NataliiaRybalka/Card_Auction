@@ -6,6 +6,7 @@ import './Auth.css';
 import { login } from '../../redux/actions/auth.actions';
 import { Alert } from "../alert/Alert";
 import { Registration } from "./Registration";
+import { LoginGoogle } from './LoginGoogle';
 import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Login = () => {
@@ -48,6 +49,9 @@ export const Login = () => {
       {alert && <Alert msg={alert} />}
       
       <button onClick={onHandleLogin}>send</button>
+
+      <LoginGoogle />
+
       <span onClick={() => setToRegistration(true)} id={'toRegistration'}>registration</span>
       {toRegistration && <Redirect to='/registration'> <Registration /> </Redirect>}
 
