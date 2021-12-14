@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 
 import { Alert } from "../alert/Alert";
 import { changePassword } from '../../redux/actions/auth.actions';
+import { Login } from "./Login";
 
 export const RefreshPassword = () => {
   const [password, setPassword] = useState('');
+  const [toLogin, setToLogin] = useState(false);
   const dispatch = useDispatch();
   const alert = useSelector(state => state.alertReducer.alert);
   const location = useLocation();
@@ -20,6 +22,7 @@ export const RefreshPassword = () => {
     dispatch(changePassword({ password, userId }));
     
     setPassword('');
+    setToLogin(true);
   };
   
   return (
@@ -33,6 +36,7 @@ export const RefreshPassword = () => {
       
       <button onClick={onHandleRefreshPassword}>send</button>
 
+      {toLogin && <Redirect to='/login'> <Login /> </Redirect>}
     </div>
   );
 };
