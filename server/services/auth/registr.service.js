@@ -1,5 +1,5 @@
 import logger from '#config/logger.config';
-import { PORT } from '#constants/env.constants';
+import { LINK_FOR_CONFIRM_EMAIL, PORT_CLIENT } from '#constants/env.constants';
 import { EMAIL_CONFIRM } from '#constants/mailActions.constants';
 import { ADMIN, USER } from '#constants/project.constants';
 import { ErrorHandler } from '#helpers/error.handler';
@@ -21,9 +21,9 @@ class RegistrService {
             arrayUsers = arrayUsers.toJSON();
 
             if (!arrayUsers.length) {
-                await registrRepository.createUser(login, email, hashedPassword, roles.find(role => role.title === ADMIN).id);
+                await registrRepository.createUser(login, email, hashedPassword, roles.find(role => role.title === ADMIN).id, false);
             } else {
-                await registrRepository.createUser(login, email, hashedPassword, roles.find(role => role.title === USER).id);
+                await registrRepository.createUser(login, email, hashedPassword, roles.find(role => role.title === USER).id, false);
             }
 
             let user = await userRepository.getUserByEmail(email);
@@ -37,7 +37,7 @@ class RegistrService {
             role = role.toJSON();
             user.role_id = role.title;
 
-            await sendMail(email, EMAIL_CONFIRM, { login, verifyLink: `http://localhost:${PORT}/auth/verify/${user.id}` });
+            await sendMail(email, EMAIL_CONFIRM, { login, verifyLink: `http://localhost:${PORT_CLIENT}/account/${user.id}${LINK_FOR_CONFIRM_EMAIL}` });
 
             return {
                 user,

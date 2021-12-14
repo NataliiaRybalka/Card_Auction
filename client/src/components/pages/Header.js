@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import './Pages.css';
 import { DropdownMenu } from '../auxiliary/DropdownMenu';
-import { useState } from 'react';
 import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Header = () => {

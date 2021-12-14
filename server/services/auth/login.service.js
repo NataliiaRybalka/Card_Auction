@@ -57,12 +57,10 @@ class LoginService {
                     let roles = await registrRepository.getRoles();
                     roles = roles.toJSON();
 
-                    await registrRepository.createUser(name, email, email, roles.find(role => role.title === USER).id);
+                    await registrRepository.createUser(name, email, email, roles.find(role => role.title === USER).id, true);
 
                     user = await userRepository.getUserByEmail(email);
                     user = user.toJSON();
-
-                    await sendMail(email, EMAIL_CONFIRM, { login: name, verifyLink: `http://localhost:${PORT}/auth/verify/${user.id}` });
                 }
             } else {
                 const { email, password } = userData;

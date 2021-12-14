@@ -14,6 +14,7 @@ import { UserMenu } from './components/account/UserMenu';
 import { Cards } from './components/cards/Cards';
 import { Sets } from './components/sets/Sets';
 import { Chat } from './components/chats/Chat';
+import { Verify } from './components/pages/Verify';
 import { ADMIN } from './constants/contants';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         )}
 
         <Switch>
+          <Route path='/account/:verifyLink' component={Verify} />
           <Route path='/registration' component={Registration} />
           <Route path='/login' component={Login} />
           <Route path='/logout' component={Logout} />

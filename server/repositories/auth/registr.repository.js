@@ -33,7 +33,7 @@ class RegistrRepository {
         }
     };
 
-    async createUser(login, email, password, role_id) {
+    async createUser(login, email, password, role_id, is_active) {
         try {
             return await User.forge({
                 login,
@@ -41,7 +41,7 @@ class RegistrRepository {
                 password,
                 role_id,
                 created_at: new Date(),
-                is_active: false
+                is_active
             }).save();
         } catch (e) {
             logger.error(e);
