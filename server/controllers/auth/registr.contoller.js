@@ -9,6 +9,15 @@ class RegistrContoller {
             next(e);
         }
     };
+
+    async verifyUser(req, res, next) {
+        try {
+            await registrService.verifyUser(req.params)
+            res.status(Created).json(Created);
+        } catch (e) {
+            next(e);
+        }
+    };
 }
 
 export default new RegistrContoller();

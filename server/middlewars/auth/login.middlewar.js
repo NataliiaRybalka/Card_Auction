@@ -7,19 +7,32 @@ import userRepository from '#repositories/user/user.repository';
 class LoginMiddlewar {
     async checkIsEmailCorrect(req, res, next) {
         try {
-        const { email } = req.body;
+            const { email } = req.body;
 
-        let user = await userRepository.getUserByEmail(email);
-        user = user.toJSON();
-        if (!user) {
-            throw new ErrorHandler(Unauthorized, 'Wrong email or password');
-        }
+            let user = await userRepository.getUserByEmail(email);
+            user = user.toJSON();
+            if (!user) {
+                throw new ErrorHandler(Unauthorized, 'Wrong email or password');
+            }
 
-        req.user = user;
+            req.user = user;
             next();
         } catch (e) {
             logger.error('Wrong email or password', e);
             res.status(Unauthorized).json('Wrong email or password');
+        }
+    };
+
+    async checkIsEmailConfirmed(req, res, next) {
+        try {
+            if (!req.user.is_active) {
+                throw new ErrorHandler(Unauthorized, 'Please confirm your email');
+            }
+
+            next();
+        } catch (e) {
+            logger.error('Wrong email or password', e);
+            res.status(Unauthorized).json('Please confirm your email');
         }
     };
 

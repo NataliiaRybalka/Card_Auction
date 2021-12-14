@@ -33,20 +33,30 @@ class RegistrRepository {
         }
     };
 
-    async createUser(login, email, password, role_id) {
+    async createUser(login, email, password, role_id, is_active) {
         try {
             return await User.forge({
                 login,
                 email,
                 password,
                 role_id,
-                created_at: new Date()
+                created_at: new Date(),
+                is_active
             }).save();
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(InternalServerError, NotCreated);
         }
-    }
+    };
+
+    async verifyUser(id) {
+        try {
+            return await User.forge({ id }).save({ is_active: true });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
 }
 
 export default new RegistrRepository();

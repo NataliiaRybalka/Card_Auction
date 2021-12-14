@@ -18,6 +18,7 @@ router.post(
 router.post(
     '/login',
     loginMiddlewar.checkIsEmailCorrect,
+    loginMiddlewar.checkIsEmailConfirmed,
     loginMiddlewar.checkRole,
     loginController.loginUser
 );
@@ -31,6 +32,11 @@ router.post(
     '/create-tokens',
     tokenMiddlewar.checkRefreshToken,
     loginController.createNewTokenPair
+);
+
+router.get(
+    '/verify/:userId',
+    registrContoller.verifyUser
 );
 
 export default router;

@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { useAlert } from 'react-alert';
 
 import './Auth.css';
-
 import { registration } from '../../redux/actions/auth.actions';
 import { Alert } from "../alert/Alert";
-import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Registration = () => {
   const [inputValues, setInputValues] = useState({
@@ -16,6 +14,7 @@ export const Registration = () => {
   });
   const dispatch = useDispatch();
   const alert = useSelector(state => state.alertReducer.alert);
+  const confirmAlert = useAlert();
 
   const onChangeInputHandler = e => {
     setInputValues(prev => ({
@@ -32,6 +31,7 @@ export const Registration = () => {
       email: '',
       password: ''
     });
+    confirmAlert.show('Please confirm your email.');
   };
 
   return (
@@ -54,8 +54,6 @@ export const Registration = () => {
       {alert && <Alert msg={alert} />}
       
       <button onClick={onHandleRegistration}>send</button>
-
-      {!!localStorage.getItem(REFRESH_TOKEN) && <Redirect to='/reload' />}
     </div>
   );
 };
