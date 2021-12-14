@@ -1,4 +1,5 @@
 import { OAuth2Client } from 'google-auth-library';
+import fetch from 'node-fetch';
 
 import logger from '#config/logger.config';
 import { WrongEmailOrPassword } from '#constants/errorMessages.enum';
@@ -14,32 +15,49 @@ class LoginService {
     async loginUser(userData) {
         try {
             let user;
+            let name;
+            let email;
 
-            if (userData.tokenId) {
-                const client = new OAuth2Client(process.env.CLIENT_ID);
-                const { tokenId } = userData;
-    
-                const res = await client.verifyIdToken({
-                    idToken: tokenId,
-                    audience: process.env.CLIENT_ID
-                });
-    
-                const { email_verified, email, name } = res.payload;
-                
-                if (email_verified) {
-                    user = await userRepository.getUsersByEmailWithoutError(email);
-                    
-                    if (user) {
-                        user = user.toJSON();
-                    } else {
-                        let roles = await registrRepository.getRoles();
-                        roles = roles.toJSON();
-    
-                        await registrRepository.createUser(name, email, email, roles.find(role => role.title === USER).id);
-    
-                        user = await userRepository.getUserByEmail(email);
-                        user = user.toJSON();
+            if (userData.tokenId || userData.accessToken) {
+                if (userData.tokenId) {
+                    const client = new OAuth2Client(process.env.CLIENT_ID);
+                    const { tokenId } = userData;
+        
+                    const res = await client.verifyIdToken({
+                        idToken: tokenId,
+                        audience: process.env.CLIENT_ID
+                    });
+        
+                    const { email_verified } = res.payload;
+                    email = res.payload.email;
+                    name = res.payload.name;
+
+                    if (email_verified) {
+                        user = await userRepository.getUsersByEmailWithoutError(email);
                     }
+                } else if (userData.accessToken) {
+                    const { accessToken, userID } = userData;
+                    const urlGraphFacebook = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+                    const res = await fetch(urlGraphFacebook, {
+                        method: 'GET'
+                    });
+                    const data = await res.json();
+                    email = data.email;
+                    name = data.name;
+
+                    user = await userRepository.getUsersByEmailWithoutError(email);
+                }      
+
+                if (user) {
+                    user = user.toJSON();
+                } else {
+                    let roles = await registrRepository.getRoles();
+                    roles = roles.toJSON();
+
+                    await registrRepository.createUser(name, email, email, roles.find(role => role.title === USER).id);
+
+                    user = await userRepository.getUserByEmail(email);
+                    user = user.toJSON();
                 }
             } else {
                 const { email, password } = userData;

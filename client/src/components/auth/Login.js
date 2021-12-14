@@ -51,7 +51,10 @@ export const Login = () => {
       
       <button onClick={onHandleLogin}>send</button>
 
-      <LoginGoogle />
+      <div id={'loginWithBtns'}>
+        <LoginGoogle />
+        <LoginFacebook />
+      </div>
 
       <span onClick={() => setToRegistration(true)} id={'toRegistration'}>registration</span>
       {toRegistration && <Redirect to='/registration'> <Registration /> </Redirect>}
