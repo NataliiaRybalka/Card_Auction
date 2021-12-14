@@ -7,6 +7,7 @@ import { login } from '../../redux/actions/auth.actions';
 import { Alert } from "../alert/Alert";
 import { Registration } from "./Registration";
 import { LoginGoogle } from './LoginGoogle';
+import { LoginFacebook } from './LoginFacebook';
 import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Login = () => {
@@ -50,7 +51,10 @@ export const Login = () => {
       
       <button onClick={onHandleLogin}>send</button>
 
-      <LoginGoogle />
+      <div id={'loginWithBtns'}>
+        <LoginGoogle />
+        <LoginFacebook />
+      </div>
 
       <span onClick={() => setToRegistration(true)} id={'toRegistration'}>registration</span>
       {toRegistration && <Redirect to='/registration'> <Registration /> </Redirect>}

@@ -24,11 +24,29 @@
   margin: 0 auto;
 }
 
-#googleLogin {
+#loginWithBtns {
+  display: flex;
+  justify-content: space-around;
+}
+
+#googleLogin, #facebookLogin {
   width: 100px;
-  margin: 0 31%;
 }
 
 #googleLogin > button {
   width: 100%;
+  margin-left: -50px;
+}
+
+.facebookLoginClass {
+  margin-right: -50px;
+  height: 45px;
+  width: 100%;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #4c69ba;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
 }
