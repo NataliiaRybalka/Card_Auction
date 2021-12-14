@@ -62,7 +62,7 @@ class LoginService {
                     user = await userRepository.getUserByEmail(email);
                     user = user.toJSON();
 
-                    await sendMail(email, EMAIL_CONFIRM, { login: name, verifyLink: `http://localhost:${PORT}/verify/${user._id}` });
+                    await sendMail(email, EMAIL_CONFIRM, { login: name, verifyLink: `http://localhost:${PORT}/auth/verify/${user.id}` });
                 }
             } else {
                 const { email, password } = userData;

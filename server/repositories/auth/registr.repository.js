@@ -47,7 +47,16 @@ class RegistrRepository {
             logger.error(e);
             throw new ErrorHandler(InternalServerError, NotCreated);
         }
-    }
+    };
+
+    async verifyUser(id) {
+        try {
+            return await User.forge({ id }).save({ is_active: true });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotCreated);
+        }
+    };
 }
 
 export default new RegistrRepository();

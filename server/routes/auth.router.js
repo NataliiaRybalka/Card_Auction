@@ -33,4 +33,9 @@ router.post(
     loginController.createNewTokenPair
 );
 
+router.get(
+    '/verify/:userId',
+    registrContoller.verifyUser
+);
+
 export default router;

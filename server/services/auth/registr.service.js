@@ -37,7 +37,7 @@ class RegistrService {
             role = role.toJSON();
             user.role_id = role.title;
 
-            await sendMail(email, EMAIL_CONFIRM, { login, verifyLink: `http://localhost:${PORT}/verify/${user._id}` });
+            await sendMail(email, EMAIL_CONFIRM, { login, verifyLink: `http://localhost:${PORT}/auth/verify/${user.id}` });
 
             return {
                 user,
@@ -47,7 +47,16 @@ class RegistrService {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);
         }
-    }
+    };
+
+    async verifyUser(userId) {
+        try {
+            return await registrRepository.verifyUser(userId.userId);
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
 }
 
 export default new RegistrService();
