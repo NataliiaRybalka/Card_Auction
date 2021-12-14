@@ -2,6 +2,8 @@ import { OAuth2Client } from 'google-auth-library';
 import fetch from 'node-fetch';
 
 import logger from '#config/logger.config';
+import { PORT } from '#constants/env.constants';
+import { EMAIL_CONFIRM } from '#constants/mailActions.constants';
 import { WrongEmailOrPassword } from '#constants/errorMessages.enum';
 import { USER } from '#constants/project.constants';
 import { Unauthorized } from '#constants/responseCodes.enum';
@@ -9,6 +11,7 @@ import { ErrorHandler } from '#helpers/error.handler';
 import { comparePassword } from '#helpers/passwordHasher';
 import registrRepository from "#repositories/auth/registr.repository";
 import userRepository from '#repositories/user/user.repository';
+import { sendMail } from './mail.service';
 import tokenService from './tokens.service';
 
 class LoginService {
@@ -58,6 +61,8 @@ class LoginService {
 
                     user = await userRepository.getUserByEmail(email);
                     user = user.toJSON();
+
+                    await sendMail(email, EMAIL_CONFIRM, { login: name, verifyLink: `http://localhost:${PORT}/verify/${user._id}` });
                 }
             } else {
                 const { email, password } = userData;
