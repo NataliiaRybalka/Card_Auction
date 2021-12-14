@@ -1,13 +1,13 @@
 import { takeEvery } from "redux-saga/effects";
 
-import { registrationWorker, loginWorker, loginGoogleWorker, confirmEmailWorker } from "./auth.saga";
+import { registrationWorker, loginWorker, loginGoogleWorker, confirmEmailWorker, accountRecoveryWorker, refreshPasswordWorker } from "./auth.saga";
 import { getUsersWorker, getTotalUsersWorker, getUsersWithoutPaginationWorker } from './users.saga';
 import { getCardsWorker, createCardWorker, getCardsWithoutFilterWorker, getSoldUserCardsByIdWorker, getUserCardsWorker } from "./cards.saga";
 import { createSetWorker, getSetsWorker } from "./sets.saga";
 import { createAuctionWorker, getAuctionsWorker, getTotalAuctionsWorker, createBetWorker } from "./auctions.saga";
 import { getUserByIdWorker, editUserDataWorker, getBalanceWorker, changeBalanceWorker, deleteUserWorker } from "./user.saga";
 import { getChatsWorker, getChatWorker } from "./chats.saga";
-import { LOGIN, REGISTRATION, LOGIN_GOOGLE, CONFIRM_EMAIL } from "../redux/types/auth.types";
+import { LOGIN, REGISTRATION, LOGIN_GOOGLE, CONFIRM_EMAIL, REFRESH_PASSWORD, ACCOUNT_RECOVERY } from "../redux/types/auth.types";
 import { REQUEST_USERS, REQUEST_TOTAL_USERS, REQUEST_USERS_WITHOUT_FILTER } from "../redux/types/users.types";
 import { CREATE_CARD, REQUEST_CARDS, REQUEST_CARDS_WITHOUT_FILTER, REQUEST_SOLD_USER_CARDS, REQUEST_USER_CARDS } from "../redux/types/cards.types";
 import { CREATE_SET, REQUEST_SETS } from "../redux/types/sets.types";
@@ -20,6 +20,8 @@ export function* sagaWatcher() {
   yield takeEvery(LOGIN, loginWorker);
   yield takeEvery(LOGIN_GOOGLE, loginGoogleWorker);
   yield takeEvery(CONFIRM_EMAIL, confirmEmailWorker);
+  yield takeEvery(ACCOUNT_RECOVERY, accountRecoveryWorker);
+  yield takeEvery(REFRESH_PASSWORD, refreshPasswordWorker);
   yield takeEvery(REQUEST_USERS, getUsersWorker);
   yield takeEvery(REQUEST_TOTAL_USERS, getTotalUsersWorker);
   yield takeEvery(REQUEST_USERS_WITHOUT_FILTER, getUsersWithoutPaginationWorker);

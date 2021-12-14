@@ -50,3 +50,9 @@
   justify-content: space-between;
   padding: 10px;
 }
+
+#forgotPassword {
+  font-size: 13px;
+  color: #ff4dff;
+  cursor: pointer;
+}

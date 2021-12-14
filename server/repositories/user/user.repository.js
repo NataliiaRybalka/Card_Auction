@@ -76,6 +76,15 @@ class UserRepository {
         }
     };
 
+    async updateUserPassword(id, password) {
+        try {
+            return await User.forge({ id }).save({ password });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(InternalServerError, NotUpdated);
+        }
+    };
+
     async updateUserRating(id, rating) {
         try {
             return await User.forge({ id }).save({ rating });

@@ -3,6 +3,7 @@ import { Router } from 'express';
 import loginMiddlewar from '#middlewars/auth/login.middlewar';
 import registrMiddlewar from '#middlewars/auth/registr.middlewar';
 import tokenMiddlewar from '#middlewars/user/token.middlewar';
+import userMiddlewar from '#middlewars/user/user.middlewar';
 import loginController from '#controllers/auth/login.controller';
 import registrContoller from '#controllers/auth/registr.contoller';
 
@@ -37,6 +38,18 @@ router.post(
 router.get(
     '/verify/:userId',
     registrContoller.verifyUser
+);
+
+router.post(
+    '/account-recovery',
+    loginMiddlewar.checkIsEmailCorrect,
+    loginController.accountRecovery
+);
+
+router.put(
+    '/refresh-password/:userId',
+    userMiddlewar.checkUpdatedUserData,
+    loginController.refreshPassword
 );
 
 export default router;
