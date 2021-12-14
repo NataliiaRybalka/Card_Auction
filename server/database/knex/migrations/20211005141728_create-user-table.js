@@ -11,6 +11,7 @@ exports.up = function(knex) {
         table.integer('rating').defaultTo(0);
         table.string('image');
         table.dateTime('created_at');
+        table.boolean('is_active');
     })
 };
 
