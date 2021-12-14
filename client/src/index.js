@@ -3,6 +3,8 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { BrowserRouter as Router} from 'react-router-dom';
+import { positions, Provider as AlertProvider } from 'react-alert';
+import AlertMUITemplate from 'react-alert-template-mui';
 
 import './index.css';
 import App from './App';
@@ -20,11 +22,17 @@ const store = createStore(rootReducer, compose(
 
 saga.run(sagaWatcher);
 
+const options = {
+  position: positions.MIDDLE
+};
+
 render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <AlertProvider template={AlertMUITemplate} {...options} >
+      <Router>
+        <App />
+      </Router>
+    </AlertProvider>
   </Provider>,
   document.getElementById('root')
 );

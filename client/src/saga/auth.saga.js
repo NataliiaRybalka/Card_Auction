@@ -6,14 +6,13 @@ import { Created, OK } from '../constants/responseCodes.enum';
 import { LOGIN_SUCCESS, REGISTRATION_SUCCESS } from "../redux/types/auth.types";
 import { httpHelper } from "../helpers/http.helper";
 import { SHOW_ALERT } from "../redux/types/alert.types";
-import { setTokenAndRoleServiceWherRegistration, setTokenAndRoleServiceWherLogin } from "../services/token.service";
+import { setTokenAndRoleServiceWherLogin } from "../services/token.service";
 
 export function* registrationWorker(data) {
   try {
     const payload = yield call(registration, data.payload);
     if (payload.status === Created) {
-      yield put({ type: REGISTRATION_SUCCESS, payload: payload.data }); 
-      yield put(setTokenAndRoleServiceWherRegistration(payload.data.user.id, payload.data.userTokens, payload.data.user.role_id));
+      yield put({ type: REGISTRATION_SUCCESS, payload: payload.data });
     } else {
       throw payload;
     }

@@ -3,13 +3,6 @@ import { LOCALHOST } from "../constants/contants";
 import { POST } from "../constants/httpMethods";
 import { ID, ACCESS_TOKEN, REFRESH_TOKEN, ROLE } from "../constants/localStorage.enum";
 
-export const setTokenAndRoleServiceWherRegistration = (id, tokens, role) => {
-  localStorage.setItem(ID, id);
-  localStorage.setItem(ACCESS_TOKEN, tokens[0].access_token);
-  localStorage.setItem(REFRESH_TOKEN, tokens[0].refresh_token);
-  localStorage.setItem(ROLE, role);
-};
-
 export const setTokenAndRoleServiceWherLogin = (id, tokens, role) => {
   localStorage.setItem(ID, id);
   localStorage.setItem(ACCESS_TOKEN, tokens.access_token);
