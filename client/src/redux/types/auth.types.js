@@ -4,3 +4,4 @@ export const LOGIN = 'AUTH/LOGIN';
 export const LOGIN_SUCCESS = 'AUTH/LOGIN_SUCCESS';
 export const LOGOUT = 'AUTH/LOGOUT';
 export const LOGIN_GOOGLE = 'AUTH/LOGIN_GOOGLE';
+export const CONFIRM_EMAIL = 'AUTH/CONFIRM_EMAIL';

@@ -60,3 +60,18 @@ const loginGoogle = async (data) => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}auth/login-google`, null, POST, data);
 };
+
+export function* confirmEmailWorker(data) {
+  try {
+    const payload = yield call(confirmEmail, data.payload);
+    if (payload.status !== Created) {
+      throw payload; 
+    }
+  } catch (e) {
+    yield put({ type: SHOW_ALERT, payload: e.data });
+  }
+};
+const confirmEmail = async (data) => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}auth/verify/${data}`);
+};

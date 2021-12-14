@@ -18,6 +18,7 @@ router.post(
 router.post(
     '/login',
     loginMiddlewar.checkIsEmailCorrect,
+    loginMiddlewar.checkIsEmailConfirmed,
     loginMiddlewar.checkRole,
     loginController.loginUser
 );
