@@ -39,4 +39,10 @@ router.get(
     registrContoller.verifyUser
 );
 
+router.post(
+    '/account-recovery',
+    loginMiddlewar.checkIsEmailCorrect,
+    loginController.accountRecovery
+);
+
 export default router;

@@ -2,8 +2,8 @@ import { OAuth2Client } from 'google-auth-library';
 import fetch from 'node-fetch';
 
 import logger from '#config/logger.config';
-import { PORT } from '#constants/env.constants';
-import { EMAIL_CONFIRM } from '#constants/mailActions.constants';
+import { PORT_CLIENT } from '#constants/env.constants';
+import { REFRESH_PASSWORD } from '#constants/mailActions.constants';
 import { WrongEmailOrPassword } from '#constants/errorMessages.enum';
 import { USER } from '#constants/project.constants';
 import { Unauthorized } from '#constants/responseCodes.enum';
@@ -104,6 +104,16 @@ class LoginService {
                 user,
                 userTokens: userTokens[userTokens.length - 1]
             }
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
+
+    async accountRecovery(user) {
+        try {
+            const { id, login, email } = user;
+            return await sendMail(email, REFRESH_PASSWORD, { login, verifyLink: `http://localhost:${PORT_CLIENT}/refresh-password/${id}` });
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

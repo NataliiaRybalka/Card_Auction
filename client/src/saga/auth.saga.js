@@ -75,3 +75,18 @@ const confirmEmail = async (data) => {
   const { request } = httpHelper();
   return await request(`${LOCALHOST}auth/verify/${data}`);
 };
+
+export function* emailForRefreshPasswordWorker(data) {
+  try {
+    const payload = yield call(emailForRefreshPassword, data.payload);
+    if (payload.status !== Created) {
+      throw payload; 
+    }
+  } catch (e) {
+    yield put({ type: SHOW_ALERT, payload: e.data });
+  }
+};
+const emailForRefreshPassword = async (data) => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}auth/account-recovery`, null, POST, data);
+};

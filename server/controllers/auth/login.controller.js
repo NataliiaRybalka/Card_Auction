@@ -17,6 +17,14 @@ class LoginController {
         next(e);
         }
     };
+
+    async accountRecovery(req, res, next) {
+        try {
+            res.status(OK).json(await loginService.accountRecovery(req.user));
+        } catch (e) {
+        next(e);
+        }
+    };
 }
 
 export default new LoginController();
