@@ -8,7 +8,7 @@ import { WrongEmailOrPassword } from '#constants/errorMessages.enum';
 import { USER } from '#constants/project.constants';
 import { Unauthorized } from '#constants/responseCodes.enum';
 import { ErrorHandler } from '#helpers/error.handler';
-import { comparePassword } from '#helpers/passwordHasher';
+import { hashPassword, comparePassword } from '#helpers/passwordHasher';
 import registrRepository from "#repositories/auth/registr.repository";
 import userRepository from '#repositories/user/user.repository';
 import { sendMail } from './mail.service';
@@ -114,6 +114,18 @@ class LoginService {
         try {
             const { id, login, email } = user;
             return await sendMail(email, REFRESH_PASSWORD, { login, verifyLink: `http://localhost:${PORT_CLIENT}/refresh-password/${id}` });
+        } catch (e) {
+            logger.error(e);
+            throw new ErrorHandler(e.status, e.message);
+        }
+    };
+
+    async refreshPassword(userData) {
+        try {
+            const { password, userId } = userData;
+            const hashedPassword = await hashPassword(password);
+
+            return await userRepository.updateUserPassword(userId, hashedPassword);
         } catch (e) {
             logger.error(e);
             throw new ErrorHandler(e.status, e.message);

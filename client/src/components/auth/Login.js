@@ -8,7 +8,7 @@ import { Alert } from "../alert/Alert";
 import { Registration } from "./Registration";
 import { LoginGoogle } from './LoginGoogle';
 import { LoginFacebook } from './LoginFacebook';
-import { EmailForRefreshPassword } from './EmailForRefreshPassword';
+import { AccountRecovery } from './AccountRecovery';
 import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
 export const Login = () => {
@@ -48,7 +48,7 @@ export const Login = () => {
         <label>Password</label>
         <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
         <span id={'forgotPassword'} onClick={() => setToEmailForRefreshPassword(true)}>forgot password</span>
-        {toEmailForRefreshPassword && <Redirect to='/account-recovery'> <EmailForRefreshPassword /> </Redirect>}
+        {toEmailForRefreshPassword && <Redirect to='/account-recovery'> <AccountRecovery /> </Redirect>}
       </div>
 
       {alert && <Alert msg={alert} />}

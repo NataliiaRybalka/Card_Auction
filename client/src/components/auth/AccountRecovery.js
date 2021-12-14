@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from 'react-alert';
 
 import { Alert } from "../alert/Alert";
-import { refreshPassword } from '../../redux/actions/auth.actions';
+import { accountRecovery } from '../../redux/actions/auth.actions';
 
-export const EmailForRefreshPassword = () => {
+export const AccountRecovery = () => {
   const [email, setEmail] = useState('');
   const dispatch = useDispatch();
   const alert = useSelector(state => state.alertReducer.alert);
@@ -16,7 +16,7 @@ export const EmailForRefreshPassword = () => {
   };
 
   const onSendEmailHandler = async () => {
-    dispatch(refreshPassword({ email }));
+    dispatch(accountRecovery({ email }));
     
     setEmail('');
     confirmAlert.show('Check your email.');

@@ -1,47 +1,37 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import { Alert } from "../alert/Alert";
+import { changePassword } from '../../redux/actions/auth.actions';
 
 export const RefreshPassword = () => {
-  const [inputValues, setInputValues] = useState({
-    email: '',
-    password: ''
-  });
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const alert = useSelector(state => state.alertReducer.alert);
+  const location = useLocation();
+  const userId = location.pathname.split('/')[2];
 
   const onChangeInputHandler = e => {
-    setInputValues(prev => ({
-        ...prev,
-        ...{[e.target.name]: e.target.value}
-    }));
+    setPassword(e.target.value);
   };
 
-  const onHandleChangePassword = async () => {
-    // dispatch();
+  const onHandleRefreshPassword = async () => {
+    dispatch(changePassword({ password, userId }));
     
-    setInputValues({
-      email: '',
-      password: ''
-    });
+    setPassword('');
   };
   
   return (
     <div className={'form'}>
       <div>
-        <label>Email</label>
-        <input type={'email'} name={'email'} value={inputValues.email} onChange={onChangeInputHandler} />
-      </div>
-
-      <div>
         <label>New Password</label>
-        <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
+        <input type={'password'} name={'password'} value={password} onChange={onChangeInputHandler} />
       </div>
 
       {alert && <Alert msg={alert} />}
       
-      <button onClick={onHandleChangePassword}>send</button>
+      <button onClick={onHandleRefreshPassword}>send</button>
 
     </div>
   );

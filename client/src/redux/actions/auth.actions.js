@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, REGISTRATION, LOGIN_GOOGLE, CONFIRM_EMAIL, REFRESH_PASSWORD } from "../types/auth.types";
+import { LOGIN, LOGOUT, REGISTRATION, LOGIN_GOOGLE, CONFIRM_EMAIL, REFRESH_PASSWORD, ACCOUNT_RECOVERY } from "../types/auth.types";
 
 export const registration = userData => {
   return {
@@ -34,9 +34,16 @@ export const confirmEmail = userId => {
   }
 };
 
-export const refreshPassword = email => {
+export const accountRecovery = email => {
+  return {
+    type: ACCOUNT_RECOVERY,
+    payload: email
+  }
+};
+
+export const changePassword = userData => {
   return {
     type: REFRESH_PASSWORD,
-    payload: email
+    payload: userData
   }
 };

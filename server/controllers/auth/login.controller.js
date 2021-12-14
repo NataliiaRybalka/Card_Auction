@@ -25,6 +25,14 @@ class LoginController {
         next(e);
         }
     };
+
+    async refreshPassword(req, res, next) {
+        try {
+            res.status(Created).json(await loginService.refreshPassword(req.body));
+        } catch (e) {
+        next(e);
+        }
+    };
 }
 
 export default new LoginController();

@@ -15,7 +15,7 @@ import { Cards } from './components/cards/Cards';
 import { Sets } from './components/sets/Sets';
 import { Chat } from './components/chats/Chat';
 import { Verify } from './components/pages/Verify';
-import { EmailForRefreshPassword } from './components/auth/EmailForRefreshPassword';
+import { AccountRecovery } from './components/auth/AccountRecovery';
 import { RefreshPassword } from './components/auth/RefreshPassword';
 import { ADMIN } from './constants/contants';
 
@@ -37,7 +37,7 @@ function App() {
           <Route path='/registration' component={Registration} />
           <Route path='/login' component={Login} />
           <Route path='/logout' component={Logout} />
-          <Route path='/account-recovery' component={EmailForRefreshPassword} />
+          <Route path='/account-recovery' component={AccountRecovery} />
           <Route path='/refresh-password/:userId' component={RefreshPassword} />
           <Route path='/reload' component={Reload} />
           <Route path='/faq/cards' component={Cards} />
