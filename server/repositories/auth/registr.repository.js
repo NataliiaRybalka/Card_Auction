@@ -40,7 +40,8 @@ class RegistrRepository {
                 email,
                 password,
                 role_id,
-                created_at: new Date()
+                created_at: new Date(),
+                is_active: false
             }).save();
         } catch (e) {
             logger.error(e);
