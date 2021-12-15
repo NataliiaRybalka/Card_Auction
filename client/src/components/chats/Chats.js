@@ -9,7 +9,6 @@ import { getChats } from "../../redux/actions/chats.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { NewChat } from "./NewChat";
 import { TO_USER_ID, ROOM, TO_USER_LOGIN, ID } from "../../constants/localStorage.enum";
-import { socket } from '../../constants/socket';
 
 export const Chats = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

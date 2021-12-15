@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 
 import GroupIcon from "@material-ui/icons/Group";
