@@ -18,7 +18,6 @@ export const Chats = () => {
     limit: LIMIT,
     offset: 1
   });
-  const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
   const chats = useSelector(state => state.chatsReducer.chats);
   const totalItem = useSelector(state => state.chatsReducer.totalItem);
@@ -32,10 +31,6 @@ export const Chats = () => {
     localStorage.setItem(TO_USER_LOGIN, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login);
     localStorage.setItem(ROOM, `${chat.from.id}-${chat.to.id}`);
   };
-
-  socket.on('receive_notification_to_chat_list', (from, message) => {
-    setMessages([...messages, { from, message }]);
-  });
 
   return (
     <div className={'main'}>

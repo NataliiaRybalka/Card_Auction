@@ -18,8 +18,8 @@ import { socket } from '../../constants/socket';
 export const UserMenu = () => {
   const [countMessages, setCountMessages] = useState(0);
 
-  socket.on('receive_notification_to_menu', () => {
-    setCountMessages(countMessages + 1);
+  socket.on('receive_notification_to_menu', (count) => {
+    setCountMessages(count);
   });
 
   return (
@@ -35,7 +35,7 @@ export const UserMenu = () => {
         <br />
         <div className={'navLinkDiv'}>
           <Link to='/chats' className={'navLinks'}>
-            <Chat /> Chats {!!countMessages && <span>{countMessages}</span>}
+            <Chat /> Chats {!!countMessages && <span id={'countMessages'}>{countMessages}</span>}
           </Link>
         </div>
       </nav>

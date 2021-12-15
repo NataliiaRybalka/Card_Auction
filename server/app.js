@@ -52,13 +52,13 @@ export const io = new Server(connection, {
 });
 
 const userStorage = [];
-const roomStorage = [];
+let roomStorage = [];
 
 io.on('connection', (socket) => {
     console.log(`User connected ${socket.id}`);
 
     socket.on('connect_user', (data) => {
-        userStorage.push({ userId: data, socketId: socket.id, notifications: [] });
+        userStorage.push({ userId: data, socketId: socket.id, notifications: 0 });
     });
 
     socket.on('join_room', (data) => {
@@ -76,9 +76,19 @@ io.on('connection', (socket) => {
         if (userInRoom) {
             socket.to(data.room).emit('receive_message', data);
         } else {
-            io.to(user.socketId).emit('receive_notification_to_menu', data.from);
-            io.to(user.socketId).emit('receive_notification_to_chat_list', { from: data.from, message: data.message} );
+            userStorage.map(user => {
+                if (user.userId === data.to) {
+                    user.notifications = user.notifications + 1;
+                }
+            })
+            io.to(user.socketId).emit('receive_notification_to_menu', user.notifications);
         }
+    });
+
+    socket.on('leave_room', (data) => {
+        socket.leave(data);
+        roomStorage = roomStorage.filter(room => room.socketId !== socket.id);
+        console.log(`User with id: ${socket.id} left room: ${data}`);
     });
 
     socket.on('disconnect', () => {
