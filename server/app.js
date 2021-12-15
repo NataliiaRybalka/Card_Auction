@@ -58,12 +58,19 @@ io.on('connection', (socket) => {
     console.log(`User connected ${socket.id}`);
 
     socket.on('connect_user', (data) => {
-        userStorage.push({ userId: data, socketId: socket.id, notifications: 0 });
+        userStorage.push({ userId: data, socketId: socket.id, notifications: { rooms: [], count: 0 } });
     });
 
     socket.on('join_room', (data) => {
         socket.join(data);
         roomStorage.push({ socketId: socket.id, room: data });
+        userStorage.map(user => {
+            if (user.socketId === socket.id) {
+                user.notifications.rooms = user.notifications.rooms.filter(room => room !== data);
+                user.notifications.count =  user.notifications.rooms.length;
+                io.to(socket.id).emit('receive_notification_to_menu', user.notifications.count);
+            }
+        });
         console.log(`User with id: ${socket.id} joined room: ${data}`);
     });
 
@@ -78,10 +85,11 @@ io.on('connection', (socket) => {
         } else {
             userStorage.map(user => {
                 if (user.userId === data.to) {
-                    user.notifications = user.notifications + 1;
+                    user.notifications.rooms.push(data.room);
+                    user.notifications.count =  user.notifications.rooms.length;
                 }
-            })
-            io.to(user.socketId).emit('receive_notification_to_menu', user.notifications);
+            });
+            io.to(user.socketId).emit('receive_notification_to_menu', user.notifications.count);
         }
     });
 
