@@ -51,20 +51,34 @@ export const io = new Server(connection, {
     }
 });
 
+const userStorage = [];
+const roomStorage = [];
+
 io.on('connection', (socket) => {
     console.log(`User connected ${socket.id}`);
 
     socket.on('connect_user', (data) => {
+        userStorage.push({ userId: data, socketId: socket.id, notifications: [] });
     });
 
     socket.on('join_room', (data) => {
         socket.join(data);
+        roomStorage.push({ socketId: socket.id, room: data });
         console.log(`User with id: ${socket.id} joined room: ${data}`);
     });
 
     socket.on('send_message', (data) => {
         chatRepository.createMessage(data.from, data.to, data.chatId, data.message);
-        socket.to(data.room).emit('receive_message', data);
+
+        const user = userStorage.find(user => user.userId === data.to);
+        const userInRoom = roomStorage.find(room => room.socketId === user.socketId);
+
+        if (userInRoom) {
+            socket.to(data.room).emit('receive_message', data);
+        } else {
+            io.to(user.socketId).emit('receive_notification_to_menu', data.from);
+            io.to(user.socketId).emit('receive_notification_to_chat_list', { from: data.from, message: data.message} );
+        }
     });
 
     socket.on('disconnect', () => {

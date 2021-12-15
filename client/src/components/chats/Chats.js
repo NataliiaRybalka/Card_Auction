@@ -9,6 +9,7 @@ import { getChats } from "../../redux/actions/chats.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { NewChat } from "./NewChat";
 import { TO_USER_ID, ROOM, TO_USER_LOGIN, ID } from "../../constants/localStorage.enum";
+import { socket } from '../../constants/socket';
 
 export const Chats = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,6 +18,7 @@ export const Chats = () => {
     limit: LIMIT,
     offset: 1
   });
+  const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
   const chats = useSelector(state => state.chatsReducer.chats);
   const totalItem = useSelector(state => state.chatsReducer.totalItem);
@@ -30,6 +32,10 @@ export const Chats = () => {
     localStorage.setItem(TO_USER_LOGIN, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login);
     localStorage.setItem(ROOM, `${chat.from.id}-${chat.to.id}`);
   };
+
+  socket.on('receive_notification_to_chat_list', (from, message) => {
+    setMessages([...messages, { from, message }]);
+  });
 
   return (
     <div className={'main'}>
