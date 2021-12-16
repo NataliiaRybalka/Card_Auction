@@ -1,7 +1,7 @@
 import { OK, Created } from '#constants/responseCodes.enum';
 import auctionService from '#services/auction/auction.service';
 
-import {io} from '../../app';
+import { io } from '../../app';
 
 class AuctionController {
     async getAllAuctions(req, res, next) {
