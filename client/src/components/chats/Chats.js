@@ -27,16 +27,22 @@ export const Chats = () => {
     dispatch(getChats(filter));
   }, [dispatch, filter]);
 
+  socket.on('receive_notification_to_chatlist_with_connect', (message) => {
+    console.log(message);
+    setNotifications(message);
+  });
   socket.on('receive_notification_to_chatlist', (message) => {
     setNotifications([...notifications, message]);
   });
 
-  for (let i = 0; i < chats.length; i++) {
-    const from = +localStorage.getItem(ID) === chats[i].from.id ? chats[i].to.id : chats[i].from.id;
+  if (notifications.length) {
+    for (let i = 0; i < chats.length; i++) {
+      const from = +localStorage.getItem(ID) === chats[i].from.id ? chats[i].to.id : chats[i].from.id;
 
-    for (let j = 0; j < notifications.length; j++) {
-      if (+notifications[j].from === from) {
-        chats[i].noReaded = true;
+      for (let j = 0; j < notifications.length; j++) {
+        if (+notifications[j].from === from) {
+          chats[i].noReaded = true;
+        }
       }
     }
   }

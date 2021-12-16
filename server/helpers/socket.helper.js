@@ -10,7 +10,7 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
         let user = userStorage.find(user => user.userId === data);
 
         if (!user) {
-            userStorage.push({ userId: data, socketId: socket.id, notifications: { rooms: [], count: 0 } });
+            userStorage.push({ userId: data, socketId: socket.id, notifications: { rooms: [], count: 0, messages: [] } });
             user = userStorage.find(user => user.userId === data);
         } else {
             userStorage.map(user => {
@@ -20,7 +20,8 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
             });
         }
 
-        socket.emit('receive_notification_to_menu_with_connect', user.notifications.count);
+        io.to(socket.id).emit('receive_notification_to_menu_with_connect', user.notifications.count);
+        io.to(socket.id).emit('receive_notification_to_chatlist_with_connect', user.notifications.messages);
     });
 
     socket.on('join_room', (data) => {
@@ -53,6 +54,7 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
                     if (user.userId === data.to) {
                         user.notifications.rooms.push(data.room);
                         user.notifications.count = user.notifications.rooms.length;
+                        user.notifications.messages.push({ from: data.from, message: data.message });
                     }
                 });
                 io.to(user.socketId).emit('receive_notification_to_menu', user.notifications.count);
