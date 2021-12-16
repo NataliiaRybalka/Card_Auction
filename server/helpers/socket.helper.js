@@ -7,7 +7,17 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
     console.log(`User connected ${socket.id}`);
 
     socket.on('connect_user', (data) => {
-        userStorage.push({ userId: data, socketId: socket.id, notifications: { rooms: [], count: 0 } });
+        const user = userStorage.find(user => user.userId === data);
+
+        if (!user) {
+            userStorage.push({ userId: data, socketId: socket.id, notifications: { rooms: [], count: 0 } });
+        } else {
+            userStorage.map(user => {
+                if (user.userId === data) {
+                    user.socketId = socket.id;
+                }
+            });
+        }
     });
 
     socket.on('join_room', (data) => {
@@ -27,18 +37,23 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
         chatRepository.createMessage(data.from, data.to, data.chatId, data.message);
 
         const user = userStorage.find(user => user.userId === data.to);
-        const userInRoom = roomStorage.find(room => room.socketId === user.socketId);
-
-        if (userInRoom) {
-            socket.to(data.room).emit('receive_message', data);
+        
+        if (!user) {
+            userStorage.push({ userId: data, notifications: { rooms: data.room, count: 1 } });
         } else {
-            userStorage.map(user => {
-                if (user.userId === data.to) {
-                    user.notifications.rooms.push(data.room);
-                    user.notifications.count =  user.notifications.rooms.length;
-                }
-            });
-            io.to(user.socketId).emit('receive_notification_to_menu', user.notifications.count);
+            const userInRoom = roomStorage.find(room => room.socketId === user.socketId);
+            
+            if (userInRoom) {
+                socket.to(data.room).emit('receive_message', data);
+            } else {
+                userStorage.map(user => {
+                    if (user.userId === data.to) {
+                        user.notifications.rooms.push(data.room);
+                        user.notifications.count = user.notifications.rooms.length;
+                    }
+                });
+                io.to(user.socketId).emit('receive_notification_to_menu', user.notifications.count);
+            }
         }
     });
 
