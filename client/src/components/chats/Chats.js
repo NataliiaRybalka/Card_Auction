@@ -28,21 +28,19 @@ export const Chats = () => {
   }, [dispatch, filter]);
 
   socket.on('receive_notification_to_chatlist', (message) => {
-    setNotifications(prev => ({
-      ...prev,
-      ...message
-    }));
+    setNotifications([...notifications, message]);
   });
 
-  chats.map(chat => {
-    const from = +localStorage.getItem(ID) === chat.from ? chat.to : chat.from;
-    return notifications.map(notification => {
-      if (notification.from === from) {
-        chat.noReaded = true;
+  for (let i = 0; i < chats.length; i++) {
+    const from = +localStorage.getItem(ID) === chats[i].from.id ? chats[i].to.id : chats[i].from.id;
+
+    for (let j = 0; j < notifications.length; j++) {
+      if (+notifications[j].from === from) {
+        chats[i].noReaded = true;
       }
-    });
-  });
-console.log(chats);
+    }
+  }
+
   const onSelectChatHandler = chat => {
     localStorage.setItem(TO_USER_ID, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.id : chat.from.id);
     localStorage.setItem(TO_USER_LOGIN, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login);
@@ -58,7 +56,7 @@ console.log(chats);
 
       <ul className={'chatList'}>
         {!!chats.length && chats.map(chat => (
-          <li key={chat.id} onClick={() => onSelectChatHandler(chat)} className={'notReaded'}>
+          <li key={chat.id} onClick={() => onSelectChatHandler(chat)} className={chat.noReaded ? 'notReaded' : ''}>
             <Link to='/chat' className={'navLinks'}>
               <div className={'chatName'}>{(+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login}</div>
               <div className={'chatMsg'}>{chat.message.message}</div>
