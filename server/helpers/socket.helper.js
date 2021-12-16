@@ -56,6 +56,7 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
                     }
                 });
                 io.to(user.socketId).emit('receive_notification_to_menu', user.notifications.count);
+                io.to(user.socketId).emit('receive_notification_to_chatlist', { from: data.from, message: data.message });
             }
         }
     });

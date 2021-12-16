@@ -9,6 +9,7 @@ import { getChats } from "../../redux/actions/chats.actions";
 import { ButtonPagination } from "../auxiliary/ButtonPagination";
 import { NewChat } from "./NewChat";
 import { TO_USER_ID, ROOM, TO_USER_LOGIN, ID } from "../../constants/localStorage.enum";
+import { socket } from '../../constants/socket';
 
 export const Chats = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,6 +18,7 @@ export const Chats = () => {
     limit: LIMIT,
     offset: 1
   });
+  const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const chats = useSelector(state => state.chatsReducer.chats);
   const totalItem = useSelector(state => state.chatsReducer.totalItem);
@@ -25,6 +27,22 @@ export const Chats = () => {
     dispatch(getChats(filter));
   }, [dispatch, filter]);
 
+  socket.on('receive_notification_to_chatlist', (message) => {
+    setNotifications(prev => ({
+      ...prev,
+      ...message
+    }));
+  });
+
+  chats.map(chat => {
+    const from = +localStorage.getItem(ID) === chat.from ? chat.to : chat.from;
+    return notifications.map(notification => {
+      if (notification.from === from) {
+        chat.noReaded = true;
+      }
+    });
+  });
+console.log(chats);
   const onSelectChatHandler = chat => {
     localStorage.setItem(TO_USER_ID, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.id : chat.from.id);
     localStorage.setItem(TO_USER_LOGIN, (+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login);
@@ -40,7 +58,7 @@ export const Chats = () => {
 
       <ul className={'chatList'}>
         {!!chats.length && chats.map(chat => (
-          <li key={chat.id} onClick={() => onSelectChatHandler(chat)}>
+          <li key={chat.id} onClick={() => onSelectChatHandler(chat)} className={'notReaded'}>
             <Link to='/chat' className={'navLinks'}>
               <div className={'chatName'}>{(+localStorage.getItem(ID) === chat.from.id) ? chat.to.login : chat.from.login}</div>
               <div className={'chatMsg'}>{chat.message.message}</div>
