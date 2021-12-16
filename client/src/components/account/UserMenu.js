@@ -18,6 +18,9 @@ import { socket } from '../../constants/socket';
 export const UserMenu = () => {
   const [countMessages, setCountMessages] = useState(0);
 
+  socket.on('receive_notification_to_menu_with_connect', (count) => {
+    setCountMessages(count);
+  });
   socket.on('receive_notification_to_menu', (count) => {
     setCountMessages(count);
   });
