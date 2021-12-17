@@ -65,3 +65,10 @@
   margin-top: 50px;
   cursor: pointer;
 }
+
+#countMessages {
+  font-size: 25px;
+  font-weight: bold;
+  color: #ff4dff;
+  margin-left: 30px;
+}

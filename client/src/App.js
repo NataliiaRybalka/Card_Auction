@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 
 import './App.css';
 import { History } from './components/cards/History';
@@ -18,8 +18,17 @@ import { Verify } from './components/pages/Verify';
 import { AccountRecovery } from './components/auth/AccountRecovery';
 import { RefreshPassword } from './components/auth/RefreshPassword';
 import { ADMIN } from './constants/contants';
+import { socket } from './constants/socket';
 
 function App() {
+  const location = useLocation();
+
+  if (location.pathname !== '/chat') {
+    socket.emit('leave_room');
+    localStorage.removeItem('toUserLogin');
+    localStorage.removeItem('toUserId');
+    localStorage.removeItem('room');
+  }
 
   return (
     <div>

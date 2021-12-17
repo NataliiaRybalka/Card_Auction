@@ -7,6 +7,7 @@ import path from 'path';
 import { PORT } from './constants/env.constants';
 import { LOCALHOST } from './constants/project.constants';
 import cronRun from './helpers/cron.helper';
+import { ioFunc } from './helpers/socket.helper';
 import auctionRouter from './routes/auction.router';
 import authRouter from './routes/auth.router';
 import balanceRouter from './routes/balance.router';
@@ -15,7 +16,6 @@ import cardSetRouter from './routes/cardSet.router';
 import chatRouter from './routes/chat.router';
 import historyRouter from './routes/history.router';
 import userRouter from './routes/user.router';
-import chatRepository from './repositories/chat/chat.repository';
 
 const app = express();
 
@@ -51,23 +51,4 @@ export const io = new Server(connection, {
     }
 });
 
-io.on('connection', (socket) => {
-    console.log(`User connected ${socket.id}`);
-
-    socket.on('connect_user', (data) => {
-    });
-
-    socket.on('join_room', (data) => {
-        socket.join(data);
-        console.log(`User with id: ${socket.id} joined room: ${data}`);
-    });
-
-    socket.on('send_message', (data) => {
-        chatRepository.createMessage(data.from, data.to, data.chatId, data.message);
-        socket.to(data.room).emit('receive_message', data);
-    });
-
-    socket.on('disconnect', () => {
-        console.log(`User disconnected ${socket.id}`);
-    });
-});
+ioFunc(io);

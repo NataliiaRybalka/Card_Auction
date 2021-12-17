@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 
 import GroupIcon from "@material-ui/icons/Group";
@@ -12,8 +13,17 @@ import { Users } from '../users/Users';
 import { FAQ } from '../faq/FAQ';
 import { MyCards } from '../cards/MyCards';
 import { Chats } from '../chats/Chats';
+import { socket } from '../../constants/socket';
 
 export const UserMenu = () => {
+  const [countMessages, setCountMessages] = useState(0);
+
+  socket.on('receive_notification_to_menu_with_connect', (count) => {
+    setCountMessages(count);
+  });
+  socket.on('receive_notification_to_menu', (count) => {
+    setCountMessages(count);
+  });
 
   return (
     <div>
@@ -26,7 +36,11 @@ export const UserMenu = () => {
         <br />
         <div className={'navLinkDiv'}> <Link to='/rating' className={'navLinks'}> <GroupIcon /> Rating</Link> </div>
         <br />
-        <div className={'navLinkDiv'}> <Link to='/chats' className={'navLinks'}> <Chat /> Chats</Link> </div>
+        <div className={'navLinkDiv'}>
+          <Link to='/chats' className={'navLinks'}>
+            <Chat /> Chats {!!countMessages && <span id={'countMessages'}>{countMessages}</span>}
+          </Link>
+        </div>
       </nav>
 
       <Switch>
