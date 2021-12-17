@@ -91,5 +91,8 @@
 
 .notReaded {
   font-weight: bold;
+}
+
+.notReaded > a {
   color: #ff4dff;
 }

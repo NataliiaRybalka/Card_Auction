@@ -21,6 +21,10 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
         }
 
         io.to(socket.id).emit('receive_notification_to_menu_with_connect', user.notifications.count);
+    });
+
+    socket.on('went_to_chatlist_page', () => {
+        let user = userStorage.find(user => user.socketId === socket.id);
         io.to(socket.id).emit('receive_notification_to_chatlist_with_connect', user.notifications.messages);
     });
 
@@ -31,6 +35,8 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
             if (user.socketId === socket.id) {
                 user.notifications.rooms = user.notifications.rooms.filter(room => room !== data);
                 user.notifications.count =  user.notifications.rooms.length;
+                user.notifications.messages = user.notifications.messages.filter(msg => msg.room !== data);
+
                 io.to(socket.id).emit('receive_notification_to_menu', user.notifications.count);
             }
         });
@@ -41,9 +47,9 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
         chatRepository.createMessage(data.from, data.to, data.chatId, data.message);
 
         const user = userStorage.find(user => user.userId === data.to);
-        
+
         if (!user) {
-            userStorage.push({ userId: data.to, notifications: { rooms: [data.room], count: 1 } });
+            userStorage.push({ userId: data.to, notifications: { rooms: [data.room], count: 1, messages: [{ room: data.room, from: data.from, message: data.message }] } });
         } else {
             const userInRoom = roomStorage.find(room => room.socketId === user.socketId);
 
@@ -54,11 +60,11 @@ export const ioFunc = (io) => io.on('connection', (socket) => {
                     if (user.userId === data.to) {
                         user.notifications.rooms.push(data.room);
                         user.notifications.count = user.notifications.rooms.length;
-                        user.notifications.messages.push({ from: data.from, message: data.message });
+                        user.notifications.messages.push({ room: data.room, from: data.from, message: data.message });
                     }
                 });
                 io.to(user.socketId).emit('receive_notification_to_menu', user.notifications.count);
-                io.to(user.socketId).emit('receive_notification_to_chatlist', { from: data.from, message: data.message });
+                io.to(user.socketId).emit('receive_notification_to_chatlist', { from: data.from, messages: data.message });
             }
         }
     });

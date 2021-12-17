@@ -27,8 +27,11 @@ export const Chats = () => {
     dispatch(getChats(filter));
   }, [dispatch, filter]);
 
+  useEffect(() => {
+    socket.emit('went_to_chatlist_page');
+  }, []);
+
   socket.on('receive_notification_to_chatlist_with_connect', (message) => {
-    console.log(message);
     setNotifications(message);
   });
   socket.on('receive_notification_to_chatlist', (message) => {
