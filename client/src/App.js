@@ -53,10 +53,10 @@ function App() {
           <Route path='/faq/cards' component={Cards} />
           <Route path='/faq/sets' component={Sets} />
           <Route path='/chat' component={Chat} />
-          <Route path='/account/history' render={() => (
+          <Route path='/history' render={() => (
             !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <History />
           )} />
-          <Route path='/account/balance' render={() => (
+          <Route path='/balance' render={() => (
             !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <Balance />
           )} />
           <Route path='/' component={MainPage} exact />

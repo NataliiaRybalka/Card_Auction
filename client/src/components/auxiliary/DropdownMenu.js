@@ -29,10 +29,10 @@ export const DropdownMenu = () => {
             <Link to='/account' className={'navPersonLink'}>Profile</Link>
           </span>
           <span className={'personMenuLink'} onClick={() => setIsDropdownVisible(false)}>
-            <Link to='/account/history' className={'navPersonLink'}>History</Link>
+            <Link to='/history' className={'navPersonLink'}>History</Link>
           </span>
           <span className={'personMenuLink'} onClick={() => setIsDropdownVisible(false)}>
-            <Link to='/account/balance' className={'navPersonLink'}>Balance</Link>
+            <Link to='/balance' className={'navPersonLink'}>Balance</Link>
           </span>
           <span className={'personMenuLink'} onClick={() => setIsDropdownVisible(false)}>
             <Link to='/logout' className={'navPersonLink'}>Logout</Link>
