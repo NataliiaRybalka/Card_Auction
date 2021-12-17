@@ -11,6 +11,9 @@ import { LoginFacebook } from './LoginFacebook';
 import { AccountRecovery } from './AccountRecovery';
 import { REFRESH_TOKEN } from "../../constants/localStorage.enum";
 
+import { Email } from "./Email";
+import { Password } from "./Password";
+
 export const Login = () => {
   const [toRegistration, setToRegistration] = useState(false);
   const [toEmailForRefreshPassword, setToEmailForRefreshPassword] = useState(false);
@@ -30,7 +33,7 @@ export const Login = () => {
 
   const onHandleLogin = async () => {
     dispatch(login(inputValues));
-    
+
     setInputValues({
       email: '',
       password: ''
@@ -39,17 +42,11 @@ export const Login = () => {
 
   return (
     <div className={'form'}>
-      <div>
-        <label>Email</label>
-        <input type={'email'} name={'email'} value={inputValues.email} onChange={onChangeInputHandler} />
-      </div>
-
-      <div>
-        <label>Password</label>
-        <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
-        <span id={'forgotPassword'} onClick={() => setToEmailForRefreshPassword(true)}>forgot password</span>
-        {toEmailForRefreshPassword && <Redirect to='/account-recovery'> <AccountRecovery /> </Redirect>}
-      </div>
+      <Email value={inputValues.email} changeInput={onChangeInputHandler} />
+      <Password value={inputValues.password} changeInput={onChangeInputHandler} />
+      
+      <p id={'forgotPassword'} onClick={() => setToEmailForRefreshPassword(true)}>forgot password</p>
+      {toEmailForRefreshPassword && <Redirect to='/account-recovery'> <AccountRecovery /> </Redirect>}
 
       {alert && <Alert msg={alert} />}
       

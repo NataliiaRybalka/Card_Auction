@@ -5,6 +5,8 @@ import { useAlert } from 'react-alert';
 import { Alert } from "../alert/Alert";
 import { accountRecovery } from '../../redux/actions/auth.actions';
 
+import { Email } from "./Email";
+
 export const AccountRecovery = () => {
   const [email, setEmail] = useState('');
   const dispatch = useDispatch();
@@ -24,10 +26,7 @@ export const AccountRecovery = () => {
   
   return (
     <div className={'form'}>
-      <div>
-        <label>Email</label>
-        <input type={'email'} name={'email'} value={email} onChange={onChangeInputHandler} />
-      </div>
+      <Email value={email} changeInput={onChangeInputHandler} />
 
       {alert && <Alert msg={alert} />}
       

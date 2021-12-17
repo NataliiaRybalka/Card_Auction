@@ -6,6 +6,8 @@ import { Alert } from "../alert/Alert";
 import { changePassword } from '../../redux/actions/auth.actions';
 import { Login } from "./Login";
 
+import { Password } from "./Password";
+
 export const RefreshPassword = () => {
   const [password, setPassword] = useState('');
   const [toLogin, setToLogin] = useState(false);
@@ -27,10 +29,7 @@ export const RefreshPassword = () => {
   
   return (
     <div className={'form'}>
-      <div>
-        <label>New Password</label>
-        <input type={'password'} name={'password'} value={password} onChange={onChangeInputHandler} />
-      </div>
+      <Password value={password} changeInput={onChangeInputHandler} />
 
       {alert && <Alert msg={alert} />}
       
