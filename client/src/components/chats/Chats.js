@@ -25,18 +25,24 @@ export const Chats = () => {
 
   useEffect(() => {
     dispatch(getChats(filter));
+    
   }, [dispatch, filter]);
 
   useEffect(() => {
     socket.emit('went_to_chatlist_page');
-  }, []);
 
-  socket.on('receive_notification_to_chatlist_with_connect', (message) => {
-    setNotifications(message);
-  });
-  socket.on('receive_notification_to_chatlist', (message) => {
-    setNotifications([...notifications, message]);
-  });
+    socket.on('receive_notification_to_chatlist_with_connect', (message) => {
+      setNotifications(message);
+    });
+    socket.on('receive_notification_to_chatlist', (message) => {
+      setNotifications([...notifications, message]);
+    });
+
+    return () => {
+      socket.off('receive_notification_to_chatlist_with_connect');
+      socket.off('receive_notification_to_chatlist');
+    }
+  }, [notifications]);
 
   if (notifications.length) {
     for (let i = 0; i < chats.length; i++) {
