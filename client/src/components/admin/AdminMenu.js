@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -15,8 +16,17 @@ import { Sets } from '../sets/Sets';
 import { Auctions } from '../auctions/Auctions';
 import { Account } from '../account/Account';
 import { Chats } from '../chats/Chats';
+import { socket } from '../../constants/socket';
 
 export const AdminMenu = () => {
+  const [countMessages, setCountMessages] = useState(0);
+
+  socket.on('receive_notification_to_menu_with_connect', (count) => {
+    setCountMessages(count);
+  });
+  socket.on('receive_notification_to_menu', (count) => {
+    setCountMessages(count);
+  });
 
   return (
     <div>
@@ -31,7 +41,11 @@ export const AdminMenu = () => {
         <br />
         <div className={'navLinkDiv'}> <Link to='/admin/auctions' className={'navLinks'}> <ReceiptIcon /> Auctions</Link> </div>
         <br />
-        <div className={'navLinkDiv'}> <Link to='/chats' className={'navLinks'}> <Chat /> Chats</Link> </div>
+        <div className={'navLinkDiv'}>
+          <Link to='/chats' className={'navLinks'}>
+            <Chat /> Chats  {!!countMessages && <span id={'countMessages'}>{countMessages}</span>}
+          </Link>
+        </div>
       </nav>
 
       <Switch>

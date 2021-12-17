@@ -6,6 +6,10 @@ import './Auth.css';
 import { registration } from '../../redux/actions/auth.actions';
 import { Alert } from "../alert/Alert";
 
+import { Email } from "./Email";
+import { Password } from "./Password";
+import { LoginInput } from "./LoginInput";
+
 export const Registration = () => {
   const [inputValues, setInputValues] = useState({
     login: '',
@@ -36,20 +40,9 @@ export const Registration = () => {
 
   return (
     <div className={'form'}>
-      <div>
-        <label>Login</label>
-        <input type={'text'} name={'login'} value={inputValues.login} onChange={onChangeInputHandler} />
-      </div>
-
-      <div>
-        <label>Email</label>
-        <input type={'email'} name={'email'} value={inputValues.email} onChange={onChangeInputHandler} />
-      </div>
-
-      <div>
-        <label>Password</label>
-        <input type={'password'} name={'password'} value={inputValues.password} onChange={onChangeInputHandler} />
-      </div>
+      <LoginInput value={inputValues.login} changeInput={onChangeInputHandler} />
+      <Email value={inputValues.email} changeInput={onChangeInputHandler} />
+      <Password value={inputValues.password} changeInput={onChangeInputHandler} />
 
       {alert && <Alert msg={alert} />}
       

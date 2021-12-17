@@ -20,7 +20,7 @@ class CardService {
             const cards = res.toJSON();
             const totalItem = res.pagination.rowCount;
 
-            let userCards;
+            let userCards = [];
             if (userId) {
                 userCards = await cardRepository.getAllUserCardsWithoutPagination(userId);
                 userCards = userCards.toJSON();
