@@ -33,7 +33,10 @@ export const Cards = () => {
     <div className={'main'}>
       <header id={'cardPageHeader'}>
         <h2>Cards</h2>
-        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)} className={localStorage.getItem(ROLE) === USER ? 'noDisplay' : ''}>create new card</button>
+        <button id={'createCardBtn'} onClick={() => setIsModalVisible(true)}
+          className={(localStorage.getItem(ROLE) === USER || !localStorage.getItem(ROLE)) ? 'noDisplay' : ''}>
+          create new card
+        </button>
       </header>
       
       <div className={'cardsBlock'}>

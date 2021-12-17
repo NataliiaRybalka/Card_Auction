@@ -17,6 +17,7 @@ import { Chat } from './components/chats/Chat';
 import { Verify } from './components/pages/Verify';
 import { AccountRecovery } from './components/auth/AccountRecovery';
 import { RefreshPassword } from './components/auth/RefreshPassword';
+import { MainPage } from './components/pages/MainPage';
 import { ADMIN } from './constants/contants';
 import { socket } from './constants/socket';
 
@@ -58,6 +59,7 @@ function App() {
           <Route path='/account/balance' render={() => (
             !localStorage.getItem('refreshToken') ? <Redirect to='/' /> : <Balance />
           )} />
+          <Route path='/' component={MainPage} exact />
         </Switch>
       </main>
       

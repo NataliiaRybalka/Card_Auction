@@ -7,10 +7,6 @@ import cardController from '#controllers/card/card.controller';
 
 const router = Router();
 
-router.use(
-    tokenMiddlewar.checkAccessToken
-);
-
 router.get(
     '/',
     cardController.getAllCards
@@ -18,6 +14,7 @@ router.get(
 
 router.post(
     '/',
+    tokenMiddlewar.checkAccessToken,
     userMiddlewar.checkIsAdmin,
     cardMiddlewar.checkCardDataValidity,
     cardMiddlewar.checkCardImageValidity,
@@ -27,6 +24,7 @@ router.post(
 
 router.get(
     '/:userId',
+    tokenMiddlewar.checkAccessToken,
     userMiddlewar.checkRole,
     cardController.getUserCardsInStock
 );
