@@ -12,6 +12,8 @@ import cardService from '#services/card/card.service';
 import userService from '#services/user/user.service';
 import userCardService from '#services/user/userCard.service';
 
+import { io } from '../../app';
+
 class AuctionService {
     createRawForGetFilteredAuctions(params) {
         let filter = 'id > 0 ';
@@ -138,6 +140,7 @@ class AuctionService {
             auctions.map(async (auction) => {
                 const timePassed = Date.parse(auction.created_at) + auction.max_time;
                 if (timePassed <= Date.now()) {
+                    io.emit('stop_auction', auction);
                     await auctionRepository.updateStatusAuction(auction.id);
 
                     if (auction.customer_id) {

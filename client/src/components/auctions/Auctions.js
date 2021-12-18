@@ -95,6 +95,11 @@ export const Auctions = () => {
       history.go(0);
     }
   });
+  socket.on('stop_auction', (auction) => {
+    if (auction) {
+      history.go(0);
+    }
+  });
 
   return (
     <div className={'main'}>
