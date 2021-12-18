@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
-import { changeBalance } from "../../redux/actions/user.actions";
+import { PayPal } from "../auxiliary/PayPal";
 
 export const TopUpAccount = () => {
   const [inputValues, setInputValues] = useState({
     sum: ''
   });
-  const dispatch = useDispatch();
+  const [openPaypal, setOpenPaypal] = useState(false);
 
   const onChangeInputHandler = e => {
     setInputValues(prev => ({
@@ -17,18 +16,19 @@ export const TopUpAccount = () => {
   };
 
   const onHandleTopUpAccount = () => {
-    dispatch(changeBalance(inputValues));
-
-    setInputValues({
-      sum: ''
-    });
+    setOpenPaypal(!openPaypal);
   };
 
   return (
-    <div className={'form balanceForm'}>
-      <label>Sum</label>
-      <input type={'number'} name={'sum'} value={inputValues.sum} onChange={onChangeInputHandler} />
-      <button onClick={onHandleTopUpAccount}>send</button>
-    </div>
+    <>
+      {!openPaypal
+        ? <div className={'form balanceForm'}>
+          <label>Sum</label>
+          <input type={'number'} name={'sum'} value={inputValues.sum} onChange={onChangeInputHandler} />
+          <button onClick={onHandleTopUpAccount}>send</button>
+        </div>
+        : <PayPal sum={inputValues.sum} />
+      }
+    </>
   );
 };
