@@ -1,7 +1,14 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useAlert } from 'react-alert';
 
-export const PayPal = () => {
+import { changeBalance } from "../../redux/actions/user.actions";
+
+export const PayPal = ({ sum }) => {
   const paypal = useRef();
+  const dispatch = useDispatch();
+  const errorAlert = useAlert();
+
 
   useEffect(() => {
     window.paypal
@@ -11,10 +18,9 @@ export const PayPal = () => {
             intent: "CAPTURE",
             purchase_units: [
               {
-                description: "Cool looking table",
                 amount: {
-                  currency_code: "CAD",
-                  value: 650.0,
+                  currency_code: "USD",
+                  value: sum,
                 },
               },
             ],
@@ -22,17 +28,18 @@ export const PayPal = () => {
         },
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
-          console.log(order);
+
+          dispatch(changeBalance({ sum: order.purchase_units[0].amount.value }));
         },
         onError: (err) => {
-          console.log(err);
-        },
+          errorAlert.show('Something went wrong.');
+        }
       })
       .render(paypal.current);
-  }, []);
+  }, [dispatch, sum, errorAlert]);
 
   return (
-    <div className={'main'}>
+    <div id={'paypal'}>
       <div ref={paypal} />
     </div>
   )
