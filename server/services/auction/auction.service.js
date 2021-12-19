@@ -162,7 +162,6 @@ class AuctionService {
                         await userCardService.createUserCard(auction.customer_id, card.id, auction.current_price);
                         const user = await userService.getOneUser(auction.customer_id);
                         await balanceService.createTransaction(user.id, -(auction.current_price));
-                        await userService.updateUserRating(auction.customer_id, user.rating = user.rating + 1);
 
                         await cronRepository.createTask(auction.customer_id);
                     }

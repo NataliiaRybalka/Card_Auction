@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { v1 } from 'uuid';
 
 import './Sets.css';
 import { LOCALHOST, USER } from "../../constants/contants";
@@ -36,13 +37,13 @@ export const Sets = () => {
 
           <tbody>
             {!!sets && sets.map(cardSet => (
-              <tr key={cardSet.set.id}>
+              <tr key={cardSet.set.id + v1()}>
                 <td>{cardSet.set.title}</td>
                 <td>
                   {cardSet.cards.map(card => (
                     !!card.image 
-                      ? <img src={`${LOCALHOST}/${card.image}`} alt={card.name} className={'cardSetCardImg'} key={card.name + card.id} /> 
-                      : <span key={card.name + card.id}>&emsp; {card.name}</span>)
+                      ? <img src={`${LOCALHOST}/${card.image}`} alt={card.name} className={'cardSetCardImg'} key={card.id + v1()} /> 
+                      : <span key={card.id + v1()}>&emsp; {card.name}</span>)
                   )}
                 </td>
                 <td>{cardSet.set.bonus}</td>
