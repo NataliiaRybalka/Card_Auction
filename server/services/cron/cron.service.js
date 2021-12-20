@@ -36,11 +36,22 @@ class CronService {
         }
         userCards = await userCards.toJSON();
 
+        let bonusForSet = 0;
+        cardSetsArr.forEach(val => {
+          let userCardSet = [];
+          val.forEach(one => {
+            userCardSet.push(userCards.find(userCard => userCard.card_id === one.card_id));
+          })
+          userCardSet = userCardSet.filter(one => one !== undefined);
 
+          if (val.length === userCardSet.length) {
+            const set = sets.find(set => set.id === val[0].set_id);
+            bonusForSet += set.bonus;
+          }
+        });
+        await userRepository.updateUserRating(cronTask.user_id, userCards.length + bonusForSet);
 
-        await userRepository.updateUserRating(cronTask.user_id, userCards.length);
-
-        // await cronRepository.deleteTasks(cronTask.id);
+        await cronRepository.deleteTasks(cronTask.id);
       }
     } catch (e) {
       logger.error(e);
