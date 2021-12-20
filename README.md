@@ -53,7 +53,12 @@ $ npm run dev
 $ cd ../client/
 $ npm install
 ```
-4) Start frontend-part of the project: 
+5) Start frontend-part of the project: 
 ```bash
 $ npm start
+```
+6) Admin email and password:
+```bash
+email: admin@gmail.com
+password: 123456
 ```
