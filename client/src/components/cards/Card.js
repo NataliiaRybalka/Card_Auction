@@ -24,7 +24,7 @@ export const Card = ({ card }) => {
         <span>{card.location_title} - {card.location_type}</span>
         <h4>First Episode:</h4>
         <span>{card.episode_series} - {card.episode_title} -  {card.episode_air_date}</span>
-
+        <br />
         {
           (location.pathname === '/admin/cards' || location.pathname === '/my-cards') && 
           <button className={'startAuctionBtn'} onClick={() => setIsModalVisible(true)}>start auction</button>
