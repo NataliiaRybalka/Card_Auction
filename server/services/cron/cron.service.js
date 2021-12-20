@@ -2,6 +2,7 @@ import logger from '#config/logger.config';
 import { ACCESS_EXPIRES_MS } from '#constants/tokens.constants';
 import { ErrorHandler } from '#helpers/error.handler';
 import auctionRepository from '#repositories/auction/auction.repository';
+import cardSetRepository from '#repositories/card/cardSet.repository';
 import cronRepository from '#repositories/cron/cron.repository';
 import setRepository from '#repositories/card/set.repository';
 import tokenRepository from '../../repositories/auth/token.repository';
@@ -17,6 +18,15 @@ class CronService {
       let sets = await setRepository.getAllSets();
       sets = sets.toJSON();
 
+      let cardSets = await cardSetRepository.getAllCardSets();
+      cardSets = cardSets.toJSON();
+
+      let cardSetsArr = [];
+      sets.forEach(set => {
+        cardSetsArr.push(cardSets.filter(cardSet => cardSet.set_id === set.id));
+      });
+      cardSetsArr = cardSetsArr.filter(val => val.length !== 0);
+
       for (const cronTask of cronTasks) {
         let userCards;
         if (!cronTask.user_id) {
@@ -26,31 +36,20 @@ class CronService {
         }
         userCards = await userCards.toJSON();
 
-        // let collectedSetCards = [];
-        // for (let i = 0; i < sets.length; i++) {
-        //   for (let j = 0; j < sets[i].card_set.length; j++) {
-        //     for (let a = 0; a < userCards.length; a++) {
-        //       if (sets[i].card_set[j].card_id === userCards[a].card_id) {
-        //         collectedSetCards.push(sets[i].card_set[j]);
-        //       }
-        //     }
-        //   }
-        // }
+        let bonusForSet = 0;
+        cardSetsArr.forEach(val => {
+          let userCardSet = [];
+          val.forEach(one => {
+            userCardSet.push(userCards.find(userCard => userCard.card_id === one.card_id));
+          })
+          userCardSet = userCardSet.filter(one => one !== undefined);
 
-        // let collectedSets = [];
-        // for (let i = 0; i < sets.length; i++) {
-        //   for (let j = 0; j < sets[i].card_set.length; j++) {
-        //     const length = collectedSetCards.filter(collectedSet => collectedSet.card_id === sets[i].card_set[j].card_id).length;
-
-        //     if (sets[i].card_set.length === length) {
-        //       collectedSets.push(sets[i]);
-        //     }
-        //   }
-        // }
-
-        // let bonusForSet = collectedSets.reduce((bonusForSet, set) => set.bonus + bonusForSet, 0);
-        // await userRepository.updateUserRating(cronTask.user_id, (userCards.length + bonusForSet));
-        await userRepository.updateUserRating(cronTask.user_id, userCards.length);
+          if (val.length === userCardSet.length) {
+            const set = sets.find(set => set.id === val[0].set_id);
+            bonusForSet += set.bonus;
+          }
+        });
+        await userRepository.updateUserRating(cronTask.user_id, userCards.length + bonusForSet);
 
         await cronRepository.deleteTasks(cronTask.id);
       }
