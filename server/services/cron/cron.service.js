@@ -21,21 +21,12 @@ class CronService {
       let cardSets = await cardSetRepository.getAllCardSets();
       cardSets = cardSets.toJSON();
 
-      const cardSetsArr = [];
-      for (let i = 0; i < cardSets.length; i++) {
-        if (i === 0) {
-          cardSetsArr.push([cardSets[0]]);
-        } else {
-          const arr = cardSetsArr.find(val => {
-            val.forEach(oneOfVal => oneOfVal.set_id === cardSets[i].set_id)
-          });
-          console.log(arr);
-          if (Object.keys(arr).length !== 0) {
+      let cardSetsArr = [];
+      sets.forEach(set => {
+        cardSetsArr.push(cardSets.filter(cardSet => cardSet.set_id === set.id));
+      });
+      cardSetsArr = cardSetsArr.filter(val => val.length !== 0);
 
-          }
-        }
-      }
-// console.log(cardSetsArr);
       for (const cronTask of cronTasks) {
         let userCards;
         if (!cronTask.user_id) {
