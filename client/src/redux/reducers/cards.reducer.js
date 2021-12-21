@@ -1,9 +1,10 @@
-import { GET_CARDS, CREATE_CARD_SUCCESS } from "../types/cards.types";
+import { GET_CARDS, CREATE_CARD_SUCCESS, GET_USER_CARDS_WITHOUT_FILTER } from "../types/cards.types";
 
 const initialState = {
   cards: [],
   totalItem: null,
-  card: {}
+  card: {},
+  userCards: []
 };
 
 export const cardsReducer = (state = initialState, action) => {
@@ -13,6 +14,9 @@ export const cardsReducer = (state = initialState, action) => {
       
     case CREATE_CARD_SUCCESS:
       return {...state, card: action.payload};
+
+    case GET_USER_CARDS_WITHOUT_FILTER:
+      return {...state, userCards: action.payload.cards};
   
     default:
       return state;

@@ -8,7 +8,10 @@ export const PartOfCard = ({ card }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
-    <div className={card.is_user_card ? 'card userCard' : 'card'} onMouseOver={() => setIsModalVisible(true)}>
+    <div className={
+      `${card.is_user_card ? 'card userCard' : 'card'}
+      ${card.hasUser ? 'hasUser' : ''}`
+    } onMouseOver={() => setIsModalVisible(true)}>
       {!!card.image && (
         <div className={'cardImgBlock'}>
           <img src={`${LOCALHOST}/${card.image}`} alt={card.name} className={'cardImg'} />

@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { v1 } from 'uuid';
 
 import './Cards.css';
-import { getCards } from "../../redux/actions/cards.actions";
+import { getCards, getUserCardsWithoutFilter } from "../../redux/actions/cards.actions";
 import { LIMIT, USER } from "../../constants/contants";
 import { CARDS } from "../../constants/url.enum";
 import { Card } from "./Card";
@@ -22,12 +22,23 @@ export const Cards = () => {
   });
   const dispatch = useDispatch();
   const cards = useSelector(state => state.cardsReducer.cards);
+  const userCards = useSelector(state => state.cardsReducer.userCards);
   const totalItem = useSelector(state => state.cardsReducer.totalItem);
   const location = useLocation();
 
   useEffect(() => {
     dispatch(getCards(filter));
+    if (localStorage.getItem('id')) {
+      dispatch(getUserCardsWithoutFilter());
+    }
   }, [dispatch, filter]);
+
+  cards.forEach(card => {
+    const userCard = userCards.find(val => val.id === card.id);
+    if (userCard) {
+      card.hasUser = true;
+    }
+  });
 
   return (
     <div className={'main'}>

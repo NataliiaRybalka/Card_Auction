@@ -4,7 +4,7 @@ import axios from 'axios';
 import { LOCALHOST } from "../constants/contants";
 import { OK, Unauthorized, Created } from "../constants/responseCodes.enum";
 import { WrongToken } from "../constants/errorMessages.enum";
-import { GET_CARDS, CREATE_CARD_SUCCESS } from '../redux/types/cards.types';
+import { GET_CARDS, CREATE_CARD_SUCCESS, GET_USER_CARDS_WITHOUT_FILTER } from '../redux/types/cards.types';
 import { updateTokens } from "../services/token.service";
 import { getTable } from './saga.fuctions';
 import { httpHelper } from "../helpers/http.helper";
@@ -109,4 +109,23 @@ export const getUserCards = async (params) => {
 
   const { request } = httpHelper();
   return await request(`${LOCALHOST}cards/${localStorage.getItem(ID)}${query}`, localStorage.getItem(ACCESS_TOKEN));
+};
+
+export function* getUserCardsWithoutFilterWorker() {
+  try {
+    const payload = yield call(getUserCardsWithoutFilter);
+    if (payload.status === OK) {
+      yield put({ type: GET_USER_CARDS_WITHOUT_FILTER, payload: payload.data });
+    } else {
+      throw payload;
+    }
+  } catch (e) {
+    if (e.status === Unauthorized && e.data === WrongToken) {
+      yield put(updateTokens());
+    }
+  }
+};
+const getUserCardsWithoutFilter = async () => {
+  const { request } = httpHelper();
+  return await request(`${LOCALHOST}cards/${localStorage.getItem(ID)}`, localStorage.getItem(ACCESS_TOKEN));
 };
