@@ -89,3 +89,7 @@
 .userCard {
   background-color: #000033;
 }
+
+.hasUser {
+  border: 1px solid #ff751a;
+}

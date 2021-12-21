@@ -10,7 +10,10 @@ export const Card = ({ card }) => {
   const location = useLocation();
 
   return (
-    <div className={location.pathname === '/faq/cards' ? 'faqCard' : 'card'}>
+    <div className={
+      `${location.pathname === '/faq/cards' ? 'faqCard' : 'card'}
+      ${card.hasUser ? 'hasUser' : ''}`
+    }>
       {!!card.image && (
         <div className={'cardImgBlock'}>
           <img src={`${LOCALHOST}/${card.image}`} alt={card.name} className={'cardImg'} />

@@ -4,6 +4,7 @@ import { v1 } from 'uuid';
 
 import './Sets.css';
 import { LOCALHOST, USER } from "../../constants/contants";
+import { getUserCardsWithoutFilter } from '../../redux/actions/cards.actions';
 import { getSets } from "../../redux/actions/sets.actions";
 import { NewSetForm } from "./NewSetForm";
 import { ROLE } from "../../constants/localStorage.enum";
@@ -13,10 +14,23 @@ export const Sets = () => {
 
   const dispatch = useDispatch();
   const sets = useSelector(state => state.setsReducer.sets);
+  const userCards = useSelector(state => state.cardsReducer.userCards);
 
   useEffect(() => {
     dispatch(getSets());
+    if (localStorage.getItem('id')) {
+      dispatch(getUserCardsWithoutFilter());
+    }
   }, [dispatch]);
+
+  sets.forEach(set => {
+    set.cards.forEach(card => {
+      const userCard = userCards.find(val => val.id === card.id);
+      if (userCard) {
+        card.hasUser = true;
+      }
+    });
+  });
 
   return (
     <div className={'main'}>
@@ -42,8 +56,8 @@ export const Sets = () => {
                 <td>
                   {cardSet.cards.map(card => (
                     !!card.image 
-                      ? <img src={`${LOCALHOST}/${card.image}`} alt={card.name} className={'cardSetCardImg'} key={card.id + v1()} /> 
-                      : <span key={card.id + v1()}>&emsp; {card.name}</span>)
+                      ? <img src={`${LOCALHOST}/${card.image}`} alt={card.name} className={`cardSetCardImg ${card.hasUser ? 'hasUser' : ''}`} key={card.id + v1()} /> 
+                      : <span key={card.id + v1()} className={card.hasUser ? 'hasUserTitle' : ''}>&emsp; {card.name}</span>)
                   )}
                 </td>
                 <td>{cardSet.set.bonus}</td>
