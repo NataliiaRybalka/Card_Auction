@@ -40,8 +40,8 @@ $ npm install
 2) Running migrations for the database:
 ```bash
 $ cd database/knex/
-$ knex migrate:latest
-$ knex seed:run
+$ knex migrate:latest --esm
+$ knex seed:run --esm
 $ cd ../../
 ```
 3) Start backend-part of the project: 
